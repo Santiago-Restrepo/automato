@@ -12,6 +12,7 @@ const dataSource = new DataSource({
   password: databaseConfig.password,
   database: databaseConfig.name,
   namingStrategy: new SnakeNamingStrategy(),
+  // logging: true,
   synchronize: true,
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],

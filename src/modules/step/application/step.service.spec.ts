@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RunStepService } from './run-step.service';
+import { RunStepExecutionService } from '../../step-execution/application/run-step-execution.service';
 
 describe('StepService', () => {
-  let service: RunStepService;
+  let service: RunStepExecutionService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RunStepService],
+      providers: [RunStepExecutionService],
     }).compile();
 
-    service = module.get<RunStepService>(RunStepService);
+    service = module.get<RunStepExecutionService>(RunStepExecutionService);
   });
 
   it('should be defined', () => {

@@ -1,77 +1,91 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import Flow from '../domain/flow.entity';
-import ProcessStatus from 'src/shared/enums/process-status.enum';
-import { RunStepService } from 'src/modules/step/application/run-step.service';
 import { FlowRepository } from '../domain/flow.repository';
+import FlowExecution from 'src/modules/flow-execution/domain/flow-execution.entity';
+import { FlowExecutionService } from 'src/modules/flow-execution/application/flow-execution.service';
+import ExecutionStatus from 'src/shared/enums/execution-status.enum';
+import { RunStepExecutionService } from 'src/modules/step-execution/application/run-step-execution.service';
+import { StepExecutionService } from 'src/modules/step-execution/application/step-execution.service';
 
 @Injectable()
 export class RunFlowService {
   constructor(
     @Inject('FlowRepository')
     private readonly flowRepository: FlowRepository,
-    private readonly runStepService: RunStepService,
+    private readonly flowExecutionService: FlowExecutionService,
+    private readonly stepExecutionService: StepExecutionService,
+    private readonly runStepExecutionService: RunStepExecutionService,
   ) {}
 
   async run(id: number) {
     const flow = await this.#findFlowToRun(id);
+    const execution = await this.flowExecutionService.createExecution(flow);
+
     try {
-      await this.#start(flow);
-      this.#runNextStep(flow);
+      await this.#start(execution);
       return flow;
     } catch (error) {
-      await this.#finish(flow, ProcessStatus.FAILURE, error.message);
+      await this.#finish(execution, ExecutionStatus.FAILURE, error.message);
     }
   }
 
   async #findFlowToRun(id: number) {
-    const flow = await this.flowRepository.findOneBy({
-      id,
-      status: ProcessStatus.PENDING,
+    const flow = await this.flowRepository.findOne({
+      relations: { steps: true },
+      where: {
+        id,
+      },
     });
 
-    if (!flow)
-      throw new NotFoundException(`Pending flow with id ${id} not found`);
+    if (!flow) throw new NotFoundException(`Flow with id ${id} not found`);
 
     return flow;
   }
 
-  async #start(flow: Flow) {
-    flow.status = ProcessStatus.RUNNING;
-    await this.flowRepository.save(flow);
+  async #start(execution: FlowExecution) {
+    await this.flowExecutionService.runExecution(execution);
+    return this.#runNextStep(execution);
   }
 
-  async #runNextStep(flow: Flow) {
-    const nextStep = await this.runStepService.findOne({
-      where: { flowId: flow.id, status: ProcessStatus.PENDING },
-      order: { order: 'ASC' },
+  async #runNextStep(execution: FlowExecution) {
+    const nextStepExecution = await this.stepExecutionService.findOne({
+      where: {
+        flowExecutionId: execution.id,
+        status: ExecutionStatus.PENDING,
+      },
+      order: { step: { order: 'ASC' } },
     });
 
-    if (!nextStep) {
-      await this.#finish(flow);
+    console.log(nextStepExecution);
+
+    if (!nextStepExecution) {
+      await this.#finish(execution);
       return;
     }
 
-    const nextStepResult = await this.runStepService.run(nextStep);
+    const nextStepResult =
+      await this.runStepExecutionService.run(nextStepExecution);
 
-    if (nextStepResult.status === ProcessStatus.FAILURE) {
+    if (nextStepResult.status === ExecutionStatus.FAILURE) {
       await this.#finish(
-        flow,
-        ProcessStatus.FAILURE,
+        execution,
+        ExecutionStatus.FAILURE,
         nextStepResult.errorMessage,
       );
       return;
     }
 
-    return this.#runNextStep(flow);
+    return this.#runNextStep(execution);
   }
 
   async #finish(
-    flow: Flow,
-    status: ProcessStatus = ProcessStatus.SUCCESS,
-    errorMessage?: string,
+    flowExecution: FlowExecution,
+    status: ExecutionStatus = ExecutionStatus.SUCCESS,
+    errorMessage?: string | null,
   ) {
-    flow.status = status;
-    flow.errorMessage = errorMessage;
-    await this.flowRepository.save(flow);
+    return this.flowExecutionService.finishExecution(
+      flowExecution,
+      status,
+      errorMessage,
+    );
   }
 }

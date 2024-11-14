@@ -2,7 +2,7 @@ import Flow from 'src/modules/flow/domain/flow.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import BaseEntity from 'src/shared/base-entity.entity';
 import ExecutionStatus from 'src/shared/enums/execution-status.enum';
-import StepExecution from 'src/modules/step-execution/step-execution.entity';
+import StepExecution from 'src/modules/step-execution/domain/step-execution.entity';
 
 @Entity()
 export default class FlowExecution extends BaseEntity {
@@ -16,8 +16,11 @@ export default class FlowExecution extends BaseEntity {
   })
   status: ExecutionStatus;
 
+  @Column({ type: 'text', nullable: true })
+  errorMessage?: string | null;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  startedAt: Date;
+  startedAt?: Date;
 
   @Column({ type: 'timestamp', nullable: true })
   finishedAt: Date | null;
@@ -25,6 +28,9 @@ export default class FlowExecution extends BaseEntity {
   @OneToMany(
     () => StepExecution,
     (stepExecution) => stepExecution.flowExecution,
+    {
+      cascade: true,
+    },
   )
   stepExecutions: StepExecution[];
 

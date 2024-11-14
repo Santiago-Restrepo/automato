@@ -34,7 +34,7 @@ export default class Block extends BaseEntity {
 
   @OneToOne(() => Step, (step) => step.block)
   @JoinColumn()
-  step: Step;
+  step?: Step;
 
   @OneToMany(() => Variable, (variable) => variable.block)
   variables: Variable[];
