@@ -13,7 +13,10 @@ export class VariableRepositoryImpl
     super(Variable, datasource.createEntityManager());
   }
 
-  findAvailableByBlock(block: Block): Promise<Variable[]> {
+  async findAvailableByBlock(block: Block): Promise<Variable[]> {
+    if (!block.step) {
+      throw new Error('Step not found for block');
+    }
     const query = `SELECT variable.*
 FROM variable
 INNER JOIN block on variable.block_id = block.id
