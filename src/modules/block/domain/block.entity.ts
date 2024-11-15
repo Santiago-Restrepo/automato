@@ -1,7 +1,6 @@
 import { FunctionBlock } from 'src/modules/function-block/domain/function-block.entity';
 import { Parameter } from 'src/modules/parameter/domain/parameter.entity';
 import Step from 'src/modules/step/domain/step.entity';
-import { Variable } from 'src/modules/variable/domain/variable.entity';
 import BaseEntity from 'src/shared/base-entity.entity';
 import {
   Column,
@@ -11,6 +10,7 @@ import {
   OneToMany,
   OneToOne,
 } from 'typeorm';
+import BlockOutput from './block-output.entity';
 
 enum BlockType {
   FUNCTION = 'FUNCTION',
@@ -36,8 +36,8 @@ export default class Block extends BaseEntity {
   @JoinColumn()
   step?: Step;
 
-  @OneToMany(() => Variable, (variable) => variable.block)
-  variables: Variable[];
+  @OneToMany(() => BlockOutput, (output) => output.block)
+  outputs: BlockOutput[];
 
   @OneToMany(() => Parameter, (parameter) => parameter.block)
   parameters: Parameter[];

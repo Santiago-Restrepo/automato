@@ -55,8 +55,6 @@ export class RunFlowService {
       order: { step: { order: 'ASC' } },
     });
 
-    console.log(nextStepExecution);
-
     if (!nextStepExecution) {
       await this.#finish(execution);
       return;

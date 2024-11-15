@@ -3,6 +3,7 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 import ExecutionStatus from 'src/shared/enums/execution-status.enum'; // Enum for execution status
 import BaseEntity from 'src/shared/base-entity.entity';
 import FlowExecution from '../../flow-execution/domain/flow-execution.entity';
+import { ParameterValue } from 'src/shared/types/paramter-value.type';
 
 @Entity()
 export default class StepExecution extends BaseEntity {
@@ -21,6 +22,9 @@ export default class StepExecution extends BaseEntity {
 
   @Column({ type: 'text', nullable: true })
   errorMessage?: string | null;
+
+  @Column('jsonb', { nullable: true })
+  output?: ParameterValue;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   startedAt: Date;
