@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { RunBlockService } from 'src/modules/block/application/run-block.service';
 import { StepExecutionRepository } from '../domain/step-execution.repository';
 import StepExecution from '../domain/step-execution.entity';
 import ExecutionStatus from 'src/shared/enums/execution-status.enum';
+import { ParameterValue } from 'src/shared/types/paramter-value.type';
+import { RunBlockService } from 'src/modules/block-execution/application/run-block.service';
 
 @Injectable()
 export class RunStepExecutionService {
@@ -16,15 +17,30 @@ export class RunStepExecutionService {
     try {
       await this.#start(stepExecution);
       if (!stepExecution.step?.block) {
-        await this.#finish(stepExecution, ExecutionStatus.FAILURE, 'No block');
+        await this.#finish({
+          stepExecution,
+          status: ExecutionStatus.FAILURE,
+          errorMessage: 'No block',
+        });
         return stepExecution;
       }
-      await this.runBlockService.run(stepExecution.step.block);
-      await this.#finish(stepExecution);
+      const result = await this.runBlockService.run(
+        stepExecution.step.block,
+        stepExecution.flowExecution,
+      );
+
+      await this.#finish({
+        stepExecution,
+        result,
+      });
       return stepExecution;
     } catch (error) {
       console.error(error);
-      await this.#finish(stepExecution, ExecutionStatus.FAILURE, error.message);
+      await this.#finish({
+        stepExecution,
+        status: ExecutionStatus.FAILURE,
+        errorMessage: error.message,
+      });
       return stepExecution;
     }
   }
@@ -34,13 +50,17 @@ export class RunStepExecutionService {
     await this.stepExecutionRepository.save(stepExecution);
   }
 
-  async #finish(
-    step: StepExecution,
-    status: ExecutionStatus = ExecutionStatus.SUCCESS,
-    errorMessage?: string | null,
-  ) {
-    step.status = status;
-    step.errorMessage = errorMessage;
-    await this.stepExecutionRepository.save(step);
+  async #finish(values: {
+    stepExecution: StepExecution;
+    result?: ParameterValue;
+    status?: ExecutionStatus;
+    errorMessage?: string | null;
+  }) {
+    const { stepExecution, result, status, errorMessage } = values;
+    stepExecution.finishedAt = new Date();
+    stepExecution.status = status ?? ExecutionStatus.SUCCESS;
+    stepExecution.errorMessage = errorMessage;
+    stepExecution.output = result;
+    await this.stepExecutionRepository.save(stepExecution);
   }
 }
