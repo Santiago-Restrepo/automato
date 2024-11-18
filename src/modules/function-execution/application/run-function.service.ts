@@ -4,7 +4,6 @@ import { Parameter } from 'src/modules/parameter/domain/parameter.entity';
 import { ParameterService } from 'src/modules/parameter/application/parameter.service';
 import FlowExecution from 'src/modules/flow-execution/domain/flow-execution.entity';
 import Step from 'src/modules/step/domain/step.entity';
-import { validateOrReject } from 'class-validator';
 
 @Injectable()
 export class RunFunctionService {
@@ -31,7 +30,6 @@ export class RunFunctionService {
 
   async #evaluateParams(parameters: Parameter[]) {
     const objectFromParameters = this.#objectFromParameters(parameters);
-    await validateOrReject(objectFromParameters);
     return objectFromParameters;
   }
 
