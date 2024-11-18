@@ -1,10 +1,10 @@
 import { DataSource, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import Block from 'src/modules/block/domain/block.entity';
 import { ParameterRepository } from '../domain/parameter.repository';
 import { Parameter } from '../domain/parameter.entity';
 import FlowExecution from 'src/modules/flow-execution/domain/flow-execution.entity';
 import StepExecution from 'src/modules/step-execution/domain/step-execution.entity';
+import Step from 'src/modules/step/domain/step.entity';
 
 @Injectable()
 export class ParameterRepositoryImpl
@@ -15,19 +15,16 @@ export class ParameterRepositoryImpl
     super(Parameter, datasource.createEntityManager());
   }
 
-  async getBlockParameters(
-    block: Block,
+  async getStepParameters(
+    step: Step,
     flowExecution: FlowExecution,
   ): Promise<Parameter[]> {
     const parameters = await this.find({
       relations: {
-        blockOutput: {
-          block: true,
-        },
-        functionParameter: true,
+        stepOutput: true,
       },
       where: {
-        blockId: block.id,
+        stepId: step.id,
       },
     });
     return Promise.all(
@@ -37,12 +34,9 @@ export class ParameterRepositoryImpl
           .findOne({
             where: {
               flowExecutionId: flowExecution.id,
-              step: {
-                blockId: parameter.blockOutput?.block?.id,
-              },
+              stepId: parameter.stepOutput?.stepId,
             },
           });
-
         return {
           ...parameter,
           value: parameter.value ?? stepExecution?.output,

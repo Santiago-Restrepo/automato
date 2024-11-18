@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import Block from 'src/modules/block/domain/block.entity';
 import { ParameterRepository } from '../domain/parameter.repository';
 import FlowExecution from 'src/modules/flow-execution/domain/flow-execution.entity';
+import Step from 'src/modules/step/domain/step.entity';
 
 @Injectable()
 export class ParameterService {
@@ -10,7 +10,7 @@ export class ParameterService {
     private readonly parameterRepository: ParameterRepository,
   ) {}
 
-  getBlockParameters(block: Block, flowExecution: FlowExecution) {
-    return this.parameterRepository.getBlockParameters(block, flowExecution);
+  getStepParameters(step: Step, flowExecution: FlowExecution) {
+    return this.parameterRepository.getStepParameters(step, flowExecution);
   }
 }
