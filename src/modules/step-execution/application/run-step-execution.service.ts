@@ -3,29 +3,29 @@ import { StepExecutionRepository } from '../domain/step-execution.repository';
 import StepExecution from '../domain/step-execution.entity';
 import ExecutionStatus from 'src/shared/enums/execution-status.enum';
 import { ParameterValue } from 'src/shared/types/paramter-value.type';
-import { RunBlockService } from 'src/modules/block-execution/application/run-block.service';
+import { RunFunctionService } from 'src/modules/function-execution/application/run-function.service';
 
 @Injectable()
 export class RunStepExecutionService {
   constructor(
     @Inject('StepExecutionRepository')
     private readonly stepExecutionRepository: StepExecutionRepository,
-    private readonly runBlockService: RunBlockService,
+    private readonly runFunctionService: RunFunctionService,
   ) {}
 
   async run(stepExecution: StepExecution) {
     try {
       await this.#start(stepExecution);
-      if (!stepExecution.step?.block) {
+      if (!stepExecution.step) {
         await this.#finish({
           stepExecution,
           status: ExecutionStatus.FAILURE,
-          errorMessage: 'No block',
+          errorMessage: 'Step not found',
         });
         return stepExecution;
       }
-      const result = await this.runBlockService.run(
-        stepExecution.step.block,
+      const result = await this.runFunctionService.run(
+        stepExecution.step,
         stepExecution.flowExecution,
       );
 

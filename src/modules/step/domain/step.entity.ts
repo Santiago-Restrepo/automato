@@ -1,18 +1,21 @@
-import Block from 'src/modules/block/domain/block.entity';
 import Flow from 'src/modules/flow/domain/flow.entity';
 import StepExecution from 'src/modules/step-execution/domain/step-execution.entity';
 import BaseEntity from 'src/shared/base-entity.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import StepOutput from './step-output.entity';
+import { Parameter } from 'src/modules/parameter/domain/parameter.entity';
+enum StepType {
+  FUNCTION = 'FUNCTION',
+}
 
 @Entity()
 export default class Step extends BaseEntity {
+  @Column({ type: 'varchar', length: 255 })
+  functionName: string;
+
+  @Column({ type: 'enum', enum: StepType })
+  type: StepType;
+
   @Column({ type: 'text', nullable: true })
   description: string;
 
@@ -20,14 +23,13 @@ export default class Step extends BaseEntity {
   order: number;
 
   @Column('int')
-  blockId: number;
-
-  @Column('int')
   flowId: number;
 
-  @OneToOne(() => Block, (block) => block.step)
-  @JoinColumn()
-  block: Block;
+  @OneToMany(() => StepOutput, (output) => output.step)
+  outputs: StepOutput[];
+
+  @OneToMany(() => Parameter, (parameter) => parameter.step)
+  parameters: Parameter[];
 
   @ManyToOne(() => Flow, (flow) => flow.steps)
   flow: Flow;

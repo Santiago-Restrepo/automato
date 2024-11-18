@@ -1,19 +1,13 @@
 import { Module } from '@nestjs/common';
 import { RunFlowService } from './application/run-flow.service';
 import { StepModule } from '../step/step.module';
-import { FunctionParameterModule } from '../function-parameter/function-parameter.module';
 import { FlowRepositoryImpl } from './application/flow.repository.impl';
 import { FlowController } from './infrastructure/flow.controller';
 import { FlowExecutionModule } from '../flow-execution/flow-execution.module';
 import { StepExecutionModule } from '../step-execution/step-execution.module';
 
 @Module({
-  imports: [
-    StepModule,
-    FunctionParameterModule,
-    FlowExecutionModule,
-    StepExecutionModule,
-  ],
+  imports: [StepModule, FlowExecutionModule, StepExecutionModule],
   providers: [
     RunFlowService,
     {

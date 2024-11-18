@@ -16,11 +16,7 @@ export class StepExecutionService {
       relations: {
         flowExecution: true,
         step: {
-          block: {
-            step: true,
-            functionBlock: true,
-            parameters: true,
-          },
+          parameters: true,
         },
       },
     });
