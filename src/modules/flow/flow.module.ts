@@ -16,5 +16,6 @@ import { StepExecutionModule } from '../step-execution/step-execution.module';
     },
   ],
   controllers: [FlowController],
+  exports: [RunFlowService],
 })
 export class FlowModule {}

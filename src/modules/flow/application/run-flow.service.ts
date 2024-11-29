@@ -5,6 +5,7 @@ import { FlowExecutionService } from 'src/modules/flow-execution/application/flo
 import ExecutionStatus from 'src/shared/enums/execution-status.enum';
 import { RunStepExecutionService } from 'src/modules/step-execution/application/run-step-execution.service';
 import { StepExecutionService } from 'src/modules/step-execution/application/step-execution.service';
+import { TriggerExecution } from 'src/modules/trigger-execution/domain/trigger-execution.entity';
 
 @Injectable()
 export class RunFlowService {
@@ -16,9 +17,12 @@ export class RunFlowService {
     private readonly runStepExecutionService: RunStepExecutionService,
   ) {}
 
-  async run(id: number) {
+  async run(id: number, triggerExecution?: TriggerExecution) {
     const flow = await this.#findFlowToRun(id);
-    const execution = await this.flowExecutionService.createExecution(flow);
+    const execution = await this.flowExecutionService.createExecution(
+      flow,
+      triggerExecution,
+    );
 
     try {
       await this.#start(execution);
@@ -42,37 +46,37 @@ export class RunFlowService {
   }
 
   async #start(execution: FlowExecution) {
-    await this.flowExecutionService.runExecution(execution);
+    await this.flowExecutionService.startExecution(execution);
     return this.#runNextStep(execution);
   }
 
-  async #runNextStep(execution: FlowExecution) {
-    const nextStepExecution = await this.stepExecutionService.findOne({
+  async #runNextStep(flowExecution: FlowExecution) {
+    const stepExecution = await this.stepExecutionService.findOne({
       where: {
-        flowExecutionId: execution.id,
+        flowExecutionId: flowExecution.id,
         status: ExecutionStatus.PENDING,
       },
       order: { step: { order: 'ASC' } },
     });
 
-    if (!nextStepExecution) {
-      await this.#finish(execution);
+    if (!stepExecution) {
+      await this.#finish(flowExecution);
       return;
     }
 
     const nextStepResult =
-      await this.runStepExecutionService.run(nextStepExecution);
+      await this.runStepExecutionService.run(stepExecution);
 
     if (nextStepResult.status === ExecutionStatus.FAILURE) {
       await this.#finish(
-        execution,
+        flowExecution,
         ExecutionStatus.FAILURE,
         nextStepResult.errorMessage,
       );
       return;
     }
 
-    return this.#runNextStep(execution);
+    return this.#runNextStep(flowExecution);
   }
 
   async #finish(

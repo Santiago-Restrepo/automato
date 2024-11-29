@@ -14,7 +14,11 @@ export class StepExecutionService {
     return this.stepExecutionRepository.findOne({
       ...findOneOptions,
       relations: {
-        flowExecution: true,
+        flowExecution: {
+          triggerExecution: {
+            trigger: true,
+          },
+        },
         step: {
           parameters: true,
         },

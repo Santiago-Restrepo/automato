@@ -8,5 +8,5 @@ export interface FlowExecutionRepository {
   findOneBy(
     where: FindOptionsWhere<FlowExecution> | FindOptionsWhere<FlowExecution>[],
   ): Promise<FlowExecution | null>;
-  runExecution(flowExecution: FlowExecution): Promise<FlowExecution>;
+  startExecution(flowExecution: FlowExecution): Promise<FlowExecution>;
 }

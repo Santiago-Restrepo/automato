@@ -20,7 +20,7 @@ export class FlowExecutionRepositoryImpl
     return this.save(flow);
   }
 
-  runExecution(flowExecution: FlowExecution): Promise<FlowExecution> {
+  startExecution(flowExecution: FlowExecution): Promise<FlowExecution> {
     flowExecution.status = ExecutionStatus.RUNNING;
     return this.save(flowExecution);
   }

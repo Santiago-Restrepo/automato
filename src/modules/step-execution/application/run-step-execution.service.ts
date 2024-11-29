@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { StepExecutionRepository } from '../domain/step-execution.repository';
 import StepExecution from '../domain/step-execution.entity';
 import ExecutionStatus from 'src/shared/enums/execution-status.enum';
-import { ParameterValue } from 'src/shared/types/paramter-value.type';
 import { RunFunctionService } from 'src/modules/function-execution/application/run-function.service';
+import { ParameterValue } from 'src/shared/types/parameter-value.type';
 
 @Injectable()
 export class RunStepExecutionService {
@@ -24,10 +24,7 @@ export class RunStepExecutionService {
         });
         return stepExecution;
       }
-      const result = await this.runFunctionService.run(
-        stepExecution.step,
-        stepExecution.flowExecution,
-      );
+      const result = await this.runFunctionService.run(stepExecution);
 
       await this.#finish({
         stepExecution,
