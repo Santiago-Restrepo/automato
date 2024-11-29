@@ -5,6 +5,7 @@ import FlowExecution from '../domain/flow-execution.entity';
 import { StepExecutionRepository } from 'src/modules/step-execution/domain/step-execution.repository';
 import { FindOptionsWhere } from 'typeorm';
 import ExecutionStatus from 'src/shared/enums/execution-status.enum';
+import { TriggerExecution } from 'src/modules/trigger-execution/domain/trigger-execution.entity';
 
 @Injectable()
 export class FlowExecutionService {
@@ -15,9 +16,13 @@ export class FlowExecutionService {
     private readonly stepExecutionRepository: StepExecutionRepository,
   ) {}
 
-  async createExecution(flow: Flow): Promise<FlowExecution> {
+  async createExecution(
+    flow: Flow,
+    triggerExecution?: TriggerExecution,
+  ): Promise<FlowExecution> {
     const execution = this.flowExecutionRepository.create({
       flowId: flow.id,
+      triggerExecutionId: triggerExecution?.id,
     });
 
     const executionSaved = await this.flowExecutionRepository.save(execution);
@@ -33,8 +38,8 @@ export class FlowExecutionService {
     return executionSaved;
   }
 
-  async runExecution(flowExecution: FlowExecution): Promise<FlowExecution> {
-    return this.flowExecutionRepository.runExecution(flowExecution);
+  async startExecution(flowExecution: FlowExecution): Promise<FlowExecution> {
+    return this.flowExecutionRepository.startExecution(flowExecution);
   }
 
   async finishExecution(

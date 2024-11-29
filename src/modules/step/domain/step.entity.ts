@@ -2,7 +2,6 @@ import Flow from 'src/modules/flow/domain/flow.entity';
 import StepExecution from 'src/modules/step-execution/domain/step-execution.entity';
 import BaseEntity from 'src/shared/base-entity.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import StepOutput from './step-output.entity';
 import { Parameter } from 'src/modules/parameter/domain/parameter.entity';
 enum StepType {
   FUNCTION = 'FUNCTION',
@@ -25,10 +24,7 @@ export default class Step extends BaseEntity {
   @Column('int')
   flowId: number;
 
-  @OneToMany(() => StepOutput, (output) => output.step)
-  outputs: StepOutput[];
-
-  @OneToMany(() => Parameter, (parameter) => parameter.step)
+  @OneToMany(() => Parameter, (parameter) => parameter.inputStep)
   parameters: Parameter[];
 
   @ManyToOne(() => Flow, (flow) => flow.steps)

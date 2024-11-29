@@ -1,29 +1,16 @@
 import Flow from 'src/modules/flow/domain/flow.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import BaseEntity from 'src/shared/base-entity.entity';
-import ExecutionStatus from 'src/shared/enums/execution-status.enum';
 import StepExecution from 'src/modules/step-execution/domain/step-execution.entity';
+import { TriggerExecution } from 'src/modules/trigger-execution/domain/trigger-execution.entity';
+import ExecutionEntity from 'src/shared/execution.entity';
 
 @Entity()
-export default class FlowExecution extends BaseEntity {
+export default class FlowExecution extends ExecutionEntity {
   @Column('int')
   flowId: number;
 
-  @Column({
-    type: 'enum',
-    enum: ExecutionStatus,
-    default: ExecutionStatus.PENDING,
-  })
-  status: ExecutionStatus;
-
-  @Column({ type: 'text', nullable: true })
-  errorMessage?: string | null;
-
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  startedAt?: Date;
-
-  @Column({ type: 'timestamp', nullable: true })
-  finishedAt: Date | null;
+  @Column({ type: 'int', nullable: true })
+  triggerExecutionId: number | null;
 
   @OneToMany(
     () => StepExecution,
@@ -36,4 +23,10 @@ export default class FlowExecution extends BaseEntity {
 
   @ManyToOne(() => Flow, (flow) => flow.flowExecutions)
   flow: Flow;
+
+  @ManyToOne(
+    () => TriggerExecution,
+    (triggerExecution) => triggerExecution.flowExecutions,
+  )
+  triggerExecution: TriggerExecution;
 }

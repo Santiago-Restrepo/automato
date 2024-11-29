@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import functions, { StepFunctions } from './functions';
 import { Parameter } from 'src/modules/parameter/domain/parameter.entity';
 import { ParameterService } from 'src/modules/parameter/application/parameter.service';
-import FlowExecution from 'src/modules/flow-execution/domain/flow-execution.entity';
 import Step from 'src/modules/step/domain/step.entity';
+import StepExecution from 'src/modules/step-execution/domain/step-execution.entity';
+import { TriggerExecution } from 'src/modules/trigger-execution/domain/trigger-execution.entity';
 
 @Injectable()
 export class RunFunctionService {
@@ -12,13 +13,19 @@ export class RunFunctionService {
     this.functions = functions;
   }
 
-  async run(step: Step, flowExecution: FlowExecution) {
+  async run(stepExecution: StepExecution) {
+    const { step, flowExecution } = stepExecution;
+    if (!step) throw new Error('Step not found in step execution');
+    const { triggerExecution } = flowExecution;
     const stepFunction = this.#getStepFunction(step);
     const stepParameters = await this.parameterService.getStepParameters(
       step,
       flowExecution,
     );
-    const evaluatedParams = await this.#evaluateParams(stepParameters);
+    const evaluatedParams = await this.#evaluateParams(
+      stepParameters,
+      triggerExecution,
+    );
     return stepFunction(evaluatedParams);
   }
 
@@ -28,9 +35,17 @@ export class RunFunctionService {
     return this.functions[functionName];
   }
 
-  async #evaluateParams(parameters: Parameter[]) {
+  async #evaluateParams(
+    parameters: Parameter[],
+    triggerExecution?: TriggerExecution,
+  ) {
     const objectFromParameters = this.#objectFromParameters(parameters);
-    return objectFromParameters;
+    if (!triggerExecution) return objectFromParameters;
+    const { trigger, payload } = triggerExecution;
+    return {
+      ...objectFromParameters,
+      [trigger.payloadKey]: payload,
+    };
   }
 
   #objectFromParameters(parameters: Parameter[]) {

@@ -21,10 +21,10 @@ export class ParameterRepositoryImpl
   ): Promise<Parameter[]> {
     const parameters = await this.find({
       relations: {
-        stepOutput: true,
+        outputStep: true,
       },
       where: {
-        stepId: step.id,
+        inputStepId: step.id,
       },
     });
     return Promise.all(
@@ -34,7 +34,7 @@ export class ParameterRepositoryImpl
           .findOne({
             where: {
               flowExecutionId: flowExecution.id,
-              stepId: parameter.stepOutput?.stepId,
+              stepId: parameter.outputStep?.id,
             },
           });
         return {
