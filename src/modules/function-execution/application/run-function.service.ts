@@ -3,8 +3,7 @@ import functions, { StepFunctions } from './functions';
 import { Parameter } from 'src/modules/parameter/domain/parameter.entity';
 import { ParameterService } from 'src/modules/parameter/application/parameter.service';
 import Step from 'src/modules/step/domain/step.entity';
-import StepExecution from 'src/modules/step-execution/domain/step-execution.entity';
-import { TriggerExecution } from 'src/modules/trigger-execution/domain/trigger-execution.entity';
+import Execution from 'src/modules/execution/domain/execution.entity';
 
 @Injectable()
 export class RunFunctionService {
@@ -13,10 +12,12 @@ export class RunFunctionService {
     this.functions = functions;
   }
 
-  async run(stepExecution: StepExecution) {
-    const { step, flowExecution } = stepExecution;
+  async run(stepExecution: Execution<Step>) {
+    const { referenceStep: step, parentExecution: flowExecution } =
+      stepExecution;
     if (!step) throw new Error('Step not found in step execution');
-    const { triggerExecution } = flowExecution;
+    const { parentExecution: triggerExecution } = flowExecution;
+
     const stepFunction = this.#getStepFunction(step);
     const stepParameters = await this.parameterService.getStepParameters(
       step,
@@ -37,14 +38,14 @@ export class RunFunctionService {
 
   async #evaluateParams(
     parameters: Parameter[],
-    triggerExecution?: TriggerExecution,
+    triggerExecution?: Execution<'Trigger'>,
   ) {
     const objectFromParameters = this.#objectFromParameters(parameters);
     if (!triggerExecution) return objectFromParameters;
-    const { trigger, payload } = triggerExecution;
+    const { referenceTrigger: trigger, input } = triggerExecution;
     return {
       ...objectFromParameters,
-      [trigger.payloadKey]: payload,
+      [trigger.payloadKey]: input,
     };
   }
 

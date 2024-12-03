@@ -1,25 +1,26 @@
 import { Inject, Injectable } from '@nestjs/common';
+import Execution from 'src/modules/execution/domain/execution.entity';
+import { ExecutionRepository } from 'src/modules/execution/domain/execution.repository';
+import Step from 'src/modules/step/domain/step.entity';
 import { FindOneOptions } from 'typeorm';
-import { StepExecutionRepository } from '../domain/step-execution.repository';
-import StepExecution from '../domain/step-execution.entity';
 
 @Injectable()
 export class StepExecutionService {
   constructor(
-    @Inject('StepExecutionRepository')
-    private readonly stepExecutionRepository: StepExecutionRepository,
+    @Inject('ExecutionRepository')
+    private readonly executionRepository: ExecutionRepository,
   ) {}
 
-  async findOne(findOneOptions?: FindOneOptions<StepExecution>) {
-    return this.stepExecutionRepository.findOne({
+  async findOne(findOneOptions?: FindOneOptions<Execution<Step>>) {
+    return this.executionRepository.findOne({
       ...findOneOptions,
       relations: {
-        flowExecution: {
-          triggerExecution: {
-            trigger: true,
+        parentExecution: {
+          parentExecution: {
+            referenceTrigger: true,
           },
         },
-        step: {
+        referenceStep: {
           parameters: true,
         },
       },
