@@ -12,8 +12,9 @@ export async function sendEmail(params: SendEmailParams) {
     data: { from, to, subject, text },
   } = params;
   // Simulate sending an email
-  console.log(`Sending email to ${to} from ${from} with subject ${subject}`);
-  console.log(`Email body: ${text}`);
+  console.log(
+    `Sending email from ${from} to ${to} with subject ${subject} and text ${text}`,
+  );
 
   return true;
 }

@@ -9,6 +9,7 @@ import { StepExecutionModule } from './modules/step-execution/step-execution.mod
 import { FunctionExecutionModule } from './modules/function-execution/function-execution.module';
 import { TriggerModule } from './modules/trigger/trigger.module';
 import { TriggerExecutionModule } from './modules/trigger-execution/trigger-execution.module';
+import { ExecutionModule } from './modules/execution/execution.module';
 import typeormModule from './config/typeorm.module';
 import configModule from './config/config.module';
 
@@ -24,6 +25,7 @@ import configModule from './config/config.module';
     FunctionExecutionModule,
     TriggerModule,
     TriggerExecutionModule,
+    ExecutionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

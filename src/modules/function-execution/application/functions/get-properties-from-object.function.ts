@@ -15,8 +15,5 @@ export function getPropertiesFromObject(params: GetPropertiesFromObjectParams) {
       acc[key] = value;
       return acc;
     }, {});
-  console.log(propertiesMap);
-  console.log(object);
-  console.log(result);
   return result;
 }

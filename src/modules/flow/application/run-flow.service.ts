@@ -1,11 +1,12 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FlowRepository } from '../domain/flow.repository';
-import FlowExecution from 'src/modules/flow-execution/domain/flow-execution.entity';
 import { FlowExecutionService } from 'src/modules/flow-execution/application/flow-execution.service';
-import ExecutionStatus from 'src/shared/enums/execution-status.enum';
+import ExecutionStatus from 'src/modules/execution/domain/enums/execution-status.enum';
 import { RunStepExecutionService } from 'src/modules/step-execution/application/run-step-execution.service';
 import { StepExecutionService } from 'src/modules/step-execution/application/step-execution.service';
-import { TriggerExecution } from 'src/modules/trigger-execution/domain/trigger-execution.entity';
+import Execution from 'src/modules/execution/domain/execution.entity';
+import { Trigger } from 'src/modules/trigger/domain/trigger.entity';
+import Flow from '../domain/flow.entity';
 
 @Injectable()
 export class RunFlowService {
@@ -17,7 +18,7 @@ export class RunFlowService {
     private readonly runStepExecutionService: RunStepExecutionService,
   ) {}
 
-  async run(id: number, triggerExecution?: TriggerExecution) {
+  async run(id: number, triggerExecution?: Execution<Trigger>) {
     const flow = await this.#findFlowToRun(id);
     const execution = await this.flowExecutionService.createExecution(
       flow,
@@ -25,10 +26,15 @@ export class RunFlowService {
     );
 
     try {
-      await this.#start(execution);
+      await this.flowExecutionService.startExecution(execution);
+      await this.#runNextStep(execution);
       return flow;
     } catch (error) {
-      await this.#finish(execution, ExecutionStatus.FAILURE, error.message);
+      await this.flowExecutionService.finishExecution(
+        execution,
+        ExecutionStatus.FAILURE,
+        error.message,
+      );
     }
   }
 
@@ -45,22 +51,17 @@ export class RunFlowService {
     return flow;
   }
 
-  async #start(execution: FlowExecution) {
-    await this.flowExecutionService.startExecution(execution);
-    return this.#runNextStep(execution);
-  }
-
-  async #runNextStep(flowExecution: FlowExecution) {
+  async #runNextStep(flowExecution: Execution<Flow>) {
     const stepExecution = await this.stepExecutionService.findOne({
       where: {
-        flowExecutionId: flowExecution.id,
+        parentExecutionId: flowExecution.id,
         status: ExecutionStatus.PENDING,
       },
-      order: { step: { order: 'ASC' } },
+      order: { referenceStep: { order: 'ASC' } },
     });
 
     if (!stepExecution) {
-      await this.#finish(flowExecution);
+      await this.flowExecutionService.finishExecution(flowExecution);
       return;
     }
 
@@ -68,7 +69,7 @@ export class RunFlowService {
       await this.runStepExecutionService.run(stepExecution);
 
     if (nextStepResult.status === ExecutionStatus.FAILURE) {
-      await this.#finish(
+      await this.flowExecutionService.finishExecution(
         flowExecution,
         ExecutionStatus.FAILURE,
         nextStepResult.errorMessage,
@@ -77,17 +78,5 @@ export class RunFlowService {
     }
 
     return this.#runNextStep(flowExecution);
-  }
-
-  async #finish(
-    flowExecution: FlowExecution,
-    status: ExecutionStatus = ExecutionStatus.SUCCESS,
-    errorMessage?: string | null,
-  ) {
-    return this.flowExecutionService.finishExecution(
-      flowExecution,
-      status,
-      errorMessage,
-    );
   }
 }

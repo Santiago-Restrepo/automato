@@ -1,17 +1,10 @@
 import { Module } from '@nestjs/common';
-import { FlowExecutionRepositoryImpl } from './application/flow-execution.repository.impl';
 import { FlowExecutionService } from './application/flow-execution.service';
-import { StepExecutionModule } from '../step-execution/step-execution.module';
+import { ExecutionModule } from '../execution/execution.module';
 
 @Module({
-  providers: [
-    FlowExecutionService,
-    {
-      provide: 'FlowExecutionRepository',
-      useClass: FlowExecutionRepositoryImpl,
-    },
-  ],
+  providers: [FlowExecutionService],
   exports: [FlowExecutionService],
-  imports: [StepExecutionModule],
+  imports: [ExecutionModule],
 })
 export class FlowExecutionModule {}

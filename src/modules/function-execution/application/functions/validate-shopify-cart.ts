@@ -27,7 +27,7 @@ interface ValidateShopifyCartParams {
 
 const validateShopifyCart = async (params: ValidateShopifyCartParams) => {
   const { cart } = params;
-  if (cart.line_items.length === 0) {
+  if (cart.line_items?.length === 0) {
     throw new Error('Cart is empty');
   }
   return cart;

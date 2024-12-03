@@ -1,22 +1,23 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { StepExecutionRepository } from '../domain/step-execution.repository';
-import StepExecution from '../domain/step-execution.entity';
-import ExecutionStatus from 'src/shared/enums/execution-status.enum';
+import ExecutionStatus from 'src/modules/execution/domain/enums/execution-status.enum';
+import Execution from 'src/modules/execution/domain/execution.entity';
+import { ExecutionRepository } from 'src/modules/execution/domain/execution.repository';
 import { RunFunctionService } from 'src/modules/function-execution/application/run-function.service';
+import Step from 'src/modules/step/domain/step.entity';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
 
 @Injectable()
 export class RunStepExecutionService {
   constructor(
-    @Inject('StepExecutionRepository')
-    private readonly stepExecutionRepository: StepExecutionRepository,
+    @Inject('ExecutionRepository')
+    private readonly stepExecutionRepository: ExecutionRepository,
     private readonly runFunctionService: RunFunctionService,
   ) {}
 
-  async run(stepExecution: StepExecution) {
+  async run(stepExecution: Execution<Step>) {
     try {
       await this.#start(stepExecution);
-      if (!stepExecution.step) {
+      if (!stepExecution.referenceStep) {
         await this.#finish({
           stepExecution,
           status: ExecutionStatus.FAILURE,
@@ -42,13 +43,13 @@ export class RunStepExecutionService {
     }
   }
 
-  async #start(stepExecution: StepExecution) {
+  async #start(stepExecution: Execution<Step>) {
     stepExecution.status = ExecutionStatus.RUNNING;
     await this.stepExecutionRepository.save(stepExecution);
   }
 
   async #finish(values: {
-    stepExecution: StepExecution;
+    stepExecution: Execution<Step>;
     result?: ParameterValue;
     status?: ExecutionStatus;
     errorMessage?: string | null;

@@ -1,11 +1,12 @@
 import Step from 'src/modules/step/domain/step.entity';
 import { Parameter } from './parameter.entity';
-import FlowExecution from 'src/modules/flow-execution/domain/flow-execution.entity';
+import Execution from 'src/modules/execution/domain/execution.entity';
+import Flow from 'src/modules/flow/domain/flow.entity';
 
 export interface ParameterRepository {
   getStepParameters(
     step: Step,
-    flowExecution: FlowExecution,
+    flowExecution: Execution<Flow>,
   ): Promise<Parameter[]>;
 
   save(parameter: Parameter): Promise<Parameter>;

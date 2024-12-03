@@ -1,5 +1,5 @@
+import Execution from 'src/modules/execution/domain/execution.entity';
 import Flow from 'src/modules/flow/domain/flow.entity';
-import { TriggerExecution } from 'src/modules/trigger-execution/domain/trigger-execution.entity';
 import BaseEntity from 'src/shared/base-entity.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
@@ -21,8 +21,8 @@ export class Trigger extends BaseEntity {
   flow: Flow;
 
   @OneToMany(
-    () => TriggerExecution,
-    (triggerExecution) => triggerExecution.trigger,
+    () => Execution<Trigger>,
+    (triggerExecution) => triggerExecution.referenceTrigger,
   )
-  triggerExecutions: TriggerExecution[];
+  triggerExecutions: Execution<Trigger>[];
 }
