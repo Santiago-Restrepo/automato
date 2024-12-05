@@ -6,7 +6,6 @@ import BaseEntity from 'src/shared/base-entity.entity';
 import Step from 'src/modules/step/domain/step.entity';
 import { Trigger } from 'src/modules/trigger/domain/trigger.entity';
 import Flow from 'src/modules/flow/domain/flow.entity';
-import { Parameter } from 'src/modules/parameter/domain/parameter.entity';
 
 @Entity()
 export default class Execution<T = any> extends BaseEntity {
@@ -24,9 +23,6 @@ export default class Execution<T = any> extends BaseEntity {
 
   @Column({ type: 'int', nullable: true })
   referenceStepId: number | null;
-
-  @Column({ type: 'int', nullable: true })
-  referenceParameterId: number | null;
 
   @Column('enum', { enum: ExecutionStatus, default: ExecutionStatus.PENDING })
   status: ExecutionStatus;
@@ -57,7 +53,4 @@ export default class Execution<T = any> extends BaseEntity {
 
   @ManyToOne(() => Step, (step) => step.stepExecutions)
   referenceStep: Step & T;
-
-  @ManyToOne(() => Parameter, (parameter) => parameter.parameterExecutions)
-  referenceParameter: Parameter & T;
 }
