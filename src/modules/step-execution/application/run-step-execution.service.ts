@@ -3,6 +3,7 @@ import ExecutionStatus from 'src/modules/execution/domain/enums/execution-status
 import Execution from 'src/modules/execution/domain/execution.entity';
 import { ExecutionRepository } from 'src/modules/execution/domain/execution.repository';
 import { RunFunctionService } from 'src/modules/function-execution/application/run-function.service';
+import { ParameterService } from 'src/modules/parameter/application/parameter.service';
 import Step from 'src/modules/step/domain/step.entity';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
 
@@ -12,6 +13,7 @@ export class RunStepExecutionService {
     @Inject('ExecutionRepository')
     private readonly stepExecutionRepository: ExecutionRepository,
     private readonly runFunctionService: RunFunctionService,
+    private readonly parameterService: ParameterService,
   ) {}
 
   async run(stepExecution: Execution<Step>) {
@@ -45,6 +47,14 @@ export class RunStepExecutionService {
 
   async #start(stepExecution: Execution<Step>) {
     stepExecution.status = ExecutionStatus.RUNNING;
+    const { parentExecution: flowExecution, referenceStep: step } =
+      stepExecution;
+    const stepInput = await this.parameterService.getStepInputFromParameters(
+      step,
+      flowExecution,
+    );
+    stepExecution.input = stepInput;
+
     await this.stepExecutionRepository.save(stepExecution);
   }
 

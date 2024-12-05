@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { RunFunctionService } from './application/run-function.service';
-import { ParameterModule } from '../parameter/parameter.module';
 
 @Module({
-  imports: [ParameterModule],
+  imports: [],
   providers: [RunFunctionService],
   exports: [RunFunctionService],
 })
