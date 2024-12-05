@@ -6,7 +6,7 @@ import { getPropertiesFromObject } from './get-properties-from-object.function';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
 
 type StepFunction = (
-  params: Record<string, any>,
+  params: ParameterValue,
 ) => Promise<ParameterValue> | ParameterValue;
 
 export type StepFunctions = Record<string, StepFunction>;
