@@ -1,9 +1,13 @@
+import { StepFunction } from '.';
+
 interface GetPropertiesFromObjectParams {
   propertiesMap: Record<string, string>;
   object: Record<string, any>;
 }
 
-export function getPropertiesFromObject(params: GetPropertiesFromObjectParams) {
+const getPropertiesFromObject: StepFunction<
+  GetPropertiesFromObjectParams
+> = async ({ input: params }) => {
   const { propertiesMap, object } = params;
   const result = Object.entries(propertiesMap)
     .map(([key, value]) => {
@@ -16,4 +20,6 @@ export function getPropertiesFromObject(params: GetPropertiesFromObjectParams) {
       return acc;
     }, {});
   return result;
-}
+};
+
+export default getPropertiesFromObject;

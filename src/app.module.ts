@@ -10,6 +10,8 @@ import { FunctionExecutionModule } from './modules/function-execution/function-e
 import { TriggerModule } from './modules/trigger/trigger.module';
 import { TriggerExecutionModule } from './modules/trigger-execution/trigger-execution.module';
 import { ExecutionModule } from './modules/execution/execution.module';
+import { IntegrationModule } from './modules/integration/integration.module';
+import { ClientModule } from './modules/client/client.module';
 import typeormModule from './config/typeorm.module';
 import configModule from './config/config.module';
 
@@ -26,6 +28,8 @@ import configModule from './config/config.module';
     TriggerModule,
     TriggerExecutionModule,
     ExecutionModule,
+    IntegrationModule,
+    ClientModule,
   ],
   controllers: [AppController],
   providers: [AppService],

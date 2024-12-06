@@ -1,3 +1,5 @@
+import { StepFunction } from '.';
+
 interface SendEmailParams {
   data: {
     from: string;
@@ -7,7 +9,7 @@ interface SendEmailParams {
   };
 }
 
-export async function sendEmail(params: SendEmailParams) {
+const sendEmail: StepFunction<SendEmailParams> = async ({ input: params }) => {
   const {
     data: { from, to, subject, text },
   } = params;
@@ -17,4 +19,6 @@ export async function sendEmail(params: SendEmailParams) {
   );
 
   return true;
-}
+};
+
+export default sendEmail;
