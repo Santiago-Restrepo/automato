@@ -1,3 +1,5 @@
+import { StepFunction } from '.';
+
 interface Cart {
   id: string;
   token: string;
@@ -25,8 +27,11 @@ interface ValidateShopifyCartParams {
   cart: Cart;
 }
 
-const validateShopifyCart = async (params: ValidateShopifyCartParams) => {
+const validateShopifyCart: StepFunction<ValidateShopifyCartParams> = async ({
+  input: params,
+}) => {
   const { cart } = params;
+
   if (cart.line_items?.length === 0) {
     throw new Error('Cart is empty');
   }

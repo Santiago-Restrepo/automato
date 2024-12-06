@@ -1,7 +1,9 @@
+import { StepFunction } from '.';
+
 export interface FetchDataParams {
   url: string;
 }
-const fetchData = async (params: FetchDataParams) => {
+const fetchData: StepFunction<FetchDataParams> = async ({ input: params }) => {
   const { url } = params;
   const data = await fetch(url);
   return data.json();
