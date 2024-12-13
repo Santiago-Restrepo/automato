@@ -1,7 +1,8 @@
+import GoogleSheetsClient from '../google-sheets.client';
 import ShopifyClient from '../shopify.client';
 
 export type ClientMap = {
   Shopify: ShopifyClient;
-  GoogleSheets: any;
+  GoogleSheets: GoogleSheetsClient;
   Stripe: any;
 };
