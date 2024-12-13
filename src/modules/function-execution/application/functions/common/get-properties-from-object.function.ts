@@ -1,4 +1,4 @@
-import { StepFunction } from '.';
+import { StepFunction } from '..';
 
 interface GetPropertiesFromObjectParams {
   propertiesMap: Record<string, string>;
