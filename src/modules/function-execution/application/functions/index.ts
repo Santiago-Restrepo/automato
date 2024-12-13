@@ -1,12 +1,9 @@
-import fetchCharacterData from './fetch-characters.function';
-import fetchData from './fetch-data.function';
-import validateShopifyCart from './validate-shopify-cart';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
 import Flow from 'src/modules/flow/domain/flow.entity';
 import Step from 'src/modules/step/domain/step.entity';
-import sendEmail from './send-email.function';
 import getPropertiesFromObject from './get-properties-from-object.function';
 import { ClientService } from 'src/modules/client/application/client.service';
+import validateShopifyInventoryUpdate from './validate-shopify-inventory-update';
 export type StepFunctionParams<T> = {
   input: T;
   context: {
@@ -22,11 +19,8 @@ export type StepFunction<T = any> = (
 export type StepFunctions = Record<string, StepFunction>;
 
 const stepFunctions: StepFunctions = {
-  fetchData,
-  fetchCharacterData,
-  validateShopifyCart,
-  sendEmail,
   getPropertiesFromObject,
+  validateShopifyInventoryUpdate,
 };
 
 export default stepFunctions;

@@ -1,4 +1,4 @@
-import { Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import BaseEntity from 'src/shared/base-entity.entity';
 import Step from 'src/modules/step/domain/step.entity';
 import { Trigger } from 'src/modules/trigger/domain/trigger.entity';
@@ -7,6 +7,9 @@ import FlowIntegration from 'src/modules/integration/domain/flow-integration.ent
 
 @Entity()
 export default class Flow extends BaseEntity {
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  name: string | null;
+
   @OneToMany(() => Step, (step) => step.flow)
   steps: Step[];
 

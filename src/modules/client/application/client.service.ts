@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import FlowIntegration from 'src/modules/integration/domain/flow-integration.entity';
 import ShopifyClient from './clients/shopify.client';
 import { ClientMap } from './clients/types/client-map.type';
+import GoogleClient from './clients/google.client';
+import GoogleSheetsClient from './clients/google-sheets.client';
 
 @Injectable()
 export class ClientService {
@@ -12,10 +14,11 @@ export class ClientService {
   initialize(flowIntegrations: FlowIntegration[]) {
     flowIntegrations.forEach((flowIntegration) => {
       if (!this.clients.has(flowIntegration.integration?.name)) {
-        const apiKey = flowIntegration.apiKey;
         this.clients.set(
           flowIntegration.integration.name,
-          this.createClient(flowIntegration.integration.name, apiKey),
+          this.createClient(flowIntegration.integration.name, {
+            ...flowIntegration,
+          }),
         );
       }
     });
@@ -23,11 +26,23 @@ export class ClientService {
 
   private createClient<K extends keyof ClientMap>(
     name: K,
-    apiKey: string,
+    credentials: {
+      apiKey: string;
+      clientId?: string;
+      clientSecret?: string;
+      clientEmail?: string;
+      privateKey?: string;
+    },
   ): ClientMap[K] {
+    const { apiKey, clientEmail, privateKey } = credentials;
     switch (name) {
       case 'Shopify':
         return new ShopifyClient(apiKey) as ClientMap[K];
+      case 'GoogleSheets':
+        return new GoogleSheetsClient({
+          clientEmail,
+          privateKey,
+        }) as ClientMap[K];
 
       default:
         throw new Error(`Unknown integration: ${name}`);

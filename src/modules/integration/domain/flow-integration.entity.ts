@@ -11,7 +11,19 @@ export default class FlowIntegration extends BaseEntity {
   @Column({ type: 'int' })
   flowId: number;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  clientEmail: string;
+
+  @Column({ type: 'json', nullable: true })
+  privateKey: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  clientId: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  clientSecret: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
   apiKey: string;
 
   @ManyToOne(() => Integration, (integration) => integration.flowIntegrations)
