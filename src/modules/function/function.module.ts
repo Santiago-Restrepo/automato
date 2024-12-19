@@ -8,4 +8,4 @@ import { ClientModule } from '../client/client.module';
   providers: [RunFunctionService],
   exports: [RunFunctionService],
 })
-export class FunctionExecutionModule {}
+export class FunctionModule {}

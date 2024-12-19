@@ -1,23 +1,23 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ParameterRepository } from '../domain/parameter.repository';
+import { StepParameterRepository } from '../domain/step-parameter.repository';
 import Step from 'src/modules/step/domain/step.entity';
 import Execution from 'src/modules/execution/domain/execution.entity';
-import { Parameter } from '../domain/parameter.entity';
+import { StepParameter } from '../domain/step-parameter.entity';
 import Flow from 'src/modules/flow/domain/flow.entity';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
 
 @Injectable()
-export class ParameterService {
+export class StepParameterService {
   constructor(
-    @Inject('ParameterRepository')
-    private readonly parameterRepository: ParameterRepository,
+    @Inject('StepParameterRepository')
+    private readonly stepParameterRepository: StepParameterRepository,
   ) {}
 
   getStepParameters(
     step: Step,
     flowExecution: Execution<Flow>,
-  ): Promise<Parameter[]> {
-    return this.parameterRepository.getStepParameters(step, flowExecution);
+  ): Promise<StepParameter[]> {
+    return this.stepParameterRepository.getStepParameters(step, flowExecution);
   }
 
   async getStepInputFromParameters(
@@ -34,7 +34,7 @@ export class ParameterService {
   }
 
   async #evaluateParams(
-    parameters: Parameter[],
+    parameters: StepParameter[],
     triggerExecution?: Execution<'Trigger'>,
   ): Promise<ParameterValue> {
     const objectFromParameters = this.#objectFromParameters(parameters);
@@ -46,9 +46,12 @@ export class ParameterService {
     };
   }
 
-  #objectFromParameters(parameters: Parameter[]) {
+  #objectFromParameters(parameters: StepParameter[]) {
     return parameters.reduce((acc, parameter) => {
-      const { key, value } = parameter;
+      const {
+        functionParameter: { key },
+        value,
+      } = parameter;
 
       return { ...acc, [key]: value };
     }, {});

@@ -23,6 +23,7 @@ export class StepExecutionService {
         referenceStep: {
           flow: true,
           parameters: true,
+          function: true,
         },
       },
     });
