@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
 import ExecutionStatus from 'src/modules/execution/domain/enums/execution-status.enum';
-import { RunFlowService } from 'src/modules/flow/application/run-flow.service';
+import { RunFlowService } from 'src/modules/flow/application/services/run-flow.service';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
-import { Trigger } from 'src/modules/trigger/domain/trigger.entity';
-import { ExecutionRepository } from 'src/modules/execution/domain/execution.repository';
-import Execution from 'src/modules/execution/domain/execution.entity';
-import ExecutionTypeEnum from 'src/modules/execution/domain/enums/execution-type.enum';
+import { ExecutionRepository } from 'src/modules/execution/domain/ports/execution.repository';
+import ExecutionType from 'src/modules/execution/domain/enums/execution-type.enum';
+import { Execution } from 'src/modules/execution/domain/entities/execution.entity';
+import { Trigger } from 'src/modules/trigger/domain/entities/trigger.entity';
 
 @Injectable()
 export class RunTriggerExecutionService {
@@ -32,13 +32,11 @@ export class RunTriggerExecutionService {
   }
 
   #start(trigger: Trigger, payload?: ParameterValue) {
-    return this.triggerExecutionRepository.createExecution(
-      {
-        referenceTriggerId: trigger.id,
-        input: payload,
-      },
-      ExecutionTypeEnum.TRIGGER,
-    );
+    return this.triggerExecutionRepository.create({
+      referenceTriggerId: trigger.id,
+      input: payload,
+      type: ExecutionType.TRIGGER,
+    });
   }
 
   async #finish(values: {

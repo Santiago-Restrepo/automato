@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import FlowIntegration from 'src/modules/integration/domain/flow-integration.entity';
 import ShopifyClient from './clients/shopify.client';
 import { ClientMap } from './clients/types/client-map.type';
-import GoogleClient from './clients/google.client';
 import GoogleSheetsClient from './clients/google-sheets.client';
+import { FlowIntegration } from 'src/modules/integration/domain/entities/flow-integration.entity';
 
 @Injectable()
 export class ClientService {
@@ -13,10 +12,10 @@ export class ClientService {
 
   initialize(flowIntegrations: FlowIntegration[]) {
     flowIntegrations.forEach((flowIntegration) => {
-      if (!this.clients.has(flowIntegration.integration?.name)) {
+      if (!this.clients.has(flowIntegration.integrationName)) {
         this.clients.set(
-          flowIntegration.integration.name,
-          this.createClient(flowIntegration.integration.name, {
+          flowIntegration.integrationName,
+          this.createClient(flowIntegration.integrationName, {
             ...flowIntegration,
           }),
         );

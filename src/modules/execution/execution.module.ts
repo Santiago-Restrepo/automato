@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ExecutionRepositoryImpl } from './application/execution.repository.impl';
+import { ExecutionRepositoryImpl } from './infrastructure/repositories/execution.repository.impl';
 
 @Module({
   providers: [

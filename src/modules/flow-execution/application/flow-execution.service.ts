@@ -1,11 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
-import Flow from 'src/modules/flow/domain/flow.entity';
 import ExecutionStatus from 'src/modules/execution/domain/enums/execution-status.enum';
-import { ExecutionRepository } from 'src/modules/execution/domain/execution.repository';
-import Execution from 'src/modules/execution/domain/execution.entity';
-import { Trigger } from 'src/modules/trigger/domain/trigger.entity';
-import ExecutionTypeEnum from 'src/modules/execution/domain/enums/execution-type.enum';
-import Step from 'src/modules/step/domain/step.entity';
+import {
+  createExecutionDto,
+  ExecutionRepository,
+} from 'src/modules/execution/domain/ports/execution.repository';
+import ExecutionType from 'src/modules/execution/domain/enums/execution-type.enum';
+import { Flow } from 'src/modules/flow/domain/entities/flow.entity';
+import { Execution } from 'src/modules/execution/domain/entities/execution.entity';
+import { Trigger } from 'src/modules/trigger/domain/entities/trigger.entity';
 
 @Injectable()
 export class FlowExecutionService {
@@ -18,26 +20,24 @@ export class FlowExecutionService {
     flow: Flow,
     triggerExecution?: Execution<Trigger>,
   ): Promise<Execution<Flow>> {
-    const flowExecution = await this.executionRepository.createExecution(
-      {
-        referenceFlowId: flow.id,
-        parentExecutionId: triggerExecution?.id,
-      },
-      ExecutionTypeEnum.FLOW,
-    );
+    const flowExecution = await this.executionRepository.create({
+      referenceFlowId: flow.id,
+      parentExecutionId: triggerExecution?.id,
+      type: ExecutionType.FLOW,
+    });
 
-    const stepExecutionsDto = flow.steps?.map((step) => {
-      const stepExecution: Partial<Execution<Step>> = {
+    if (!flow.steps) throw new Error('Flow has no steps to run');
+
+    const stepExecutionsDto = flow.steps.map((step) => {
+      const stepExecution: createExecutionDto = {
         referenceStepId: step.id,
         parentExecutionId: flowExecution.id,
+        type: ExecutionType.STEP,
       };
       return stepExecution;
     });
 
-    await this.executionRepository.createExecution(
-      stepExecutionsDto,
-      ExecutionTypeEnum.STEP,
-    );
+    await this.executionRepository.createMany(stepExecutionsDto);
 
     return flowExecution;
   }
@@ -45,7 +45,7 @@ export class FlowExecutionService {
   async startExecution(
     flowExecution: Execution<Flow>,
   ): Promise<Execution<Flow>> {
-    return this.executionRepository.startExecution(flowExecution);
+    return this.executionRepository.start(flowExecution);
   }
 
   async finishExecution(
@@ -53,7 +53,7 @@ export class FlowExecutionService {
     status: ExecutionStatus = ExecutionStatus.SUCCESS,
     errorMessage?: string | null,
   ) {
-    return this.executionRepository.finishExecution({
+    return this.executionRepository.finish({
       execution: flowExecution,
       status,
       errorMessage,

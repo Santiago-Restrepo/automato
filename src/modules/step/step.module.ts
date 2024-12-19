@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { StepRepositoryImpl } from './application/step.repository.impl';
+import { StepRepositoryImpl } from './infrastructure/repositories/step.repository.impl';
 
 @Module({
   providers: [

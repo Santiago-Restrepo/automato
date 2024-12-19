@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { FlowIntegrationRepository } from '../domain/flow-integration.repository';
-import FlowIntegration from '../domain/flow-integration.entity';
-import Flow from 'src/modules/flow/domain/flow.entity';
+import { FlowIntegrationRepository } from '../domain/ports/flow-integration.repository';
+import { FlowIntegration } from '../domain/entities/flow-integration.entity';
 
 @Injectable()
 export class FlowIntegrationService {
@@ -10,10 +9,7 @@ export class FlowIntegrationService {
     private readonly flowIntegrationRepository: FlowIntegrationRepository,
   ) {}
 
-  async getFlowIntegrations(flow: Flow): Promise<FlowIntegration[]> {
-    return this.flowIntegrationRepository.find({
-      relations: { integration: true },
-      where: { flowId: flow.id },
-    });
+  async getFlowIntegrations(flowId: number): Promise<FlowIntegration[]> {
+    return this.flowIntegrationRepository.findByFlowId(flowId);
   }
 }

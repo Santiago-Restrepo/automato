@@ -39,7 +39,7 @@ INSERT INTO "step" ("created_at", "updated_at", "deleted_at", "id", "description
 ('2024-12-15 17:29:22.192556',	'2024-12-15 17:29:22.192556',	NULL,	13,	NULL,	5,	1,	3),
 ('2024-12-15 17:32:54.809531',	'2024-12-15 17:32:54.809531',	NULL,	14,	NULL,	6,	1,	4);
 
-INSERT INTO "step_parameter" ("created_at", "updated_at", "deleted_at", "id", "value", "output_step_id", "input_step_id", "function_parameter_id") VALUES
+INSERT INTO "step_parameters" ("created_at", "updated_at", "deleted_at", "id", "value", "output_step_id", "input_step_id", "function_parameter_id") VALUES
 ('2024-12-15 16:48:28.442255',	'2024-12-15 16:48:28.442255',	NULL,	10,	'"1NVgozygOpK2N4fYWE_kcBH83zZymCP4OBOomWKfU7O0"',	NULL,	10,	8),
 ('2024-12-15 16:48:28.442255',	'2024-12-15 16:48:28.442255',	NULL,	11,	'"A:E"',	NULL,	10,	9),
 ('2024-12-15 16:54:14.132075',	'2024-12-15 16:54:14.132075',	NULL,	12,	NULL,	10,	11,	10),
