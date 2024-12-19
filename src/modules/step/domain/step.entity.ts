@@ -1,20 +1,12 @@
 import Flow from 'src/modules/flow/domain/flow.entity';
 import BaseEntity from 'src/shared/base-entity.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { Parameter } from 'src/modules/parameter/domain/parameter.entity';
+import { StepParameter } from 'src/modules/step-parameter/domain/step-parameter.entity';
 import Execution from 'src/modules/execution/domain/execution.entity';
-enum StepType {
-  FUNCTION = 'FUNCTION',
-}
+import FunctionEntity from 'src/modules/function/domain/function.entity';
 
-@Entity()
+@Entity({ name: 'step' })
 export default class Step extends BaseEntity {
-  @Column({ type: 'varchar', length: 255 })
-  functionName: string;
-
-  @Column({ type: 'enum', enum: StepType })
-  type: StepType;
-
   @Column({ type: 'text', nullable: true })
   description: string;
 
@@ -24,11 +16,17 @@ export default class Step extends BaseEntity {
   @Column('int')
   flowId: number;
 
-  @OneToMany(() => Parameter, (parameter) => parameter.inputStep)
-  parameters: Parameter[];
+  @Column('int', { nullable: true })
+  functionId: number;
+
+  @OneToMany(() => StepParameter, (parameter) => parameter.inputStep)
+  parameters: StepParameter[];
 
   @ManyToOne(() => Flow, (flow) => flow.steps)
   flow: Flow;
+
+  @ManyToOne(() => FunctionEntity)
+  function: FunctionEntity;
 
   @OneToMany(
     () => Execution<Step>,

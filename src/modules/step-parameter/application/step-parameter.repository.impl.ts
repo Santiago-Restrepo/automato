@@ -1,26 +1,27 @@
 import { DataSource, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { ParameterRepository } from '../domain/parameter.repository';
-import { Parameter } from '../domain/parameter.entity';
+import { StepParameterRepository } from '../domain/step-parameter.repository';
+import { StepParameter } from '../domain/step-parameter.entity';
 import Step from 'src/modules/step/domain/step.entity';
 import Execution from 'src/modules/execution/domain/execution.entity';
 import Flow from 'src/modules/flow/domain/flow.entity';
 
 @Injectable()
-export class ParameterRepositoryImpl
-  extends Repository<Parameter>
-  implements ParameterRepository
+export class StepParameterRepositoryImpl
+  extends Repository<StepParameter>
+  implements StepParameterRepository
 {
   constructor(private datasource: DataSource) {
-    super(Parameter, datasource.createEntityManager());
+    super(StepParameter, datasource.createEntityManager());
   }
 
   async getStepParameters(
     step: Step,
     flowExecution: Execution<Flow>,
-  ): Promise<Parameter[]> {
+  ): Promise<StepParameter[]> {
     const parameters = await this.find({
       relations: {
+        functionParameter: true,
         outputStep: true,
       },
       where: {

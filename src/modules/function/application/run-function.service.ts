@@ -24,7 +24,7 @@ export class RunFunctionService {
 
     const stepFunction = this.#getStepFunction(step);
     if (!stepFunction)
-      throw new Error(`Step function ${step.functionName} not found`);
+      throw new Error(`Step function ${step?.function?.name} not found`);
     return stepFunction({
       input: stepExecution.input,
       context: {
@@ -36,7 +36,9 @@ export class RunFunctionService {
   }
 
   #getStepFunction(step: Step) {
-    const { functionName: functionName } = step;
+    const {
+      function: { name: functionName },
+    } = step;
 
     return this.functions[functionName];
   }
