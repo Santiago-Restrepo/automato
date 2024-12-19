@@ -1,6 +1,4 @@
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
-import Flow from 'src/modules/flow/domain/flow.entity';
-import Step from 'src/modules/step/domain/step.entity';
 import getPropertiesFromObject from './common/get-properties-from-object.function';
 import { ClientService } from 'src/modules/client/application/client.service';
 import validateShopifyInventoryUpdate from './shopify/validate-shopify-inventory-update.function';
@@ -9,6 +7,8 @@ import updateGoogleSheetsSpreadsheetData from './google-sheets/update-google-she
 import getGoogleSheetsSpreadsheetData from './google-sheets/get-google-sheets-spreadsheet-data.function';
 import transformSheetsResponse from './google-sheets/transform-sheets-response.function';
 import updateArrayElement from './common/update-array-element.function';
+import { Flow } from 'src/modules/flow/domain/entities/flow.entity';
+import { Step } from 'src/modules/step/domain/entities/step.entity';
 export type StepFunctionParams<T> = {
   input: T;
   context: {

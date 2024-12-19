@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import functions, { StepFunctions } from './functions';
-import Step from 'src/modules/step/domain/step.entity';
-import Execution from 'src/modules/execution/domain/execution.entity';
 import { ClientService } from 'src/modules/client/application/client.service';
 import { FlowIntegrationService } from 'src/modules/integration/application/flow-integration.service';
+import { Execution } from 'src/modules/execution/domain/entities/execution.entity';
+import { Step } from 'src/modules/step/domain/entities/step.entity';
 
 @Injectable()
 export class RunFunctionService {
@@ -17,14 +17,14 @@ export class RunFunctionService {
 
   async run(stepExecution: Execution<Step>) {
     const { referenceStep: step } = stepExecution;
-    if (!step.flow) throw new Error('Step or flow not found in step execution');
+    if (!step?.flow)
+      throw new Error('Step or flow not found in step execution');
     const flowIntegrations =
-      await this.flowIntegrationService.getFlowIntegrations(step.flow);
+      await this.flowIntegrationService.getFlowIntegrations(step?.flowId);
     this.clientService.initialize(flowIntegrations);
-
     const stepFunction = this.#getStepFunction(step);
     if (!stepFunction)
-      throw new Error(`Step function ${step?.function?.name} not found`);
+      throw new Error(`Step function ${step?.functionBlock?.name} not found`);
     return stepFunction({
       input: stepExecution.input,
       context: {
@@ -36,9 +36,8 @@ export class RunFunctionService {
   }
 
   #getStepFunction(step: Step) {
-    const {
-      function: { name: functionName },
-    } = step;
+    const functionName = step.functionBlock?.name;
+    if (!functionName) return null;
 
     return this.functions[functionName];
   }

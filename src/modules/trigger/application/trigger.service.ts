@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { TriggerRepository } from '../domain/trigger.repository';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
 import { RunTriggerExecutionService } from 'src/modules/trigger-execution/application/run-trigger-execution.service';
+import { TriggerRepository } from '../domain/ports/trigger.repository';
 
 @Injectable()
 export class TriggerService {

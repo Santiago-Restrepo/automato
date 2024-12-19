@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { Execution } from 'src/modules/execution/domain/entities/execution.entity';
 import ExecutionStatus from 'src/modules/execution/domain/enums/execution-status.enum';
-import Execution from 'src/modules/execution/domain/execution.entity';
-import { ExecutionRepository } from 'src/modules/execution/domain/execution.repository';
+import { ExecutionRepository } from 'src/modules/execution/domain/ports/execution.repository';
 import { RunFunctionService } from 'src/modules/function/application/run-function.service';
 import { StepParameterService } from 'src/modules/step-parameter/application/step-parameter.service';
-import Step from 'src/modules/step/domain/step.entity';
+import { Step } from 'src/modules/step/domain/entities/step.entity';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
 
 @Injectable()
@@ -49,6 +49,7 @@ export class RunStepExecutionService {
     stepExecution.status = ExecutionStatus.RUNNING;
     const { parentExecution: flowExecution, referenceStep: step } =
       stepExecution;
+    if (!step || !flowExecution) throw new Error('Step not found');
     const stepInput = await this.parameterService.getStepInputFromParameters(
       step,
       flowExecution,

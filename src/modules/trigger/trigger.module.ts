@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TriggerController } from './infrastructure/trigger.controller';
 import { TriggerService } from './application/trigger.service';
-import { TriggerRepositoryImpl } from './application/trigger.repository.impl';
+import { TriggerRepositoryImpl } from './infrastructure/repositories/trigger.repository.impl';
 import { TriggerExecutionModule } from '../trigger-execution/trigger-execution.module';
 import { FlowModule } from '../flow/flow.module';
 

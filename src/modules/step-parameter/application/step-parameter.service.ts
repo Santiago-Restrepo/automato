@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { StepParameterRepository } from '../domain/step-parameter.repository';
-import Step from 'src/modules/step/domain/step.entity';
-import Execution from 'src/modules/execution/domain/execution.entity';
-import { StepParameter } from '../domain/step-parameter.entity';
-import Flow from 'src/modules/flow/domain/flow.entity';
+import { StepParameterRepository } from '../domain/ports/step-parameter.repository';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
+import { Step } from 'src/modules/step/domain/entities/step.entity';
+import { Flow } from 'src/modules/flow/domain/entities/flow.entity';
+import { Execution } from 'src/modules/execution/domain/entities/execution.entity';
+import { StepParameter } from '../domain/entities/step-parameter.entity';
 
 @Injectable()
 export class StepParameterService {
@@ -35,11 +35,13 @@ export class StepParameterService {
 
   async #evaluateParams(
     parameters: StepParameter[],
-    triggerExecution?: Execution<'Trigger'>,
+    triggerExecution: Execution<'Trigger'> | null,
   ): Promise<ParameterValue> {
     const objectFromParameters = this.#objectFromParameters(parameters);
-    if (!triggerExecution) return objectFromParameters;
+    if (!triggerExecution || !triggerExecution.referenceTrigger)
+      return objectFromParameters;
     const { referenceTrigger: trigger, input } = triggerExecution;
+
     return {
       ...objectFromParameters,
       [trigger.payloadKey]: input,

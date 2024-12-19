@@ -1,7 +1,7 @@
-enum ExecutionTypeEnum {
+enum ExecutionType {
   TRIGGER = 'TRIGGER',
   FLOW = 'FLOW',
   STEP = 'STEP',
 }
 
-export default ExecutionTypeEnum;
+export default ExecutionType;

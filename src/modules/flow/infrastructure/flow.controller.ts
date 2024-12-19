@@ -1,5 +1,5 @@
 import { Controller, Param, ParseIntPipe, Post } from '@nestjs/common';
-import { RunFlowService } from '../application/run-flow.service';
+import { RunFlowService } from '../application/services/run-flow.service';
 
 @Controller('flow')
 export class FlowController {
