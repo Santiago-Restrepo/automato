@@ -13,15 +13,39 @@ export class FlowRepositoryImpl implements FlowRepository {
     this.repository = this.datasource.getRepository(FlowOrmEntity);
   }
 
+  async findAll(): Promise<Flow[]> {
+    const ormEntities = await this.repository.find();
+    return ormEntities.map((ormEntity) => FlowMapper.toDomain(ormEntity));
+  }
+
   async findOne(query: Partial<Flow>): Promise<Flow | null> {
-    const ormEntity = await this.repository.findOne({ where: query as any });
+    const ormEntity = await this.repository.findOne({
+      where: query as any,
+      relations: { steps: true },
+    });
     return ormEntity ? FlowMapper.toDomain(ormEntity) : null;
+  }
+
+  create(flow: Partial<Flow>): Promise<Flow> {
+    const FlowToSave = Flow.create(flow);
+    return this.save(FlowToSave);
   }
 
   async save(flow: Flow): Promise<Flow> {
     const ormEntity = FlowMapper.toOrm(flow);
     const savedEntity = await this.repository.save(ormEntity);
     return FlowMapper.toDomain(savedEntity);
+  }
+
+  async update(id: number, flow: Partial<Flow>): Promise<Flow> {
+    const flowToUpdate = await this.findOne({ id });
+
+    if (!flowToUpdate)
+      throw new NotFoundException(`Flow with id ${id} not found`);
+
+    const updatedFlow = { ...flowToUpdate, ...flow };
+
+    return this.save(updatedFlow);
   }
 
   async findFlowToRun(id: number) {

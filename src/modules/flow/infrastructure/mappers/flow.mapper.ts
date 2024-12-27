@@ -10,6 +10,7 @@ export class FlowMapper {
 
   static toOrm(domain: Flow): FlowOrmEntity {
     const flow = new FlowOrmEntity();
+    flow.id = domain.id;
     flow.name = domain.name;
     return flow;
   }
