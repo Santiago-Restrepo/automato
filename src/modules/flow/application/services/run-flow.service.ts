@@ -6,11 +6,10 @@ import { RunStepExecutionService } from 'src/modules/step-execution/application/
 import { ExecutionRepository } from 'src/modules/execution/domain/ports/execution.repository';
 import { Execution } from 'src/modules/execution/domain/entities/execution.entity';
 import { Flow } from '../../domain/entities/flow.entity';
-import { RunFlow } from '../../domain/ports/run-flow.interface';
 import { Trigger } from 'src/modules/trigger/domain/entities/trigger.entity';
 
 @Injectable()
-export class RunFlowService implements RunFlow {
+export class RunFlowService {
   constructor(
     @Inject('FlowRepository')
     private readonly flowRepository: FlowRepository,

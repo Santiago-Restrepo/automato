@@ -6,4 +6,8 @@ export class Flow {
     public name: string | null,
     public steps?: Step[] | null,
   ) {}
+
+  static create(props: Partial<Flow>): Flow {
+    return new Flow(0, props.name ?? '', props.steps ?? []);
+  }
 }
