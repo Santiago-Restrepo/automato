@@ -27,8 +27,8 @@ export class FlowRepositoryImpl implements FlowRepository {
   }
 
   create(flow: Partial<Flow>): Promise<Flow> {
-    const FlowToSave = Flow.create(flow);
-    return this.save(FlowToSave);
+    const flowToSave = Flow.create(flow);
+    return this.save(flowToSave);
   }
 
   async save(flow: Flow): Promise<Flow> {

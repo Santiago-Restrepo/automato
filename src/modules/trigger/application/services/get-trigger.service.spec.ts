@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RunTriggerService } from './services/run-trigger.service';
+import { GetTriggerService } from './get-trigger.service';
 
-describe('RunTriggerService', () => {
-  let service: RunTriggerService;
+describe('GetTriggerService', () => {
+  let service: GetTriggerService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RunTriggerService],
+      providers: [GetTriggerService],
     }).compile();
 
-    service = module.get<RunTriggerService>(RunTriggerService);
+    service = module.get<GetTriggerService>(GetTriggerService);
   });
 
   it('should be defined', () => {

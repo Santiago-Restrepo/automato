@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
 import { RunTriggerExecutionService } from 'src/modules/trigger-execution/application/run-trigger-execution.service';
-import { TriggerRepository } from '../domain/ports/trigger.repository';
+import { TriggerRepository } from '../../domain/ports/trigger.repository';
 
 @Injectable()
-export class TriggerService {
+export class RunTriggerService {
   constructor(
     @Inject('TriggerRepository')
     private readonly triggerRepository: TriggerRepository,
