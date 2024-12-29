@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import FlowIntegrationOrmEntity from '../entities/flow-integration.orm-entity';
-import { FlowIntegrationRepository } from '../../domain/ports/flow-integration.repository';
-import { FlowIntegration } from '../../domain/entities/flow-integration.entity';
+import { FlowIntegrationRepository } from '../../../integration/domain/ports/flow-integration.repository';
+import { FlowIntegration } from '../../domain/flow-integration.entity';
 import { FlowIntegrationMapper } from '../mappers/flow-integration.mapper';
 
 @Injectable()

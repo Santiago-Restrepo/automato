@@ -1,15 +1,21 @@
 import { Module } from '@nestjs/common';
-import { FlowIntegrationRepositoryImpl } from './infrastructure/repositories/flow-integration.repository.impl';
-import { FlowIntegrationService } from './application/flow-integration.service';
+import { GetIntegrationService } from './application/services/get-integration.service';
+import { CreateIntegrationService } from './application/services/create-integration.service';
+import { DeleteIntegrationService } from './application/services/delete-integration.service';
+import { IntegrationRepositoryImpl } from './infrastructure/repositories/integration.repository.impl';
+import { IntegrationController } from './infrastructure/integration.controller';
 
 @Module({
   providers: [
     {
-      provide: 'FlowIntegrationRepository',
-      useClass: FlowIntegrationRepositoryImpl,
+      provide: 'IntegrationRepository',
+      useClass: IntegrationRepositoryImpl,
     },
-    FlowIntegrationService,
+    GetIntegrationService,
+    CreateIntegrationService,
+    DeleteIntegrationService,
   ],
-  exports: [FlowIntegrationService],
+  exports: [],
+  controllers: [IntegrationController],
 })
 export class IntegrationModule {}

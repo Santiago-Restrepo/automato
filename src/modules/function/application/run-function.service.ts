@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import functions, { StepFunctions } from './functions';
 import { ClientService } from 'src/modules/client/application/client.service';
-import { FlowIntegrationService } from 'src/modules/integration/application/flow-integration.service';
 import { Execution } from 'src/modules/execution/domain/entities/execution.entity';
 import { Step } from 'src/modules/step/domain/entities/step.entity';
+import { FlowIntegrationService } from 'src/modules/flow-integration/application/services/flow-integration.service';
 
 @Injectable()
 export class RunFunctionService {

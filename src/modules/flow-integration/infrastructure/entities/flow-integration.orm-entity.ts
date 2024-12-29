@@ -1,7 +1,7 @@
 import BaseEntity from 'src/shared/base-entity.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
-import IntegrationOrmEntity from './integration.orm-entity';
 import FlowOrmEntity from 'src/modules/flow/infrastructure/entities/flow.orm-entity';
+import IntegrationOrmEntity from 'src/modules/integration/infrastructure/entities/integration.orm-entity';
 
 @Entity({
   name: 'flow_integrations',

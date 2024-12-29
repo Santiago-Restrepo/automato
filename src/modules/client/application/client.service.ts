@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import ShopifyClient from './clients/shopify.client';
 import { ClientMap } from './clients/types/client-map.type';
 import GoogleSheetsClient from './clients/google-sheets.client';
-import { FlowIntegration } from 'src/modules/integration/domain/entities/flow-integration.entity';
+import { FlowIntegration } from 'src/modules/flow-integration/domain/flow-integration.entity';
+import { ClientKeys } from '../domain/enums/client-keys.enum';
 
 @Injectable()
 export class ClientService {
@@ -24,7 +25,7 @@ export class ClientService {
   }
 
   private createClient<K extends keyof ClientMap>(
-    name: K,
+    name: ClientKeys,
     credentials: {
       apiKey: string;
       clientId?: string;

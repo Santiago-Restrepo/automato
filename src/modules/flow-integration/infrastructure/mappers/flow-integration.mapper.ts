@@ -1,4 +1,4 @@
-import { FlowIntegration } from '../../domain/entities/flow-integration.entity';
+import { FlowIntegration } from '../../domain/flow-integration.entity';
 import FlowIntegrationOrmEntity from '../entities/flow-integration.orm-entity';
 
 export class FlowIntegrationMapper {

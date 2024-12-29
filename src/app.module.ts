@@ -15,6 +15,7 @@ import typeormModule from './config/typeorm.module';
 import configModule from './config/config.module';
 import { FunctionModule } from './modules/function/function.module';
 import { FunctionParameterModule } from './modules/function-parameter/function-parameter.module';
+import { FlowIntegrationModule } from './modules/flow-integration/flow-integration.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { FunctionParameterModule } from './modules/function-parameter/function-p
     IntegrationModule,
     ClientModule,
     FunctionParameterModule,
+    FlowIntegrationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
