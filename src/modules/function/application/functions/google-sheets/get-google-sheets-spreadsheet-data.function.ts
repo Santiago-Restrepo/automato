@@ -1,3 +1,4 @@
+import { ClientKeys } from 'src/modules/client/domain/enums/client-keys.enum';
 import { StepFunction } from '..';
 
 interface GetGoogleSheetsSpreadsheetDataParams {
@@ -9,7 +10,9 @@ const getGoogleSheetsSpreadsheetData: StepFunction<
   GetGoogleSheetsSpreadsheetDataParams
 > = async ({ input, context }) => {
   const { spreadsheetId, range } = input;
-  const googleSheetsClient = context.clientService.getClient('GoogleSheets');
+  const googleSheetsClient = context.clientService.getClient(
+    ClientKeys.GoogleSheets,
+  );
   const data = await googleSheetsClient.getSpreadsheetData(
     spreadsheetId,
     range,

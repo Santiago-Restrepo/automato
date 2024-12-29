@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FlowIntegrationService } from './flow-integration.service';
+import { FlowIntegrationService } from '../../flow-integration/application/services/flow-integration.service';
 
 describe('FlowIntegrationService', () => {
   let service: FlowIntegrationService;

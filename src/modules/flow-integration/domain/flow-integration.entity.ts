@@ -1,4 +1,4 @@
-import { ClientMap } from 'src/modules/client/application/clients/types/client-map.type';
+import { ClientKeys } from 'src/modules/client/domain/enums/client-keys.enum';
 
 export class FlowIntegration {
   constructor(
@@ -10,6 +10,6 @@ export class FlowIntegration {
     public clientId: string,
     public clientSecret: string,
     public apiKey: string,
-    public integrationName: keyof ClientMap,
+    public integrationName: ClientKeys,
   ) {}
 }

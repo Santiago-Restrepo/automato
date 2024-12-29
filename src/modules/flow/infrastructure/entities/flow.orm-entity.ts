@@ -2,8 +2,8 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import BaseEntity from 'src/shared/base-entity.entity';
 import ExecutionOrmEntity from 'src/modules/execution/infrastructure/entities/execution.orm-entity';
 import StepOrmEntity from 'src/modules/step/infrastructure/entities/step.orm-entity';
-import FlowIntegrationOrmEntity from 'src/modules/integration/infrastructure/entities/flow-integration.orm-entity';
 import { TriggerOrmEntity } from 'src/modules/trigger/infrastructure/entities/trigger.orm-entity';
+import FlowIntegrationOrmEntity from 'src/modules/flow-integration/infrastructure/entities/flow-integration.orm-entity';
 
 @Entity({
   name: 'flows',

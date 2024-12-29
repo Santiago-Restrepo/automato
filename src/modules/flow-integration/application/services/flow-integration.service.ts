@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { FlowIntegrationRepository } from '../domain/ports/flow-integration.repository';
-import { FlowIntegration } from '../domain/entities/flow-integration.entity';
+import { FlowIntegrationRepository } from '../../../integration/domain/ports/flow-integration.repository';
+import { FlowIntegration } from '../../domain/flow-integration.entity';
 
 @Injectable()
 export class FlowIntegrationService {
