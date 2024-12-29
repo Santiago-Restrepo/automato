@@ -19,4 +19,39 @@ export class TriggerRepositoryImpl implements TriggerRepository {
     );
     return TriggerMapper.toDomain(trigger);
   }
+
+  create(
+    trigger: Pick<Trigger, 'isActive' | 'payloadKey' | 'flowId'> &
+      Partial<Trigger>,
+  ): Promise<Trigger> {
+    const triggerToSave = Trigger.create(trigger);
+    return this.save(triggerToSave);
+  }
+
+  async save(trigger: Trigger): Promise<Trigger> {
+    const triggerToSave = TriggerMapper.toOrm(trigger);
+    const savedEntity = await this.repository.save(triggerToSave);
+    return TriggerMapper.toDomain(savedEntity);
+  }
+
+  async update(
+    id: number,
+    updateTriggerDto: Partial<Trigger>,
+  ): Promise<Trigger> {
+    const triggerToUpdate = await this.findOneByOrFail({ id });
+    const updatedTrigger = { ...triggerToUpdate, ...updateTriggerDto };
+    return this.save(updatedTrigger);
+  }
+
+  async findAll(): Promise<Trigger[]> {
+    const ormEntities = await this.repository.find();
+    return ormEntities.map((ormEntity) => TriggerMapper.toDomain(ormEntity));
+  }
+
+  async findOne(query: Partial<Trigger>): Promise<Trigger | null> {
+    const ormEntity = await this.repository.findOneBy(
+      query as FindOptionsWhere<TriggerOrmEntity>,
+    );
+    return ormEntity ? TriggerMapper.toDomain(ormEntity) : null;
+  }
 }
