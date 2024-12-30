@@ -3,7 +3,6 @@ import FlowIntegrationOrmEntity from '../entities/flow-integration.orm-entity';
 
 export class FlowIntegrationMapper {
   static toDomain(entity: FlowIntegrationOrmEntity): FlowIntegration {
-    if (!entity.integration) throw new Error('Integration not found');
     return new FlowIntegration(
       entity.id,
       entity.integrationId,
@@ -13,7 +12,7 @@ export class FlowIntegrationMapper {
       entity.clientId,
       entity.clientSecret,
       entity.apiKey,
-      entity.integration.name,
+      entity.integration?.name,
     );
   }
 

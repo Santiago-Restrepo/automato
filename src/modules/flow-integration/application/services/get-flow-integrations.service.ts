@@ -3,7 +3,7 @@ import { FlowIntegrationRepository } from '../../../integration/domain/ports/flo
 import { FlowIntegration } from '../../domain/flow-integration.entity';
 
 @Injectable()
-export class FlowIntegrationService {
+export class GetFlowIntegrationService {
   constructor(
     @Inject('FlowIntegrationRepository')
     private readonly flowIntegrationRepository: FlowIntegrationRepository,

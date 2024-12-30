@@ -13,6 +13,7 @@ import { CreateFlowService } from '../application/services/create-flow.service';
 import { CreateFlowDto } from '../application/dtos/create-flow.dto';
 import { UpdateFlowDto } from '../application/dtos/update-flow.dto';
 import { UpdateFlowService } from '../application/services/update-flow.service';
+import { GetFlowIntegrationService } from 'src/modules/flow-integration/application/services/get-flow-integrations.service';
 
 @Controller('flow')
 export class FlowController {
@@ -21,6 +22,7 @@ export class FlowController {
     private readonly getFlowService: GetFlowService,
     private readonly createFlowService: CreateFlowService,
     private readonly updateFlowService: UpdateFlowService,
+    private readonly getFlowIntegrationsService: GetFlowIntegrationService,
   ) {}
 
   @Post('run/:id')

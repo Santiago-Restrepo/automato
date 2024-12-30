@@ -5,11 +5,31 @@ export class FlowIntegration {
     public readonly id: number,
     public integrationId: number,
     public flowId: number,
-    public clientEmail: string,
-    public privateKey: string,
-    public clientId: string,
-    public clientSecret: string,
-    public apiKey: string,
-    public integrationName: ClientKeys,
+    public clientEmail: string | null,
+    public privateKey: string | null,
+    public clientId: string | null,
+    public clientSecret: string | null,
+    public apiKey: string | null,
+    public integrationName?: ClientKeys,
   ) {}
+
+  static create(
+    props: Pick<
+      FlowIntegration,
+      'integrationId' | 'flowId' | 'integrationName'
+    > &
+      Partial<FlowIntegration>,
+  ): FlowIntegration {
+    return new FlowIntegration(
+      0,
+      props.integrationId,
+      props.flowId,
+      props.clientEmail ?? null,
+      props.privateKey ?? null,
+      props.clientId ?? null,
+      props.clientSecret ?? null,
+      props.apiKey ?? null,
+      props.integrationName,
+    );
+  }
 }

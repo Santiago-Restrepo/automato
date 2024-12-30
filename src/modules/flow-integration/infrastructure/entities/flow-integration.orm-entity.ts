@@ -1,11 +1,12 @@
 import BaseEntity from 'src/shared/base-entity.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, Index, ManyToOne } from 'typeorm';
 import FlowOrmEntity from 'src/modules/flow/infrastructure/entities/flow.orm-entity';
 import IntegrationOrmEntity from 'src/modules/integration/infrastructure/entities/integration.orm-entity';
 
 @Entity({
   name: 'flow_integrations',
 })
+@Index(['integrationId', 'flowId'], { unique: true })
 export default class FlowIntegrationOrmEntity extends BaseEntity {
   @Column({ type: 'int' })
   integrationId: number;
@@ -14,19 +15,19 @@ export default class FlowIntegrationOrmEntity extends BaseEntity {
   flowId: number;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  clientEmail: string;
+  clientEmail: string | null;
 
   @Column({ type: 'json', nullable: true })
-  privateKey: string;
+  privateKey: string | null;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  clientId: string;
+  clientId: string | null;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  clientSecret: string;
+  clientSecret: string | null;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  apiKey: string;
+  apiKey: string | null;
 
   @ManyToOne(
     () => IntegrationOrmEntity,
