@@ -14,6 +14,7 @@ import { CreateFlowDto } from '../application/dtos/create-flow.dto';
 import { UpdateFlowDto } from '../application/dtos/update-flow.dto';
 import { UpdateFlowService } from '../application/services/update-flow.service';
 import { GetFlowIntegrationService } from 'src/modules/flow-integration/application/services/get-flow-integrations.service';
+import { GetStepService } from 'src/modules/step/application/services/get-step.service';
 
 @Controller('flow')
 export class FlowController {
@@ -23,6 +24,7 @@ export class FlowController {
     private readonly createFlowService: CreateFlowService,
     private readonly updateFlowService: UpdateFlowService,
     private readonly getFlowIntegrationsService: GetFlowIntegrationService,
+    private readonly getStepService: GetStepService,
   ) {}
 
   @Post('run/:id')
@@ -51,5 +53,15 @@ export class FlowController {
     @Body() updateFlowDto: UpdateFlowDto,
   ) {
     return this.updateFlowService.update(id, updateFlowDto);
+  }
+
+  @Get(':id/integrations')
+  async getFlowIntegrations(@Param('id', ParseIntPipe) id: number) {
+    return this.getFlowIntegrationsService.getFlowIntegrations(id);
+  }
+
+  @Get(':id/steps')
+  async getFlowSteps(@Param('id', ParseIntPipe) id: number) {
+    return this.getStepService.getByFlowId(id);
   }
 }

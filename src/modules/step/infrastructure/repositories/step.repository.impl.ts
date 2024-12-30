@@ -18,9 +18,37 @@ export class StepRepositoryImpl implements StepRepository {
     return ormEntity ? StepMapper.toDomain(ormEntity) : null;
   }
 
+  async findByFlowId(flowId: number): Promise<Step[]> {
+    const ormEntities = await this.repository.find({
+      where: { flowId },
+      order: { order: 'ASC' },
+    });
+    return ormEntities.map((ormEntity) => StepMapper.toDomain(ormEntity));
+  }
+
+  create(step: Pick<Step, 'flowId' | 'order'> & Partial<Step>): Promise<Step> {
+    const stepToSave = Step.create(step);
+    return this.save(stepToSave);
+  }
+
   async save(step: Step): Promise<Step> {
     const ormEntity = StepMapper.toOrm(step);
     const savedEntity = await this.repository.save(ormEntity);
     return StepMapper.toDomain(savedEntity);
+  }
+
+  async update(id: number, step: Partial<Step>): Promise<Step> {
+    const stepToUpdate = await this.findById(id);
+    if (!stepToUpdate) {
+      throw new Error(`Step with id ${id} not found`);
+    }
+    const updatedStep = { ...stepToUpdate, ...step };
+    const ormEntity = StepMapper.toOrm(updatedStep);
+    const savedEntity = await this.repository.save(ormEntity);
+    return StepMapper.toDomain(savedEntity);
+  }
+
+  async delete(id: number): Promise<void> {
+    await this.repository.softDelete(id);
   }
 }
