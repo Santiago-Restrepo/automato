@@ -13,6 +13,8 @@ export class ClientService {
 
   initialize(flowIntegrations: FlowIntegration[]) {
     flowIntegrations.forEach((flowIntegration) => {
+      if (!flowIntegration.integrationName)
+        throw new Error('Missing integration name');
       if (!this.clients.has(flowIntegration.integrationName)) {
         this.clients.set(
           flowIntegration.integrationName,
@@ -27,11 +29,11 @@ export class ClientService {
   private createClient<K extends keyof ClientMap>(
     name: ClientKeys,
     credentials: {
-      apiKey: string;
-      clientId?: string;
-      clientSecret?: string;
-      clientEmail?: string;
-      privateKey?: string;
+      apiKey: string | null;
+      clientId?: string | null;
+      clientSecret?: string | null;
+      clientEmail?: string | null;
+      privateKey?: string | null;
     },
   ): ClientMap[K] {
     const { apiKey, clientEmail, privateKey } = credentials;
@@ -39,6 +41,10 @@ export class ClientService {
       case 'Shopify':
         return new ShopifyClient(apiKey) as ClientMap[K];
       case 'GoogleSheets':
+        if (!clientEmail || !privateKey)
+          throw new Error(
+            'Missing required credentials: clientEmail and privateKey',
+          );
         return new GoogleSheetsClient({
           clientEmail,
           privateKey,

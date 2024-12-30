@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
 import { FlowIntegrationRepositoryImpl } from './infrastructure/repositories/flow-integration.repository.impl';
-import { FlowIntegrationService } from './application/services/flow-integration.service';
+import { CreateFlowIntegrationService } from './application/services/create-flow-integration.service';
+import { UpdateFlowIntegrationService } from './application/services/update-flow-integration.service';
+import { DeleteFlowIntegrationService } from './application/services/delete-flow-integration.service';
+import { FlowIntegrationController } from './infrastructure/flow-integration.controller';
+import { GetFlowIntegrationService } from './application/services/get-flow-integrations.service';
 
 @Module({
   providers: [
@@ -8,8 +12,12 @@ import { FlowIntegrationService } from './application/services/flow-integration.
       provide: 'FlowIntegrationRepository',
       useClass: FlowIntegrationRepositoryImpl,
     },
-    FlowIntegrationService,
+    GetFlowIntegrationService,
+    CreateFlowIntegrationService,
+    UpdateFlowIntegrationService,
+    DeleteFlowIntegrationService,
   ],
-  exports: [FlowIntegrationService],
+  exports: [GetFlowIntegrationService],
+  controllers: [FlowIntegrationController],
 })
 export class FlowIntegrationModule {}

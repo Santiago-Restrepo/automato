@@ -9,6 +9,7 @@ import { ExecutionModule } from '../execution/execution.module';
 import { GetFlowService } from './application/services/get-flow.service';
 import { CreateFlowService } from './application/services/create-flow.service';
 import { UpdateFlowService } from './application/services/update-flow.service';
+import { FlowIntegrationModule } from '../flow-integration/flow-integration.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UpdateFlowService } from './application/services/update-flow.service';
     FlowExecutionModule,
     StepExecutionModule,
     ExecutionModule,
+    FlowIntegrationModule,
   ],
   providers: [
     RunFlowService,
