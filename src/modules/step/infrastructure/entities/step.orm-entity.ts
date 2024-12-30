@@ -8,7 +8,7 @@ import FunctionBlockOrmEntity from 'src/modules/function/infrastructure/entities
 @Entity({ name: 'steps' })
 export default class StepOrmEntity extends BaseEntity {
   @Column({ type: 'text', nullable: true })
-  description: string;
+  description: string | null;
 
   @Column({ type: 'int' })
   order: number;
@@ -17,7 +17,7 @@ export default class StepOrmEntity extends BaseEntity {
   flowId: number;
 
   @Column('int', { nullable: true })
-  functionId: number;
+  functionId: number | null;
 
   @OneToMany(() => StepParameterOrmEntity, (parameter) => parameter.inputStep)
   parameters: StepParameterOrmEntity[];
@@ -26,7 +26,7 @@ export default class StepOrmEntity extends BaseEntity {
   flow: FlowOrmEntity | null;
 
   @ManyToOne(() => FunctionBlockOrmEntity)
-  function: FunctionBlockOrmEntity;
+  function: FunctionBlockOrmEntity | null;
 
   @OneToMany(
     () => ExecutionOrmEntity<StepOrmEntity>,
