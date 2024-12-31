@@ -3,7 +3,11 @@ import FunctionBlockOrmEntity from '../entities/function-block.orm-entity';
 
 export class FunctionBlockMapper {
   static toDomain(ormEntity: FunctionBlockOrmEntity): FunctionBlock {
-    return new FunctionBlock(ormEntity.name, ormEntity.description);
+    return new FunctionBlock(
+      ormEntity.id,
+      ormEntity.name,
+      ormEntity.description,
+    );
   }
 
   static toOrm(domain: FunctionBlock): FunctionBlockOrmEntity {
