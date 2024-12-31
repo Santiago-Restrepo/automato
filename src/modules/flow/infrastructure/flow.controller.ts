@@ -32,7 +32,7 @@ export class FlowController {
     return this.runFlowService.run(id);
   }
 
-  @Get('all')
+  @Get()
   async getAllFlows() {
     return this.getFlowService.getAllFlows();
   }
