@@ -62,7 +62,6 @@ export class FlowIntegrationRepositoryImpl
   }
 
   async delete(id: number): Promise<void> {
-    const result = await this.repository.softDelete(id);
-    console.log(result);
+    await this.repository.softDelete(id);
   }
 }

@@ -5,8 +5,10 @@ import { CreateStepService } from './application/services/create-step.service';
 import { UpdateStepService } from './application/services/update-step.service';
 import { DeleteStepService } from './application/services/delete-step.service';
 import { StepController } from './infrastructure/step.controller';
+import { StepParameterModule } from '../step-parameter/step-parameter.module';
 
 @Module({
+  imports: [StepParameterModule],
   providers: [
     {
       provide: 'StepRepository',

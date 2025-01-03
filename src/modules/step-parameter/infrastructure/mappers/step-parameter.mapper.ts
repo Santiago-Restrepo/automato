@@ -7,6 +7,7 @@ export class StepParameterMapper {
       ormEntity.id,
       ormEntity.value,
       ormEntity.inputStepId,
+      ormEntity.outputStepId,
       ormEntity.functionParameterId,
       ormEntity.functionParameter,
     );
