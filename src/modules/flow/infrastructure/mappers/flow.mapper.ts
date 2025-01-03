@@ -5,7 +5,13 @@ import FlowOrmEntity from '../entities/flow.orm-entity';
 export class FlowMapper {
   static toDomain(entity: FlowOrmEntity): Flow {
     const steps = entity.steps?.map(StepMapper.toDomain);
-    return new Flow(entity.id, entity.name, steps);
+    return new Flow(
+      entity.id,
+      entity.name,
+      entity.createdAt,
+      entity.updatedAt,
+      steps,
+    );
   }
 
   static toOrm(domain: Flow): FlowOrmEntity {

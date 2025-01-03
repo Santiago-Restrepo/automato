@@ -7,24 +7,27 @@ import { Execution } from 'src/modules/execution/domain/entities/execution.entit
 import { StepParameter } from '../domain/entities/step-parameter.entity';
 
 @Injectable()
-export class StepParameterService {
+export class stepParameterInExecutionService {
   constructor(
     @Inject('StepParameterRepository')
     private readonly stepParameterRepository: StepParameterRepository,
   ) {}
 
-  getStepParameters(
+  getStepParametersByExecution(
     step: Step,
     flowExecution: Execution<Flow>,
   ): Promise<StepParameter[]> {
-    return this.stepParameterRepository.getStepParameters(step, flowExecution);
+    return this.stepParameterRepository.getByExecution(step, flowExecution);
   }
 
   async getStepInputFromParameters(
     step: Step,
     flowExecution: Execution<Flow>,
   ): Promise<ParameterValue> {
-    const stepParameters = await this.getStepParameters(step, flowExecution);
+    const stepParameters = await this.getStepParametersByExecution(
+      step,
+      flowExecution,
+    );
     const evaluatedParams = await this.#evaluateParams(
       stepParameters,
       flowExecution.parentExecution,

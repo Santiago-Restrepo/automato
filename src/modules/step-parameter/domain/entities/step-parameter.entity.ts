@@ -6,6 +6,7 @@ export class StepParameter {
     public readonly id: number,
     public value: ParameterValue,
     public inputStepId: number,
+    public outputStepId: number | null,
     public functionParameterId: number,
     public functionParameter: FunctionParameter,
   ) {}

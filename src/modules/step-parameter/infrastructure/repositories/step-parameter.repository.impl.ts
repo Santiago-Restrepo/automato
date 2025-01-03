@@ -16,7 +16,7 @@ export class StepParameterRepositoryImpl implements StepParameterRepository {
     this.repository = this.datasource.getRepository(StepParameterOrmEntity);
   }
 
-  async getStepParameters(
+  async getByExecution(
     step: Step,
     flowExecution: Execution<Flow>,
   ): Promise<StepParameter[]> {
@@ -47,5 +47,13 @@ export class StepParameterRepositoryImpl implements StepParameterRepository {
     );
 
     return ormStepParameters.map(StepParameterMapper.toDomain);
+  }
+
+  async getByStep(stepId: number): Promise<StepParameter[]> {
+    const parameters = await this.repository.find({
+      where: { inputStepId: stepId },
+    });
+
+    return parameters.map(StepParameterMapper.toDomain);
   }
 }

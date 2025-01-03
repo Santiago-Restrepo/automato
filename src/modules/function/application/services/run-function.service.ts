@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import functions, { StepFunctions } from './functions';
+import functions, { StepFunctions } from '../functions';
 import { ClientService } from 'src/modules/client/application/client.service';
 import { Execution } from 'src/modules/execution/domain/entities/execution.entity';
 import { Step } from 'src/modules/step/domain/entities/step.entity';

@@ -4,10 +4,10 @@ import { Flow } from 'src/modules/flow/domain/entities/flow.entity';
 import { StepParameter } from '../entities/step-parameter.entity';
 
 export interface StepParameterRepository {
-  getStepParameters(
+  getByExecution(
     step: Step,
     flowExecution: Execution<Flow>,
   ): Promise<StepParameter[]>;
 
-  // save(parameter: StepParameter): Promise<StepParameter>;
+  getByStep(stepId: number): Promise<StepParameter[]>;
 }
