@@ -20,7 +20,7 @@ export class StepRepositoryImpl implements StepRepository {
 
   async findByFlowId(flowId: number): Promise<Step[]> {
     const ormEntities = await this.repository.find({
-      relations: { parameters: true, function: true },
+      relations: { parameters: { functionParameter: true }, function: true },
       where: { flowId },
       order: { order: 'ASC' },
     });
