@@ -1,3 +1,4 @@
+import { FunctionParameterMapper } from 'src/modules/function-parameter/infrastructure/mappers/fuction-parameter.mapper';
 import { FunctionBlock } from '../../domain/entities/function-block.entity';
 import FunctionBlockOrmEntity from '../entities/function-block.orm-entity';
 
@@ -7,6 +8,7 @@ export class FunctionBlockMapper {
       ormEntity.id,
       ormEntity.name,
       ormEntity.description,
+      ormEntity.parameters?.map(FunctionParameterMapper.toDomain),
     );
   }
 
