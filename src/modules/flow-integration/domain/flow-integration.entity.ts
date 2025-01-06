@@ -4,7 +4,7 @@ export class FlowIntegration {
   constructor(
     public readonly id: number,
     public integrationId: number,
-    public flowId: number,
+    public flowVersionId: string,
     public clientEmail: string | null,
     public privateKey: string | null,
     public clientId: string | null,
@@ -16,14 +16,14 @@ export class FlowIntegration {
   static create(
     props: Pick<
       FlowIntegration,
-      'integrationId' | 'flowId' | 'integrationName'
+      'integrationId' | 'flowVersionId' | 'integrationName'
     > &
       Partial<FlowIntegration>,
   ): FlowIntegration {
     return new FlowIntegration(
       0,
       props.integrationId,
-      props.flowId,
+      props.flowVersionId,
       props.clientEmail ?? null,
       props.privateKey ?? null,
       props.clientId ?? null,

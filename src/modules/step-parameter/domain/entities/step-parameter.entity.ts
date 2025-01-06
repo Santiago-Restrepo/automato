@@ -5,8 +5,8 @@ export class StepParameter {
   constructor(
     public readonly id: number,
     public value: ParameterValue,
-    public inputStepId: number,
-    public outputStepId: number | null,
+    public inputStepId: string,
+    public outputStepId: string | null,
     public functionParameterId: number,
     public functionParameter: FunctionParameter,
   ) {}

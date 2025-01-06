@@ -10,9 +10,9 @@ export class StepMapper {
       stepOrm.id,
       stepOrm.description,
       stepOrm.order,
-      stepOrm.flowId,
+      stepOrm.flowVersionId,
       stepOrm.functionId,
-      stepOrm.flow ? FlowMapper.toDomain(stepOrm.flow) : null,
+      stepOrm.flowVersion ? FlowMapper.toDomain(stepOrm.flowVersion) : null,
       stepOrm.parameters
         ? stepOrm.parameters.map(StepParameterMapper.toDomain)
         : null,
@@ -25,7 +25,7 @@ export class StepMapper {
     ormEntity.id = step.id;
     ormEntity.description = step.description;
     ormEntity.order = step.order;
-    ormEntity.flowId = step.flowId;
+    ormEntity.flowVersionId = step.flowVersionId;
     ormEntity.functionId = step.functionId;
     return ormEntity;
   }

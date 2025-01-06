@@ -1,10 +1,10 @@
-import { Flow } from '../entities/flow.entity';
+import { FlowVersion } from '../entities/flow.entity';
 
 export interface FlowRepository {
-  findAll(): Promise<Flow[]>;
-  findOne(query: Partial<Flow>): Promise<Flow | null>;
-  findFlowToRun(id: number): Promise<Flow>;
-  create(flow: Partial<Flow>): Promise<Flow>;
-  update(id: number, flow: Partial<Flow>): Promise<Flow>;
-  save(flow: Flow): Promise<Flow>;
+  findAll(): Promise<FlowVersion[]>;
+  findOne(query: Partial<FlowVersion>): Promise<FlowVersion | null>;
+  findFlowToRun(flowId: number): Promise<FlowVersion>;
+  create(flow: Partial<FlowVersion>): Promise<FlowVersion>;
+  update(flowId: number, flow: Partial<FlowVersion>): Promise<FlowVersion>;
+  save(flow: FlowVersion): Promise<FlowVersion>;
 }

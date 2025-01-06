@@ -8,7 +8,7 @@ export class TriggerMapper {
       ormEntity.description,
       ormEntity.isActive,
       ormEntity.payloadKey,
-      ormEntity.flowId,
+      ormEntity.flowVersionId,
     );
   }
 
@@ -18,7 +18,7 @@ export class TriggerMapper {
     trigger.description = domain.description;
     trigger.isActive = domain.isActive;
     trigger.payloadKey = domain.payloadKey;
-    trigger.flowId = domain.flowId;
+    trigger.flowVersionId = domain.flowVersionId;
     return trigger;
   }
 }

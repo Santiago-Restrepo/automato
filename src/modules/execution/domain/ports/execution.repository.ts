@@ -6,8 +6,8 @@ export type createExecutionDto = {
   type: ExecutionType;
   parentExecutionId?: number | null;
   referenceTriggerId?: number | null;
-  referenceFlowId?: number | null;
-  referenceStepId?: number | null;
+  referenceFlowId?: string | null;
+  referenceStepId?: string | null;
   input?: ParameterValue | null;
   output?: ParameterValue | null;
 };

@@ -6,13 +6,13 @@ import IntegrationOrmEntity from 'src/modules/integration/infrastructure/entitie
 @Entity({
   name: 'flow_integrations',
 })
-@Index(['integrationId', 'flowId'], { unique: true })
+@Index(['integrationId', 'flowVersionId'], { unique: true })
 export default class FlowIntegrationOrmEntity extends BaseEntity {
   @Column({ type: 'int' })
   integrationId: number;
 
-  @Column({ type: 'int' })
-  flowId: number;
+  @Column({ type: 'varchar' })
+  flowVersionId: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   clientEmail: string | null;

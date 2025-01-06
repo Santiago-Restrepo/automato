@@ -20,7 +20,9 @@ export class RunFunctionService {
     if (!step?.flow)
       throw new Error('Step or flow not found in step execution');
     const flowIntegrations =
-      await this.getFlowIntegrationService.getFlowIntegrations(step?.flowId);
+      await this.getFlowIntegrationService.getFlowIntegrations(
+        step?.flowVersionId,
+      );
     this.clientService.initialize(flowIntegrations);
     const stepFunction = this.#getStepFunction(step);
     if (!stepFunction)

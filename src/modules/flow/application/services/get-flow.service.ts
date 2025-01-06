@@ -12,11 +12,11 @@ export class GetFlowService {
     return this.flowRepository.findAll();
   }
 
-  async getFlow(id: number) {
-    const flow = await this.flowRepository.findOne({ id });
+  async getFlow(flowId: number) {
+    const flow = await this.flowRepository.findOne({ flowId });
 
     if (!flow) {
-      throw new NotFoundException(`Flow with id ${id} not found`);
+      throw new NotFoundException(`Flow with id ${flowId} not found`);
     }
 
     return flow;

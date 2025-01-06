@@ -13,7 +13,6 @@ import { CreateFlowService } from '../application/services/create-flow.service';
 import { CreateFlowDto } from '../application/dtos/create-flow.dto';
 import { UpdateFlowDto } from '../application/dtos/update-flow.dto';
 import { UpdateFlowService } from '../application/services/update-flow.service';
-import { GetFlowIntegrationService } from 'src/modules/flow-integration/application/services/get-flow-integrations.service';
 import { GetStepService } from 'src/modules/step/application/services/get-step.service';
 
 @Controller('flow')
@@ -23,7 +22,6 @@ export class FlowController {
     private readonly getFlowService: GetFlowService,
     private readonly createFlowService: CreateFlowService,
     private readonly updateFlowService: UpdateFlowService,
-    private readonly getFlowIntegrationsService: GetFlowIntegrationService,
     private readonly getStepService: GetStepService,
   ) {}
 
@@ -37,9 +35,9 @@ export class FlowController {
     return this.getFlowService.getAllFlows();
   }
 
-  @Get(':id')
-  async getFlow(@Param('id', ParseIntPipe) id: number) {
-    return this.getFlowService.getFlow(id);
+  @Get(':flowId')
+  async getFlow(@Param('flowId', ParseIntPipe) flowId: number) {
+    return this.getFlowService.getFlow(flowId);
   }
 
   @Post()
@@ -55,13 +53,8 @@ export class FlowController {
     return this.updateFlowService.update(id, updateFlowDto);
   }
 
-  @Get(':id/integrations')
-  async getFlowIntegrations(@Param('id', ParseIntPipe) id: number) {
-    return this.getFlowIntegrationsService.getFlowIntegrations(id);
-  }
-
-  @Get(':id/steps')
-  async getFlowSteps(@Param('id', ParseIntPipe) id: number) {
-    return this.getStepService.getByFlowId(id);
+  @Get(':flowId/steps')
+  async getFlowSteps(@Param('flowId', ParseIntPipe) flowId: number) {
+    return this.getStepService.getByFlowId(flowId);
   }
 }

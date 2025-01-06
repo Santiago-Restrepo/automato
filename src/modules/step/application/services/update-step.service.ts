@@ -10,7 +10,7 @@ export class UpdateStepService {
     private readonly stepRepository: StepRepository,
   ) {}
 
-  async update(id: number, step: UpdateStepDto): Promise<Step> {
+  async update(id: string, step: UpdateStepDto): Promise<Step> {
     return this.stepRepository.update(id, step);
   }
 }

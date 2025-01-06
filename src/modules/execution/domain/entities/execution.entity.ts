@@ -1,7 +1,7 @@
 import ExecutionStatus from '../enums/execution-status.enum';
 import ExecutionType from '../enums/execution-type.enum';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
-import { Flow } from 'src/modules/flow/domain/entities/flow.entity';
+import { FlowVersion } from 'src/modules/flow/domain/entities/flow.entity';
 import { Step } from 'src/modules/step/domain/entities/step.entity';
 import { Trigger } from 'src/modules/trigger/domain/entities/trigger.entity';
 
@@ -12,8 +12,8 @@ export class Execution<T = any> {
     public type: ExecutionType,
     public parentExecutionId: number | null,
     public referenceTriggerId: number | null,
-    public referenceFlowId: number | null,
-    public referenceStepId: number | null,
+    public referenceFlowId: string | null,
+    public referenceStepId: string | null,
     public status: ExecutionStatus,
     public errorMessage: string | null | undefined,
     public input: ParameterValue | null | undefined,
@@ -22,7 +22,7 @@ export class Execution<T = any> {
     public finishedAt: Date | null,
     public parentExecution: Execution<any> | null = null,
     public referenceTrigger: Trigger | null = null,
-    public referenceFlow: Flow | null = null,
+    public referenceFlow: FlowVersion | null = null,
     public referenceStep: Step | null = null,
   ) {}
 
@@ -31,8 +31,8 @@ export class Execution<T = any> {
     type: ExecutionType;
     parentExecutionId?: number | null;
     referenceTriggerId?: number | null;
-    referenceFlowId?: number | null;
-    referenceStepId?: number | null;
+    referenceFlowId?: string | null;
+    referenceStepId?: string | null;
     input?: ParameterValue | null;
     output?: ParameterValue | null;
   }): Execution<T> {

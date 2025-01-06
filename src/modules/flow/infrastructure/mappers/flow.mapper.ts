@@ -1,12 +1,14 @@
 import { StepMapper } from 'src/modules/step/infrastructure/mappers/step.mapper';
-import { Flow } from '../../domain/entities/flow.entity';
+import { FlowVersion } from '../../domain/entities/flow.entity';
 import FlowOrmEntity from '../entities/flow.orm-entity';
 
 export class FlowMapper {
-  static toDomain(entity: FlowOrmEntity): Flow {
+  static toDomain(entity: FlowOrmEntity): FlowVersion {
     const steps = entity.steps?.map(StepMapper.toDomain);
-    return new Flow(
+    return new FlowVersion(
       entity.id,
+      entity.flowId,
+      entity.version,
       entity.name,
       entity.createdAt,
       entity.updatedAt,
@@ -14,9 +16,11 @@ export class FlowMapper {
     );
   }
 
-  static toOrm(domain: Flow): FlowOrmEntity {
+  static toOrm(domain: FlowVersion): FlowOrmEntity {
     const flow = new FlowOrmEntity();
     flow.id = domain.id;
+    flow.flowId = domain.flowId;
+    flow.version = domain.version;
     flow.name = domain.name;
     return flow;
   }

@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -30,20 +29,17 @@ export class StepController {
   }
 
   @Get(':id/parameters')
-  async getParameters(@Param('id', ParseIntPipe) id: number) {
+  async getParameters(@Param('id') id: string) {
     return this.getStepParameterService.getByStep(id);
   }
 
   @Patch(':id')
-  async update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateStepDto: UpdateStepDto,
-  ) {
+  async update(@Param('id') id: string, @Body() updateStepDto: UpdateStepDto) {
     return this.updateStepService.update(id, updateStepDto);
   }
 
   @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: number) {
+  async delete(@Param('id') id: string) {
     return this.deleteStepService.delete(id);
   }
 }

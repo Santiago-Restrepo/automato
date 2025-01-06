@@ -4,6 +4,7 @@ import StepOrmEntity from '../entities/step.orm-entity';
 import { StepRepository } from '../../domain/ports/step.repository';
 import { Step } from '../../domain/entities/step.entity';
 import { StepMapper } from '../mappers/step.mapper';
+import FlowOrmEntity from 'src/modules/flow/infrastructure/entities/flow.orm-entity';
 
 @Injectable()
 export class StepRepositoryImpl implements StepRepository {
@@ -13,21 +14,29 @@ export class StepRepositoryImpl implements StepRepository {
     this.repository = this.datasource.getRepository(StepOrmEntity);
   }
 
-  async findById(id: number): Promise<Step | null> {
+  async findById(id: string): Promise<Step | null> {
     const ormEntity = await this.repository.findOne({ where: { id } });
     return ormEntity ? StepMapper.toDomain(ormEntity) : null;
   }
 
   async findByFlowId(flowId: number): Promise<Step[]> {
+    const lastFlowVersion = await this.datasource
+      .getRepository(FlowOrmEntity)
+      .findOneOrFail({
+        where: { flowId },
+        order: { version: 'DESC' },
+      });
     const ormEntities = await this.repository.find({
       relations: { parameters: { functionParameter: true }, function: true },
-      where: { flowId },
+      where: { flowVersionId: lastFlowVersion.id },
       order: { order: 'ASC' },
     });
     return ormEntities.map((ormEntity) => StepMapper.toDomain(ormEntity));
   }
 
-  create(step: Pick<Step, 'flowId' | 'order'> & Partial<Step>): Promise<Step> {
+  create(
+    step: Pick<Step, 'flowVersionId' | 'order'> & Partial<Step>,
+  ): Promise<Step> {
     const stepToSave = Step.create(step);
     return this.save(stepToSave);
   }
@@ -38,7 +47,7 @@ export class StepRepositoryImpl implements StepRepository {
     return StepMapper.toDomain(savedEntity);
   }
 
-  async update(id: number, step: Partial<Step>): Promise<Step> {
+  async update(id: string, step: Partial<Step>): Promise<Step> {
     const stepToUpdate = await this.findById(id);
     if (!stepToUpdate) {
       throw new Error(`Step with id ${id} not found`);
@@ -49,7 +58,7 @@ export class StepRepositoryImpl implements StepRepository {
     return StepMapper.toDomain(savedEntity);
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     await this.repository.softDelete(id);
   }
 }
