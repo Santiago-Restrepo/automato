@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { StepParameterRepository } from '../domain/ports/step-parameter.repository';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
 import { Step } from 'src/modules/step/domain/entities/step.entity';
-import { Flow } from 'src/modules/flow/domain/entities/flow.entity';
+import { FlowVersion } from 'src/modules/flow/domain/entities/flow.entity';
 import { Execution } from 'src/modules/execution/domain/entities/execution.entity';
 import { StepParameter } from '../domain/entities/step-parameter.entity';
 
@@ -15,14 +15,14 @@ export class stepParameterInExecutionService {
 
   getStepParametersByExecution(
     step: Step,
-    flowExecution: Execution<Flow>,
+    flowExecution: Execution<FlowVersion>,
   ): Promise<StepParameter[]> {
     return this.stepParameterRepository.getByExecution(step, flowExecution);
   }
 
   async getStepInputFromParameters(
     step: Step,
-    flowExecution: Execution<Flow>,
+    flowExecution: Execution<FlowVersion>,
   ): Promise<ParameterValue> {
     const stepParameters = await this.getStepParametersByExecution(
       step,

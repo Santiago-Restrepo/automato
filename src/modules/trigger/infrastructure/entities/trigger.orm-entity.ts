@@ -16,8 +16,8 @@ export class TriggerOrmEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
   payloadKey: string;
 
-  @Column({ type: 'int' })
-  flowId: number;
+  @Column({ type: 'varchar' })
+  flowVersionId: string;
 
   @ManyToOne(() => FlowOrmEntity, (flow) => flow.triggers)
   flow: FlowOrmEntity;

@@ -16,11 +16,11 @@ export class FlowIntegrationRepositoryImpl
     this.repository = this.datasource.getRepository(FlowIntegrationOrmEntity);
   }
 
-  async findByFlowId(flowId: number): Promise<FlowIntegration[]> {
+  async findByFlowVersionId(flowVersionId: string): Promise<FlowIntegration[]> {
     const ormEntites = await this.repository.find({
       relations: ['integration'],
       where: {
-        flowId,
+        flowVersionId,
       },
     });
 
@@ -30,7 +30,7 @@ export class FlowIntegrationRepositoryImpl
   create(
     flowIntegration: Pick<
       FlowIntegration,
-      'integrationId' | 'flowId' | 'integrationName'
+      'integrationId' | 'flowVersionId' | 'integrationName'
     > &
       Partial<FlowIntegration>,
   ): Promise<FlowIntegration> {

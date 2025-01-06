@@ -6,7 +6,7 @@ export class FlowIntegrationMapper {
     return new FlowIntegration(
       entity.id,
       entity.integrationId,
-      entity.flowId,
+      entity.flowVersionId,
       entity.clientEmail,
       entity.privateKey,
       entity.clientId,
@@ -20,7 +20,7 @@ export class FlowIntegrationMapper {
     const flowIntegration = new FlowIntegrationOrmEntity();
     flowIntegration.id = domain.id;
     flowIntegration.integrationId = domain.integrationId;
-    flowIntegration.flowId = domain.flowId;
+    flowIntegration.flowVersionId = domain.flowVersionId;
     flowIntegration.clientEmail = domain.clientEmail;
     flowIntegration.privateKey = domain.privateKey;
     flowIntegration.clientId = domain.clientId;

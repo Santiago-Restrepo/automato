@@ -2,7 +2,7 @@ import { DataSource, Repository } from 'typeorm';
 import FlowOrmEntity from '../entities/flow.orm-entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { FlowRepository } from '../../domain/ports/flow.repository';
-import { Flow } from '../../domain/entities/flow.entity';
+import { FlowVersion } from '../../domain/entities/flow.entity';
 import { FlowMapper } from '../mappers/flow.mapper';
 
 @Injectable()
@@ -13,50 +13,60 @@ export class FlowRepositoryImpl implements FlowRepository {
     this.repository = this.datasource.getRepository(FlowOrmEntity);
   }
 
-  async findAll(): Promise<Flow[]> {
+  async findAll(): Promise<FlowVersion[]> {
     const ormEntities = await this.repository.find();
     return ormEntities.map((ormEntity) => FlowMapper.toDomain(ormEntity));
   }
 
-  async findOne(query: Partial<Flow>): Promise<Flow | null> {
+  async findOne(query: Partial<FlowVersion>): Promise<FlowVersion | null> {
     const ormEntity = await this.repository.findOne({
       where: query as any,
       relations: { steps: true },
+      order: { version: 'DESC' },
     });
     return ormEntity ? FlowMapper.toDomain(ormEntity) : null;
   }
 
-  create(flow: Partial<Flow>): Promise<Flow> {
-    const flowToSave = Flow.create(flow);
+  create(flow: Partial<FlowVersion>): Promise<FlowVersion> {
+    const flowToSave = FlowVersion.create(flow);
     return this.save(flowToSave);
   }
 
-  async save(flow: Flow): Promise<Flow> {
+  async save(flow: FlowVersion): Promise<FlowVersion> {
     const ormEntity = FlowMapper.toOrm(flow);
     const savedEntity = await this.repository.save(ormEntity);
     return FlowMapper.toDomain(savedEntity);
   }
 
-  async update(id: number, flow: Partial<Flow>): Promise<Flow> {
-    const flowToUpdate = await this.findOne({ id });
+  async update(
+    flowId: number,
+    flow: Partial<FlowVersion>,
+  ): Promise<FlowVersion> {
+    if (!flow.version) throw new Error('Flow version is required');
+    const flowToUpdate = await this.findOne({ flowId, version: flow.version });
 
     if (!flowToUpdate)
-      throw new NotFoundException(`Flow with id ${id} not found`);
+      throw new NotFoundException(`Flow with id ${flowId} not found`);
 
-    const updatedFlow = { ...flowToUpdate, ...flow };
+    const updatedFlow = {
+      ...flowToUpdate,
+      ...flow,
+      version: flowToUpdate.version + 1,
+    };
 
     return this.save(updatedFlow);
   }
 
-  async findFlowToRun(id: number) {
+  async findFlowToRun(flowId: number) {
     const flow = await this.repository.findOne({
       relations: { steps: true },
       where: {
-        id,
+        flowId,
       },
+      order: { version: 'DESC' },
     });
 
-    if (!flow) throw new NotFoundException(`Flow with id ${id} not found`);
+    if (!flow) throw new NotFoundException(`Flow with id ${flowId} not found`);
 
     return FlowMapper.toDomain(flow);
   }

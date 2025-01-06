@@ -20,11 +20,11 @@ export default class ExecutionOrmEntity<T = any> extends BaseEntity {
   @Column({ type: 'int', nullable: true })
   referenceTriggerId: number | null;
 
-  @Column({ type: 'int', nullable: true })
-  referenceFlowId: number | null;
+  @Column({ type: 'varchar', nullable: true })
+  referenceFlowId: string | null;
 
-  @Column({ type: 'int', nullable: true })
-  referenceStepId: number | null;
+  @Column({ type: 'varchar', nullable: true })
+  referenceStepId: string | null;
 
   @Column('enum', { enum: ExecutionStatus, default: ExecutionStatus.PENDING })
   status: ExecutionStatus;

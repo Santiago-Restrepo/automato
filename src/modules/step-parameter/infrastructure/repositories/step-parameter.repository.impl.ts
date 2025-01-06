@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { StepParameterRepository } from '../../domain/ports/step-parameter.repository';
 import ExecutionOrmEntity from 'src/modules/execution/infrastructure/entities/execution.orm-entity';
 import { Step } from 'src/modules/step/domain/entities/step.entity';
-import { Flow } from 'src/modules/flow/domain/entities/flow.entity';
+import { FlowVersion } from 'src/modules/flow/domain/entities/flow.entity';
 import { StepParameter } from '../../domain/entities/step-parameter.entity';
 import { StepParameterOrmEntity } from '../entities/step-parameter.orm-entity';
 import { StepParameterMapper } from '../mappers/step-parameter.mapper';
@@ -18,7 +18,7 @@ export class StepParameterRepositoryImpl implements StepParameterRepository {
 
   async getByExecution(
     step: Step,
-    flowExecution: Execution<Flow>,
+    flowExecution: Execution<FlowVersion>,
   ): Promise<StepParameter[]> {
     const parameters = await this.repository.find({
       relations: {
@@ -49,7 +49,7 @@ export class StepParameterRepositoryImpl implements StepParameterRepository {
     return ormStepParameters.map(StepParameterMapper.toDomain);
   }
 
-  async getByStep(stepId: number): Promise<StepParameter[]> {
+  async getByStep(stepId: string): Promise<StepParameter[]> {
     const parameters = await this.repository.find({
       where: { inputStepId: stepId },
     });

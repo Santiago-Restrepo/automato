@@ -9,7 +9,7 @@ export class GetStepParameterService {
     private readonly stepParameterRepository: StepParameterRepository,
   ) {}
 
-  async getByStep(stepId: number): Promise<StepParameter[]> {
+  async getByStep(stepId: string): Promise<StepParameter[]> {
     return this.stepParameterRepository.getByStep(stepId);
   }
 }

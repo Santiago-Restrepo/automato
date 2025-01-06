@@ -8,7 +8,7 @@ export class DeleteStepService {
     private readonly stepRepository: StepRepository,
   ) {}
 
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     return this.stepRepository.delete(id);
   }
 }

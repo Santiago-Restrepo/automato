@@ -1,18 +1,25 @@
-import { Column, Entity, OneToMany } from 'typeorm';
-import BaseEntity from 'src/shared/base-entity.entity';
+import { Column, Entity, Index, OneToMany } from 'typeorm';
 import ExecutionOrmEntity from 'src/modules/execution/infrastructure/entities/execution.orm-entity';
 import StepOrmEntity from 'src/modules/step/infrastructure/entities/step.orm-entity';
 import { TriggerOrmEntity } from 'src/modules/trigger/infrastructure/entities/trigger.orm-entity';
 import FlowIntegrationOrmEntity from 'src/modules/flow-integration/infrastructure/entities/flow-integration.orm-entity';
+import UUIDBaseEntity from 'src/shared/uuid-base.entity';
 
 @Entity({
   name: 'flows',
 })
-export default class FlowOrmEntity extends BaseEntity {
+@Index(['flowId', 'version'], { unique: true })
+export default class FlowOrmEntity extends UUIDBaseEntity {
+  @Column({ type: 'int' })
+  flowId: number;
+
+  @Column({ type: 'int' })
+  version: number;
+
   @Column({ type: 'varchar', length: 255, nullable: true })
   name: string | null;
 
-  @OneToMany(() => StepOrmEntity, (step) => step.flow)
+  @OneToMany(() => StepOrmEntity, (step) => step.flowVersion)
   steps?: StepOrmEntity[] | null;
 
   @OneToMany(

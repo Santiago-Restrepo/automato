@@ -3,7 +3,7 @@ import { IsInt, IsNotEmpty } from 'class-validator';
 export class CreateStepDto {
   @IsInt()
   @IsNotEmpty()
-  flowId: number;
+  flowVersionId: string;
 
   @IsInt()
   @IsNotEmpty()

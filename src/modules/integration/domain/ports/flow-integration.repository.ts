@@ -1,7 +1,7 @@
 import { FlowIntegration } from '../../../flow-integration/domain/flow-integration.entity';
 
 export interface FlowIntegrationRepository {
-  findByFlowId(flowId: number): Promise<FlowIntegration[]>;
+  findByFlowVersionId(flowVersionId: string): Promise<FlowIntegration[]>;
   create(flowIntegration: Partial<FlowIntegration>): Promise<FlowIntegration>;
   save(flowIntegration: FlowIntegration): Promise<FlowIntegration>;
   update(

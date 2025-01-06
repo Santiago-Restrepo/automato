@@ -12,11 +12,11 @@ export class StepParameterOrmEntity extends BaseEntity {
   @Column({ type: 'int', nullable: true })
   functionParameterId: number;
 
-  @Column({ type: 'int', nullable: true })
-  outputStepId: number | null;
+  @Column({ type: 'varchar', nullable: true })
+  outputStepId: string | null;
 
-  @Column({ type: 'int' })
-  inputStepId: number;
+  @Column({ type: 'varchar' })
+  inputStepId: string;
 
   @ManyToOne(() => StepOrmEntity)
   outputStep?: StepOrmEntity;
