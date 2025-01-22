@@ -7,10 +7,7 @@ class GoogleSheetsClient extends GoogleClient {
       {
         scopes: ['https://www.googleapis.com/auth/spreadsheets'],
       },
-      {
-        clientEmail: credentials.clientEmail,
-        privateKey: credentials.privateKey,
-      },
+      credentials,
     );
   }
 

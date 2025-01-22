@@ -7,11 +7,7 @@ export class FlowIntegrationMapper {
       entity.id,
       entity.integrationId,
       entity.flowId,
-      entity.clientEmail,
-      entity.privateKey,
-      entity.clientId,
-      entity.clientSecret,
-      entity.apiKey,
+      entity.encryptedSecret,
       entity.integration?.name,
     );
   }
@@ -21,11 +17,7 @@ export class FlowIntegrationMapper {
     flowIntegration.id = domain.id;
     flowIntegration.integrationId = domain.integrationId;
     flowIntegration.flowId = domain.flowId;
-    flowIntegration.clientEmail = domain.clientEmail;
-    flowIntegration.privateKey = domain.privateKey;
-    flowIntegration.clientId = domain.clientId;
-    flowIntegration.clientSecret = domain.clientSecret;
-    flowIntegration.apiKey = domain.apiKey;
+    flowIntegration.encryptedSecret = domain.credentials;
     return flowIntegration;
   }
 }

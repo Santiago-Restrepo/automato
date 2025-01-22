@@ -18,9 +18,10 @@ export class ClientService {
       if (!this.clients.has(flowIntegration.integrationName)) {
         this.clients.set(
           flowIntegration.integrationName,
-          this.createClient(flowIntegration.integrationName, {
-            ...flowIntegration,
-          }),
+          this.createClient(
+            flowIntegration.integrationName,
+            flowIntegration.credentials,
+          ),
         );
       }
     });
@@ -28,27 +29,13 @@ export class ClientService {
 
   private createClient<K extends keyof ClientMap>(
     name: ClientKeys,
-    credentials: {
-      apiKey: string | null;
-      clientId?: string | null;
-      clientSecret?: string | null;
-      clientEmail?: string | null;
-      privateKey?: string | null;
-    },
+    credentials: any,
   ): ClientMap[K] {
-    const { apiKey, clientEmail, privateKey } = credentials;
     switch (name) {
       case 'Shopify':
-        return new ShopifyClient(apiKey) as ClientMap[K];
+        return new ShopifyClient(credentials) as ClientMap[K];
       case 'GoogleSheets':
-        if (!clientEmail || !privateKey)
-          throw new Error(
-            'Missing required credentials: clientEmail and privateKey',
-          );
-        return new GoogleSheetsClient({
-          clientEmail,
-          privateKey,
-        }) as ClientMap[K];
+        return new GoogleSheetsClient(credentials) as ClientMap[K];
 
       default:
         throw new Error(`Unknown integration: ${name}`);

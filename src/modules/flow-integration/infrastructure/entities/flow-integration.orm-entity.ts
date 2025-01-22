@@ -14,20 +14,8 @@ export default class FlowIntegrationOrmEntity extends BaseEntity {
   @Column({ type: 'varchar' })
   flowId: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  clientEmail: string | null;
-
   @Column({ type: 'json', nullable: true })
-  privateKey: string | null;
-
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  clientId: string | null;
-
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  clientSecret: string | null;
-
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  apiKey: string | null;
+  encryptedSecret?: object | null;
 
   @ManyToOne(
     () => IntegrationOrmEntity,
