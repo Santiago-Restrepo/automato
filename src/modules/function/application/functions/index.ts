@@ -7,12 +7,12 @@ import updateGoogleSheetsSpreadsheetData from './google-sheets/update-google-she
 import getGoogleSheetsSpreadsheetData from './google-sheets/get-google-sheets-spreadsheet-data.function';
 import transformSheetsResponse from './google-sheets/transform-sheets-response.function';
 import updateArrayElement from './common/update-array-element.function';
-import { FlowVersion } from 'src/modules/flow/domain/entities/flow.entity';
+import { Flow } from 'src/modules/flow/domain/entities/flow.entity';
 import { Step } from 'src/modules/step/domain/entities/step.entity';
 export type StepFunctionParams<T> = {
   input: T;
   context: {
-    flow: FlowVersion;
+    flow: Flow;
     step: Step;
     clientService: ClientService;
   };

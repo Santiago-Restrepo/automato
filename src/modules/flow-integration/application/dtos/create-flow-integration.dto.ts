@@ -7,5 +7,5 @@ export class CreateFlowIntegrationDto {
 
   @IsInt()
   @IsNotEmpty()
-  flowId: number;
+  flowId: string;
 }

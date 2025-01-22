@@ -21,7 +21,7 @@ export class TriggerRepositoryImpl implements TriggerRepository {
   }
 
   create(
-    trigger: Pick<Trigger, 'isActive' | 'payloadKey' | 'flowVersionId'> &
+    trigger: Pick<Trigger, 'isActive' | 'payloadKey' | 'flowId'> &
       Partial<Trigger>,
   ): Promise<Trigger> {
     const triggerToSave = Trigger.create(trigger);

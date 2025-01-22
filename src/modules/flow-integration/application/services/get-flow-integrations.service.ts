@@ -9,7 +9,7 @@ export class GetFlowIntegrationService {
     private readonly flowIntegrationRepository: FlowIntegrationRepository,
   ) {}
 
-  async getFlowIntegrations(flowVersionId: string): Promise<FlowIntegration[]> {
-    return this.flowIntegrationRepository.findByFlowVersionId(flowVersionId);
+  async getFlowIntegrations(flowId: string): Promise<FlowIntegration[]> {
+    return this.flowIntegrationRepository.findByFlowId(flowId);
   }
 }

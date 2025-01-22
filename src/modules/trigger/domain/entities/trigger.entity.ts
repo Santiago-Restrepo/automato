@@ -1,4 +1,4 @@
-import { FlowVersion } from 'src/modules/flow/domain/entities/flow.entity';
+import { Flow } from 'src/modules/flow/domain/entities/flow.entity';
 
 export class Trigger {
   constructor(
@@ -6,12 +6,12 @@ export class Trigger {
     public description: string | null,
     public isActive: boolean,
     public payloadKey: string,
-    public flowVersionId: string,
-    public flowVersion?: FlowVersion | null,
+    public flowId: string,
+    public flow?: Flow | null,
   ) {}
 
   static create(
-    props: Pick<Trigger, 'isActive' | 'payloadKey' | 'flowVersionId'> &
+    props: Pick<Trigger, 'isActive' | 'payloadKey' | 'flowId'> &
       Partial<Trigger>,
   ): Trigger {
     return new Trigger(
@@ -19,7 +19,7 @@ export class Trigger {
       props.description ?? null,
       props.isActive,
       props.payloadKey,
-      props.flowVersionId,
+      props.flowId,
     );
   }
 }

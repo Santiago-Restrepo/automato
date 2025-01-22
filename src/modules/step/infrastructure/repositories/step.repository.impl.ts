@@ -1,10 +1,12 @@
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, In, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import StepOrmEntity from '../entities/step.orm-entity';
 import { StepRepository } from '../../domain/ports/step.repository';
 import { Step } from '../../domain/entities/step.entity';
 import { StepMapper } from '../mappers/step.mapper';
 import FlowOrmEntity from 'src/modules/flow/infrastructure/entities/flow.orm-entity';
+import { StepParameterOrmEntity } from 'src/modules/step-parameter/infrastructure/entities/step-parameter.orm-entity';
+import { StepParameterMapper } from 'src/modules/step-parameter/infrastructure/mappers/step-parameter.mapper';
 
 @Injectable()
 export class StepRepositoryImpl implements StepRepository {
@@ -19,24 +21,16 @@ export class StepRepositoryImpl implements StepRepository {
     return ormEntity ? StepMapper.toDomain(ormEntity) : null;
   }
 
-  async findByFlowId(flowId: number): Promise<Step[]> {
-    const lastFlowVersion = await this.datasource
-      .getRepository(FlowOrmEntity)
-      .findOneOrFail({
-        where: { flowId },
-        order: { version: 'DESC' },
-      });
+  async findByFlowId(flowId: string): Promise<Step[]> {
     const ormEntities = await this.repository.find({
       relations: { parameters: { functionParameter: true }, function: true },
-      where: { flowVersionId: lastFlowVersion.id },
+      where: { flowId },
       order: { order: 'ASC' },
     });
     return ormEntities.map((ormEntity) => StepMapper.toDomain(ormEntity));
   }
 
-  create(
-    step: Pick<Step, 'flowVersionId' | 'order'> & Partial<Step>,
-  ): Promise<Step> {
+  create(step: Pick<Step, 'flowId' | 'order'> & Partial<Step>): Promise<Step> {
     const stepToSave = Step.create(step);
     return this.save(stepToSave);
   }
@@ -60,5 +54,52 @@ export class StepRepositoryImpl implements StepRepository {
 
   async delete(id: string): Promise<void> {
     await this.repository.softDelete(id);
+  }
+
+  async updateFlowSteps(flowId: string, steps: Step[]): Promise<Step[]> {
+    const ormFlow = await this.datasource.getRepository(FlowOrmEntity).findOne({
+      where: { id: flowId },
+      relations: { steps: { parameters: true } },
+    });
+
+    if (!ormFlow) {
+      throw new Error(`Flow with id ${flowId} not found`);
+    }
+
+    const currentStepParameters = ormFlow.steps?.flatMap(
+      (step) => step.parameters,
+    );
+
+    const newStepParameters = steps.flatMap((step) => step.parameters);
+
+    const noMoreUsedSteps = ormFlow.steps?.filter(
+      (step) => !steps.find((s) => s.id === step.id),
+    );
+
+    const noMoreUsedStepParameters = currentStepParameters?.filter(
+      (stepParameter) =>
+        !newStepParameters.find((s) => s?.id === stepParameter.id),
+    );
+
+    if (noMoreUsedStepParameters) {
+      await this.datasource.getRepository(StepParameterOrmEntity).softDelete({
+        id: In(
+          noMoreUsedStepParameters.map((stepParameter) => stepParameter.id),
+        ),
+      });
+    }
+
+    if (noMoreUsedSteps) {
+      await this.datasource
+        .getRepository(StepOrmEntity)
+        .softDelete({ id: In(noMoreUsedSteps.map((step) => step.id)) });
+    }
+
+    const savedSteps = await Promise.all(
+      steps.map(async (step) => {
+        return this.save(step);
+      }),
+    );
+    return savedSteps;
   }
 }

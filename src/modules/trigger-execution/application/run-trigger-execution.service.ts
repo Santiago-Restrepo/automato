@@ -16,16 +16,12 @@ export class RunTriggerExecutionService {
   ) {}
 
   async run(trigger: Trigger, payload?: ParameterValue) {
-    if (!trigger.flowVersion) throw new Error('Flow version not found');
     const triggerExecution = await this.#start(trigger, payload);
     try {
       await this.#finish({
         triggerExecution,
       });
-      return this.runFlowService.run(
-        trigger.flowVersion?.flowId,
-        triggerExecution,
-      );
+      return this.runFlowService.run(trigger.flowId, triggerExecution);
     } catch (error) {
       await this.#finish({
         triggerExecution,

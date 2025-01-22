@@ -20,6 +20,6 @@ import { StepParameterModule } from '../step-parameter/step-parameter.module';
     DeleteStepService,
   ],
   controllers: [StepController],
-  exports: [GetStepService],
+  exports: [GetStepService, UpdateStepService],
 })
 export class StepModule {}

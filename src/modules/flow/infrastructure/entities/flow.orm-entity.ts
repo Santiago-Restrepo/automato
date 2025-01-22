@@ -8,18 +8,11 @@ import UUIDBaseEntity from 'src/shared/uuid-base.entity';
 @Entity({
   name: 'flows',
 })
-@Index(['flowId', 'version'], { unique: true })
 export default class FlowOrmEntity extends UUIDBaseEntity {
-  @Column({ type: 'int' })
-  flowId: number;
-
-  @Column({ type: 'int' })
-  version: number;
-
   @Column({ type: 'varchar', length: 255, nullable: true })
   name: string | null;
 
-  @OneToMany(() => StepOrmEntity, (step) => step.flowVersion)
+  @OneToMany(() => StepOrmEntity, (step) => step.flow)
   steps?: StepOrmEntity[] | null;
 
   @OneToMany(

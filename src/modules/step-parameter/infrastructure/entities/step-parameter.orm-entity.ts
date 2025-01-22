@@ -1,11 +1,11 @@
 import FunctionParameterOrmEntity from 'src/modules/function-parameter/infrastructure/entities/function-parameter.orm-entity';
 import StepOrmEntity from 'src/modules/step/infrastructure/entities/step.orm-entity';
-import BaseEntity from 'src/shared/base-entity.entity';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
+import UUIDBaseEntity from 'src/shared/uuid-base.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity({ name: 'step_parameters' })
-export class StepParameterOrmEntity extends BaseEntity {
+export class StepParameterOrmEntity extends UUIDBaseEntity {
   @Column({ type: 'jsonb', nullable: true })
   value?: ParameterValue;
 

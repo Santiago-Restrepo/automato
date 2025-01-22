@@ -5,7 +5,7 @@ import ExecutionStatus from 'src/modules/execution/domain/enums/execution-status
 import { RunStepExecutionService } from 'src/modules/step-execution/application/run-step-execution.service';
 import { ExecutionRepository } from 'src/modules/execution/domain/ports/execution.repository';
 import { Execution } from 'src/modules/execution/domain/entities/execution.entity';
-import { FlowVersion } from '../../domain/entities/flow.entity';
+import { Flow } from '../../domain/entities/flow.entity';
 import { Trigger } from 'src/modules/trigger/domain/entities/trigger.entity';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class RunFlowService {
     private readonly runStepExecutionService: RunStepExecutionService,
   ) {}
 
-  async run(id: number, triggerExecution?: Execution<Trigger>) {
+  async run(id: string, triggerExecution?: Execution<Trigger>) {
     const flow = await this.flowRepository.findFlowToRun(id);
     const execution = await this.flowExecutionService.createExecution(
       flow,
@@ -38,7 +38,7 @@ export class RunFlowService {
     }
   }
 
-  async runNextStep(flowExecution: Execution<FlowVersion>) {
+  async runNextStep(flowExecution: Execution<Flow>) {
     const stepExecution = await this.executionRepository.findOne({
       parentExecutionId: flowExecution.id,
       status: ExecutionStatus.PENDING,
