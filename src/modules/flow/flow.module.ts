@@ -10,6 +10,7 @@ import { GetFlowService } from './application/services/get-flow.service';
 import { CreateFlowService } from './application/services/create-flow.service';
 import { UpdateFlowService } from './application/services/update-flow.service';
 import { FlowIntegrationModule } from '../flow-integration/flow-integration.module';
+import { EncryptionModule } from '../encryption/encryption.module';
 
 @Module({
   imports: [

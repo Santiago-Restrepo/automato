@@ -16,6 +16,7 @@ import configModule from './config/config.module';
 import { FunctionModule } from './modules/function/function.module';
 import { FunctionParameterModule } from './modules/function-parameter/function-parameter.module';
 import { FlowIntegrationModule } from './modules/flow-integration/flow-integration.module';
+import { EncryptionModule } from './modules/encryption/encryption.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { FlowIntegrationModule } from './modules/flow-integration/flow-integrati
     ClientModule,
     FunctionParameterModule,
     FlowIntegrationModule,
+    EncryptionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

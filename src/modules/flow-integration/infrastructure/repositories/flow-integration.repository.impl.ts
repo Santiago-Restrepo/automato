@@ -5,6 +5,7 @@ import { FlowIntegrationRepository } from '../../../integration/domain/ports/flo
 import { FlowIntegration } from '../../domain/flow-integration.entity';
 import { FlowIntegrationMapper } from '../mappers/flow-integration.mapper';
 import { ClientKeys } from 'src/modules/client/domain/enums/client-keys.enum';
+import { EncryptionService } from 'src/modules/encryption/application/encryption.service';
 
 @Injectable()
 export class FlowIntegrationRepositoryImpl
@@ -12,25 +13,34 @@ export class FlowIntegrationRepositoryImpl
 {
   private repository: Repository<FlowIntegrationOrmEntity>;
 
-  constructor(private datasource: DataSource) {
+  constructor(
+    private datasource: DataSource,
+    private encryptionService: EncryptionService, // Inject the encryption service
+  ) {
     this.repository = this.datasource.getRepository(FlowIntegrationOrmEntity);
   }
 
   async findByFlowId(flowId: string): Promise<FlowIntegration[]> {
-    const ormEntites = await this.repository.find({
+    const ormEntities = await this.repository.find({
       relations: ['integration'],
-      where: {
-        flowId,
-      },
+      where: { flowId },
     });
 
-    return ormEntites.map(FlowIntegrationMapper.toDomain);
+    return ormEntities.map((ormEntity) => {
+      const decryptedSecret = this.encryptionService.decrypt(
+        ormEntity.encryptedSecret,
+      );
+      return FlowIntegrationMapper.toDomain(
+        ormEntity,
+        JSON.parse(decryptedSecret as string),
+      );
+    });
   }
 
   create(
     flowIntegration: Pick<
       FlowIntegration,
-      'integrationId' | 'flowId' | 'integrationName'
+      'integrationId' | 'flowId' | 'integrationName' | 'credentials'
     > &
       Partial<FlowIntegration>,
   ): Promise<FlowIntegration> {
@@ -39,9 +49,18 @@ export class FlowIntegrationRepositoryImpl
   }
 
   async save(flowIntegration: FlowIntegration): Promise<FlowIntegration> {
-    const ormEntity = FlowIntegrationMapper.toOrm(flowIntegration);
+    const encryptedSecret = this.encryptionService.encrypt(
+      JSON.stringify(flowIntegration.credentials),
+    );
+    const ormEntity = FlowIntegrationMapper.toOrm(
+      flowIntegration,
+      encryptedSecret,
+    );
     const savedEntity = await this.repository.save(ormEntity);
-    return FlowIntegrationMapper.toDomain(savedEntity);
+    return FlowIntegrationMapper.toDomain(
+      savedEntity,
+      flowIntegration.credentials,
+    );
   }
 
   async update(
@@ -53,9 +72,11 @@ export class FlowIntegrationRepositoryImpl
     if (!flowIntegrationToUpdate)
       throw new NotFoundException(`FlowIntegration with id ${id} not found`);
 
+    // Encrypt the updated secret field
     const updatedFlowIntegration = {
       ...flowIntegrationToUpdate,
       ...flowIntegration,
+      credentials: flowIntegration.credentials || {},
     };
 
     return this.save(updatedFlowIntegration);

@@ -17,6 +17,7 @@ import { UpdateFlowService } from '../application/services/update-flow.service';
 import { GetStepService } from 'src/modules/step/application/services/get-step.service';
 import { UpdateStepService } from 'src/modules/step/application/services/update-step.service';
 import { Step } from 'src/modules/step/domain/entities/step.entity';
+import { GetFlowIntegrationService } from 'src/modules/flow-integration/application/services/get-flow-integrations.service';
 
 @Controller('flow')
 export class FlowController {
@@ -27,6 +28,7 @@ export class FlowController {
     private readonly updateFlowService: UpdateFlowService,
     private readonly updateStepService: UpdateStepService,
     private readonly getStepService: GetStepService,
+    private readonly getFlowIntegrationService: GetFlowIntegrationService,
   ) {}
 
   @Get()
@@ -42,6 +44,11 @@ export class FlowController {
   @Get(':flowId/steps')
   async getFlowSteps(@Param('flowId') flowId: string) {
     return this.getStepService.getByFlowId(flowId);
+  }
+
+  @Get(':flowId/integrations')
+  async getFlowIntegrations(@Param('flowId') flowId: string) {
+    return this.getFlowIntegrationService.getFlowIntegrations(flowId);
   }
 
   @Post('run/:id')

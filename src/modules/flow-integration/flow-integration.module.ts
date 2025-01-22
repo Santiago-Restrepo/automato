@@ -5,8 +5,10 @@ import { UpdateFlowIntegrationService } from './application/services/update-flow
 import { DeleteFlowIntegrationService } from './application/services/delete-flow-integration.service';
 import { FlowIntegrationController } from './infrastructure/flow-integration.controller';
 import { GetFlowIntegrationService } from './application/services/get-flow-integrations.service';
+import { EncryptionModule } from '../encryption/encryption.module';
 
 @Module({
+  imports: [EncryptionModule],
   providers: [
     {
       provide: 'FlowIntegrationRepository',

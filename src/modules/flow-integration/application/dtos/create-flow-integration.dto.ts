@@ -1,11 +1,14 @@
-import { IsInt, IsNotEmpty } from 'class-validator';
+import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateFlowIntegrationDto {
   @IsInt()
   @IsNotEmpty()
   integrationId: number;
 
-  @IsInt()
+  @IsString()
   @IsNotEmpty()
   flowId: string;
+
+  @IsNotEmpty()
+  credentials: object;
 }

@@ -8,5 +8,8 @@ export default () => {
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
     },
+    encryption: {
+      key: process.env.ENCRYPTION_KEY as string,
+    },
   };
 };
