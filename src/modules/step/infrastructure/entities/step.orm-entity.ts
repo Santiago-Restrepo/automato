@@ -14,16 +14,18 @@ export default class StepOrmEntity extends UUIDBaseEntity {
   order: number;
 
   @Column('varchar')
-  flowVersionId: string;
+  flowId: string;
 
   @Column('int', { nullable: true })
   functionId: number | null;
 
-  @OneToMany(() => StepParameterOrmEntity, (parameter) => parameter.inputStep)
+  @OneToMany(() => StepParameterOrmEntity, (parameter) => parameter.inputStep, {
+    cascade: true,
+  })
   parameters: StepParameterOrmEntity[];
 
   @ManyToOne(() => FlowOrmEntity, (flow) => flow.steps)
-  flowVersion: FlowOrmEntity | null;
+  flow: FlowOrmEntity | null;
 
   @ManyToOne(() => FunctionBlockOrmEntity)
   function: FunctionBlockOrmEntity | null;

@@ -1,7 +1,7 @@
 import ExecutionStatus from '../enums/execution-status.enum';
 import ExecutionType from '../enums/execution-type.enum';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
-import { FlowVersion } from 'src/modules/flow/domain/entities/flow.entity';
+import { Flow } from 'src/modules/flow/domain/entities/flow.entity';
 import { Step } from 'src/modules/step/domain/entities/step.entity';
 import { Trigger } from 'src/modules/trigger/domain/entities/trigger.entity';
 
@@ -22,7 +22,7 @@ export class Execution<T = any> {
     public finishedAt: Date | null,
     public parentExecution: Execution<any> | null = null,
     public referenceTrigger: Trigger | null = null,
-    public referenceFlow: FlowVersion | null = null,
+    public referenceFlow: Flow | null = null,
     public referenceStep: Step | null = null,
   ) {}
 

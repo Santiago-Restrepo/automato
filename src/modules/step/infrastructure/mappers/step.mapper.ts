@@ -10,23 +10,26 @@ export class StepMapper {
       stepOrm.id,
       stepOrm.description,
       stepOrm.order,
-      stepOrm.flowVersionId,
+      stepOrm.flowId,
       stepOrm.functionId,
-      stepOrm.flowVersion ? FlowMapper.toDomain(stepOrm.flowVersion) : null,
+      stepOrm.flow ? FlowMapper.toDomain(stepOrm.flow) : null,
+      stepOrm.function ? FunctionBlockMapper.toDomain(stepOrm.function) : null,
       stepOrm.parameters
         ? stepOrm.parameters.map(StepParameterMapper.toDomain)
         : null,
-      stepOrm.function ? FunctionBlockMapper.toDomain(stepOrm.function) : null,
     );
   }
 
   static toOrm(step: Step): StepOrmEntity {
     const ormEntity = new StepOrmEntity();
     ormEntity.id = step.id;
+    ormEntity.flowId = step.flowId;
     ormEntity.description = step.description;
     ormEntity.order = step.order;
-    ormEntity.flowVersionId = step.flowVersionId;
     ormEntity.functionId = step.functionId;
+    ormEntity.parameters = step.parameters
+      ? step.parameters.map(StepParameterMapper.toOrm)
+      : [];
     return ormEntity;
   }
 }

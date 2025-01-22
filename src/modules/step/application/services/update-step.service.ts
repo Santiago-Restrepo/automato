@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { StepRepository } from '../../domain/ports/step.repository';
 import { Step } from '../../domain/entities/step.entity';
-import { UpdateStepDto } from '../dtos/update-step.dto';
 
 @Injectable()
 export class UpdateStepService {
@@ -10,7 +9,7 @@ export class UpdateStepService {
     private readonly stepRepository: StepRepository,
   ) {}
 
-  async update(id: string, step: UpdateStepDto): Promise<Step> {
-    return this.stepRepository.update(id, step);
+  async updateFlowSteps(flowId: string, steps: Step[]): Promise<Step[]> {
+    return this.stepRepository.updateFlowSteps(flowId, steps);
   }
 }

@@ -12,5 +12,5 @@ export class CreateTriggerDto {
   payloadKey: string;
 
   @IsInt()
-  flowVersionId: string;
+  flowId: string;
 }

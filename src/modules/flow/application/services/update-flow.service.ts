@@ -9,7 +9,7 @@ export class UpdateFlowService {
     private readonly flowRepository: FlowRepository,
   ) {}
 
-  async update(id: number, updateFlowDto: UpdateFlowDto) {
+  async update(id: string, updateFlowDto: UpdateFlowDto) {
     return this.flowRepository.update(id, updateFlowDto);
   }
 }

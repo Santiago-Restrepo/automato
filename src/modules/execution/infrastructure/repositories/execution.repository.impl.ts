@@ -42,6 +42,11 @@ export class ExecutionRepositoryImpl implements ExecutionRepository {
           function: true,
         },
       },
+      order: {
+        referenceStep: {
+          order: 'ASC',
+        },
+      },
     });
 
     return ormEntity ? ExecutionMapper.toDomain(ormEntity) : null;

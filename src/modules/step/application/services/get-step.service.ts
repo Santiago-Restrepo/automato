@@ -9,7 +9,7 @@ export class GetStepService {
     private readonly stepRepository: StepRepository,
   ) {}
 
-  async getByFlowId(flowId: number): Promise<Step[]> {
+  async getByFlowId(flowId: string): Promise<Step[]> {
     return this.stepRepository.findByFlowId(flowId);
   }
 }

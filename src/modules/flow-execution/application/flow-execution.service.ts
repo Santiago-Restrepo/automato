@@ -5,7 +5,7 @@ import {
   ExecutionRepository,
 } from 'src/modules/execution/domain/ports/execution.repository';
 import ExecutionType from 'src/modules/execution/domain/enums/execution-type.enum';
-import { FlowVersion } from 'src/modules/flow/domain/entities/flow.entity';
+import { Flow } from 'src/modules/flow/domain/entities/flow.entity';
 import { Execution } from 'src/modules/execution/domain/entities/execution.entity';
 import { Trigger } from 'src/modules/trigger/domain/entities/trigger.entity';
 
@@ -17,9 +17,9 @@ export class FlowExecutionService {
   ) {}
 
   async createExecution(
-    flow: FlowVersion,
+    flow: Flow,
     triggerExecution?: Execution<Trigger>,
-  ): Promise<Execution<FlowVersion>> {
+  ): Promise<Execution<Flow>> {
     const flowExecution = await this.executionRepository.create({
       referenceFlowId: flow.id,
       parentExecutionId: triggerExecution?.id,
@@ -43,13 +43,13 @@ export class FlowExecutionService {
   }
 
   async startExecution(
-    flowExecution: Execution<FlowVersion>,
-  ): Promise<Execution<FlowVersion>> {
+    flowExecution: Execution<Flow>,
+  ): Promise<Execution<Flow>> {
     return this.executionRepository.start(flowExecution);
   }
 
   async finishExecution(
-    flowExecution: Execution<FlowVersion>,
+    flowExecution: Execution<Flow>,
     status: ExecutionStatus = ExecutionStatus.SUCCESS,
     errorMessage?: string | null,
   ) {

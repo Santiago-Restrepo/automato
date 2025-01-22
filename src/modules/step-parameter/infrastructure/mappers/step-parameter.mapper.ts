@@ -18,6 +18,7 @@ export class StepParameterMapper {
     ormEntity.id = parameter.id;
     ormEntity.value = parameter.value;
     ormEntity.inputStepId = parameter.inputStepId;
+    ormEntity.outputStepId = parameter.outputStepId;
     ormEntity.functionParameterId = parameter.functionParameterId;
     return ormEntity;
   }

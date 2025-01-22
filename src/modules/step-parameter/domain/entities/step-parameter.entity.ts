@@ -3,7 +3,7 @@ import { ParameterValue } from 'src/shared/types/parameter-value.type';
 
 export class StepParameter {
   constructor(
-    public readonly id: number,
+    public readonly id: string,
     public value: ParameterValue,
     public inputStepId: string,
     public outputStepId: string | null,
