@@ -5,11 +5,7 @@ export class FlowIntegration {
     public readonly id: number,
     public integrationId: number,
     public flowId: string,
-    public clientEmail: string | null,
-    public privateKey: string | null,
-    public clientId: string | null,
-    public clientSecret: string | null,
-    public apiKey: string | null,
+    public credentials?: object | null,
     public integrationName?: ClientKeys,
   ) {}
 
@@ -24,11 +20,7 @@ export class FlowIntegration {
       0,
       props.integrationId,
       props.flowId,
-      props.clientEmail ?? null,
-      props.privateKey ?? null,
-      props.clientId ?? null,
-      props.clientSecret ?? null,
-      props.apiKey ?? null,
+      props.credentials,
       props.integrationName,
     );
   }

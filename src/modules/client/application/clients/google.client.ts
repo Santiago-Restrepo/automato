@@ -5,8 +5,8 @@ export interface GoogleClientOptions {
 }
 
 export interface GoogleCredentials {
-  clientEmail?: string;
-  privateKey?: string;
+  client_email?: string;
+  private_key?: string;
 }
 
 class GoogleClient {
@@ -18,15 +18,16 @@ class GoogleClient {
     credentials: Partial<GoogleCredentials>,
   ) {
     this.scopes = options.scopes || [];
-    if (!credentials.clientEmail || !credentials.privateKey) {
+    const { client_email, private_key } = credentials;
+    if (!client_email || !private_key) {
       throw new Error(
         'Missing required credentials: clientEmail and privateKey',
       );
     }
 
     this.credentials = {
-      clientEmail: credentials.clientEmail,
-      privateKey: credentials.privateKey,
+      client_email,
+      private_key,
     };
   }
 
@@ -37,8 +38,8 @@ class GoogleClient {
   async authorize(): Promise<OAuth2Client> {
     try {
       const client = new JWT({
-        email: this.credentials.clientEmail,
-        key: this.credentials.privateKey,
+        email: this.credentials.client_email,
+        key: this.credentials.private_key,
         scopes: this.scopes,
       });
       return client;
