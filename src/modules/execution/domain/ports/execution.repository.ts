@@ -5,7 +5,7 @@ import ExecutionType from '../enums/execution-type.enum';
 export type createExecutionDto = {
   type: ExecutionType;
   parentExecutionId?: number | null;
-  referenceTriggerId?: number | null;
+  referenceTriggerId?: string | null;
   referenceFlowId?: string | null;
   referenceStepId?: string | null;
   input?: ParameterValue | null;

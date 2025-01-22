@@ -9,7 +9,7 @@ export class GetTriggerService {
     private readonly triggerRepository: TriggerRepository,
   ) {}
 
-  async getTrigger(id: number): Promise<Trigger | null> {
+  async getTrigger(id: string): Promise<Trigger | null> {
     return this.triggerRepository.findOne({ id });
   }
 

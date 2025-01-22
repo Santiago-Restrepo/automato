@@ -11,7 +11,7 @@ export class UpdateTriggerService {
   ) {}
 
   async update(
-    id: number,
+    id: string,
     updateTriggerDto: UpdateTriggerDto,
   ): Promise<Trigger> {
     return this.triggerRepository.update(id, updateTriggerDto);

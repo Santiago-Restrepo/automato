@@ -30,7 +30,7 @@ export class TriggerController {
   }
 
   @Get(':id')
-  async getTrigger(@Param('id', ParseIntPipe) id: number) {
+  async getTrigger(@Param('id') id: string) {
     return this.getTriggerService.getTrigger(id);
   }
 
@@ -41,17 +41,14 @@ export class TriggerController {
 
   @Patch(':id')
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
     @Body() updateTriggerDto: UpdateTriggerDto,
   ) {
     return this.updateTriggerService.update(id, updateTriggerDto);
   }
 
   @Post('run/:id')
-  async run(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() payload?: ParameterValue,
-  ) {
+  async run(@Param('id') id: string, @Body() payload?: ParameterValue) {
     return this.triggerService.run(id, payload);
   }
 }

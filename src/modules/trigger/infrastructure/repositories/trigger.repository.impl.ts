@@ -35,7 +35,7 @@ export class TriggerRepositoryImpl implements TriggerRepository {
   }
 
   async update(
-    id: number,
+    id: string,
     updateTriggerDto: Partial<Trigger>,
   ): Promise<Trigger> {
     const triggerToUpdate = await this.findOneByOrFail({ id });

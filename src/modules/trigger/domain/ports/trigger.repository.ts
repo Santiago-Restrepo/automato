@@ -9,5 +9,5 @@ export interface TriggerRepository {
       Partial<Trigger>,
   ): Promise<Trigger>;
   save(trigger: Trigger): Promise<Trigger>;
-  update(id: number, updateTriggerDto: Partial<Trigger>): Promise<Trigger>;
+  update(id: string, updateTriggerDto: Partial<Trigger>): Promise<Trigger>;
 }
