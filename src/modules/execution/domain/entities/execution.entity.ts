@@ -11,7 +11,7 @@ export class Execution<T = any> {
     public readonly id: number,
     public type: ExecutionType,
     public parentExecutionId: number | null,
-    public referenceTriggerId: number | null,
+    public referenceTriggerId: string | null,
     public referenceFlowId: string | null,
     public referenceStepId: string | null,
     public status: ExecutionStatus,
@@ -30,7 +30,7 @@ export class Execution<T = any> {
   static create<T>(props: {
     type: ExecutionType;
     parentExecutionId?: number | null;
-    referenceTriggerId?: number | null;
+    referenceTriggerId?: string | null;
     referenceFlowId?: string | null;
     referenceStepId?: string | null;
     input?: ParameterValue | null;

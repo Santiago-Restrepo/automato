@@ -2,7 +2,7 @@ import { Flow } from 'src/modules/flow/domain/entities/flow.entity';
 
 export class Trigger {
   constructor(
-    public readonly id: number,
+    public readonly id: string,
     public description: string | null,
     public isActive: boolean,
     public payloadKey: string,
@@ -15,7 +15,7 @@ export class Trigger {
       Partial<Trigger>,
   ): Trigger {
     return new Trigger(
-      0,
+      props.id ?? crypto.randomUUID(),
       props.description ?? null,
       props.isActive,
       props.payloadKey,

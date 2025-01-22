@@ -17,8 +17,8 @@ export default class ExecutionOrmEntity<T = any> extends BaseEntity {
   @Column({ type: 'int', nullable: true })
   parentExecutionId?: number | null;
 
-  @Column({ type: 'int', nullable: true })
-  referenceTriggerId: number | null;
+  @Column({ type: 'varchar', nullable: true })
+  referenceTriggerId: string | null;
 
   @Column({ type: 'varchar', nullable: true })
   referenceFlowId: string | null;

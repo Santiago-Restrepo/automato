@@ -1,12 +1,12 @@
 import ExecutionOrmEntity from 'src/modules/execution/infrastructure/entities/execution.orm-entity';
 import FlowOrmEntity from 'src/modules/flow/infrastructure/entities/flow.orm-entity';
-import BaseEntity from 'src/shared/base-entity.entity';
+import UUIDBaseEntity from 'src/shared/uuid-base.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity({
   name: 'triggers',
 })
-export class TriggerOrmEntity extends BaseEntity {
+export class TriggerOrmEntity extends UUIDBaseEntity {
   @Column({ type: 'text', nullable: true })
   description: string | null;
 

@@ -11,7 +11,7 @@ export class RunTriggerService {
     private readonly runTriggerExecutionService: RunTriggerExecutionService,
   ) {}
 
-  async run(id: number, payload?: ParameterValue) {
+  async run(id: string, payload?: ParameterValue) {
     const trigger = await this.triggerRepository.findOneByOrFail({
       id,
     });
