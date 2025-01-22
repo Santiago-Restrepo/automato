@@ -5,14 +5,14 @@ export class FlowIntegration {
     public readonly id: number,
     public integrationId: number,
     public flowId: string,
-    public credentials?: object | null,
+    public credentials: object,
     public integrationName?: ClientKeys,
   ) {}
 
   static create(
     props: Pick<
       FlowIntegration,
-      'integrationId' | 'flowId' | 'integrationName'
+      'integrationId' | 'flowId' | 'integrationName' | 'credentials'
     > &
       Partial<FlowIntegration>,
   ): FlowIntegration {
