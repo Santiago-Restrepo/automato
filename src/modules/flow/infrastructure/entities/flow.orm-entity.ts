@@ -1,4 +1,4 @@
-import { Column, Entity, Index, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import ExecutionOrmEntity from 'src/modules/execution/infrastructure/entities/execution.orm-entity';
 import StepOrmEntity from 'src/modules/step/infrastructure/entities/step.orm-entity';
 import { TriggerOrmEntity } from 'src/modules/trigger/infrastructure/entities/trigger.orm-entity';
