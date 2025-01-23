@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { RunTriggerService } from '../application/services/run-trigger.service';
 import { ParameterValue } from 'src/shared/types/parameter-value.type';
 import { CreateTriggerDto } from '../application/dtos/create-trigger.dto';

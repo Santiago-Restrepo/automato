@@ -6,7 +6,6 @@ import { Step } from '../../domain/entities/step.entity';
 import { StepMapper } from '../mappers/step.mapper';
 import FlowOrmEntity from 'src/modules/flow/infrastructure/entities/flow.orm-entity';
 import { StepParameterOrmEntity } from 'src/modules/step-parameter/infrastructure/entities/step-parameter.orm-entity';
-import { StepParameterMapper } from 'src/modules/step-parameter/infrastructure/mappers/step-parameter.mapper';
 
 @Injectable()
 export class StepRepositoryImpl implements StepRepository {

@@ -1,8 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import configuration, { Config, ServerConfig } from './config/configuration';
-import { SessionBuilder } from '@ngrok/ngrok';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Config, ServerConfig } from './config/configuration';
+import { Logger } from '@nestjs/common';
 import setupSwagger from './config/swagger.config';
 import { ConfigService } from '@nestjs/config';
 import setupPipes from './config/global-pipes.config';

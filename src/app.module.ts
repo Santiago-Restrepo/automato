@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { StepModule } from './modules/step/step.module';
 import { FlowModule } from './modules/flow/flow.module';
 import { StepParameterModule } from './modules/step-parameter/step-parameter.module';
@@ -17,6 +15,8 @@ import { FunctionModule } from './modules/function/function.module';
 import { FunctionParameterModule } from './modules/function-parameter/function-parameter.module';
 import { FlowIntegrationModule } from './modules/flow-integration/flow-integration.module';
 import { EncryptionModule } from './modules/encryption/encryption.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import LoggingInterceptor from './common/logging.interceptor';
 
 @Module({
   imports: [
@@ -37,7 +37,11 @@ import { EncryptionModule } from './modules/encryption/encryption.module';
     FlowIntegrationModule,
     EncryptionModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+  ],
 })
 export class AppModule {}

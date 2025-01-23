@@ -1,4 +1,4 @@
-import { IsObject, IsOptional, IsString } from 'class-validator';
+import { IsObject, IsOptional } from 'class-validator';
 
 export class UpdateFlowIntegrationDto {
   @IsObject()
