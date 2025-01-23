@@ -17,6 +17,7 @@ import { FlowIntegrationModule } from './modules/flow-integration/flow-integrati
 import { EncryptionModule } from './modules/encryption/encryption.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import LoggingInterceptor from './common/logging.interceptor';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import LoggingInterceptor from './common/logging.interceptor';
     FlowIntegrationModule,
     EncryptionModule,
   ],
+  controllers: [AppController],
   providers: [
     {
       provide: APP_INTERCEPTOR,
