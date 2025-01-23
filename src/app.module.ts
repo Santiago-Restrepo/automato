@@ -9,8 +9,6 @@ import { TriggerExecutionModule } from './modules/trigger-execution/trigger-exec
 import { ExecutionModule } from './modules/execution/execution.module';
 import { IntegrationModule } from './modules/integration/integration.module';
 import { ClientModule } from './modules/client/client.module';
-import typeormModule from './config/typeorm.module';
-import configModule from './config/config.module';
 import { FunctionModule } from './modules/function/function.module';
 import { FunctionParameterModule } from './modules/function-parameter/function-parameter.module';
 import { FlowIntegrationModule } from './modules/flow-integration/flow-integration.module';
@@ -18,11 +16,13 @@ import { EncryptionModule } from './modules/encryption/encryption.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import LoggingInterceptor from './common/logging.interceptor';
 import { AppController } from './app.controller';
+import { PersistenceModule } from './modules/persistence/persistence.module';
+import configurationModule from './modules/configuration/configuration.module';
 
 @Module({
   imports: [
-    configModule,
-    typeormModule,
+    configurationModule,
+    PersistenceModule,
     StepModule,
     FlowModule,
     StepParameterModule,
