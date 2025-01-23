@@ -1,5 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import dataSource from './data-source';
+import dataSource from '../../config/data-source';
 
 export default TypeOrmModule.forRootAsync({
   useFactory: () => ({}),
