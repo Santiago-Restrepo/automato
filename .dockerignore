@@ -1,0 +1,38 @@
+#Env variables
+.env
+
+# Node.js dependencies
+node_modules
+*.log
+
+# Editor directories and files
+.idea
+.vscode
+*.swp
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Docker-related files
+.dockerignore
+docker-compose.override.yml
+
+# Build artifacts
+dist
+coverage
+
+# Temporary files
+tmp
+*.tmp
+*.bak
+
+# Git files
+.git
+.gitignore
+
+# Testing-related files
+*.spec.ts
+*.test.ts
+jest.config.*
+coverage/
