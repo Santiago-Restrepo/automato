@@ -15,8 +15,8 @@ import { FlowIntegrationModule } from './modules/flow-integration/flow-integrati
 import { EncryptionModule } from './modules/encryption/encryption.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import LoggingInterceptor from './common/logging.interceptor';
-import { AppController } from './app.controller';
 import { PersistenceModule } from './modules/persistence/persistence.module';
+import { HealthCheckModule } from './modules/health-check/health-check.module';
 import configurationModule from './modules/configuration/configuration.module';
 
 @Module({
@@ -37,8 +37,8 @@ import configurationModule from './modules/configuration/configuration.module';
     FunctionParameterModule,
     FlowIntegrationModule,
     EncryptionModule,
+    HealthCheckModule,
   ],
-  controllers: [AppController],
   providers: [
     {
       provide: APP_INTERCEPTOR,

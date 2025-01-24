@@ -6,6 +6,7 @@ import setupSwagger from './config/swagger.config';
 import { ConfigService } from '@nestjs/config';
 import setupPipes from './config/global-pipes.config';
 import { SessionBuilder } from '@ngrok/ngrok';
+import { runMigrations } from './utils/runMigrations';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +14,7 @@ async function bootstrap() {
   const server: ServerConfig = configService.get('server');
   setupPipes(app);
   setupSwagger(app);
+  await runMigrations();
   await app.listen(server.port).then(() => {
     Logger.verbose(`Server running on port ${server.port}`);
     Logger.verbose(
