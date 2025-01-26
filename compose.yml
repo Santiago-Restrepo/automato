@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: app
     ports:
-      - '${PORT}:${PORT}'
+      - '3010:${PORT}'
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
