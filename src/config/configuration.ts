@@ -1,6 +1,8 @@
+import { Environment } from 'src/shared/enums/environment';
+
 export interface ServerConfig {
   port: number;
-  node_env?: string;
+  env: Environment;
 }
 
 export interface DatabaseConfig {
@@ -25,6 +27,7 @@ export default (): Config => {
   return {
     server: {
       port: (process.env.PORT || 3000) as number,
+      env: process.env.ENV as Environment,
     },
     database: {
       postgres: {

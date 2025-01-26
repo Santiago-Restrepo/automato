@@ -1,5 +1,5 @@
-FROM node:18-alpine AS base
-RUN npm install -g pnpm
+FROM node:22.12.0-slim AS base
+RUN npm install -g pnpm@9.14.4
 
 FROM base AS installer
 WORKDIR /app
@@ -7,6 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY pnpm-lock.yaml ./
 COPY . .
+COPY .git/refs/heads ./git-refs-heads
 
 RUN pnpm install
 RUN pnpm build

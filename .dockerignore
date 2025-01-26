@@ -28,7 +28,6 @@ tmp
 *.bak
 
 # Git files
-.git
 .gitignore
 
 # Testing-related files

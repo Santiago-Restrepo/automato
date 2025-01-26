@@ -15,6 +15,7 @@ services:
       - POSTGRES_HOST=${POSTGRES_HOST}
       - PORT=${PORT}
       - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - ENV=${ENV}
     depends_on:
       - postgres
 
