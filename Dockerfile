@@ -11,5 +11,5 @@ COPY . .
 RUN pnpm install
 RUN pnpm build
 
-EXPOSE 3010
-CMD ["pnpm", "run", "start"]
+EXPOSE 80
+CMD ["pnpm", "run", "start:prod"]
