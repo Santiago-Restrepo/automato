@@ -9,7 +9,10 @@ import { GetStepService } from 'src/modules/step/application/services/get-step.s
 import { UpdateStepService } from 'src/modules/step/application/services/update-step.service';
 import { Step } from 'src/modules/step/domain/entities/step.entity';
 import { GetFlowIntegrationService } from 'src/modules/flow-integration/application/services/get-flow-integrations.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth('TOKEN')
+@ApiTags('Flows')
 @Controller('flow')
 export class FlowController {
   constructor(

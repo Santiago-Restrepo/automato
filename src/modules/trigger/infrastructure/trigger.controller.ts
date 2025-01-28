@@ -6,7 +6,10 @@ import { CreateTriggerService } from '../application/services/create-trigger.ser
 import { UpdateTriggerService } from '../application/services/update-trigger.service';
 import { UpdateTriggerDto } from '../application/dtos/update-trigger.dto';
 import { GetTriggerService } from '../application/services/get-trigger.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth('TOKEN')
+@ApiTags('Triggers')
 @Controller('trigger')
 export class TriggerController {
   constructor(

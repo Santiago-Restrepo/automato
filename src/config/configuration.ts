@@ -21,6 +21,9 @@ export interface Config {
   encryption: {
     key: string;
   };
+  auth: {
+    secret: string;
+  };
 }
 
 export default (): Config => {
@@ -40,6 +43,9 @@ export default (): Config => {
     },
     encryption: {
       key: process.env.ENCRYPTION_KEY as string,
+    },
+    auth: {
+      secret: process.env.JWT_SECRET as string,
     },
   };
 };

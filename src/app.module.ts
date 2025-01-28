@@ -17,10 +17,15 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import LoggingInterceptor from './common/logging.interceptor';
 import { PersistenceModule } from './modules/persistence/persistence.module';
 import { HealthCheckModule } from './modules/health-check/health-check.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
 import configurationModule from './modules/configuration/configuration.module';
 
 @Module({
   imports: [
+    AuthModule,
+    HealthCheckModule,
+    UserModule,
     configurationModule,
     PersistenceModule,
     StepModule,
@@ -37,7 +42,6 @@ import configurationModule from './modules/configuration/configuration.module';
     FunctionParameterModule,
     FlowIntegrationModule,
     EncryptionModule,
-    HealthCheckModule,
   ],
   providers: [
     {

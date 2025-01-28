@@ -6,10 +6,10 @@ export const runMigrations = async () => {
   if (!database.isInitialized) {
     await database.initialize();
   }
-  Logger.log('Running migrations...');
+  Logger.verbose('Running migrations...');
   const migrationsRunned = await database.runMigrations();
   const migrationsLog =
     migrationsRunned?.map((migration) => migration.name).join(', ') ||
     'no migrations';
-  Logger.log(`migrations runned: ${migrationsLog}`);
+  Logger.verbose(`migrations runned: ${migrationsLog}`);
 };

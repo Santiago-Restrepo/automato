@@ -23,7 +23,7 @@
     "migration:gen": "dotenv -- pnpm typeorm-ts-node-esm migration:generate -d dist/config/data-source.js",
     "migration:up": "dotenv -- pnpm typeorm-ts-node-esm migration:run -d dist/config/data-source.js",
     "migration:create": "pnpm typeorm migration:create -o",
-    "migration:down": "pnpm typeorm-ts-node-esm migration:revert -d dist/config/data-source.js"
+    "migration:down": "dotenv -- pnpm typeorm-ts-node-esm migration:revert -d dist/config/data-source.js"
   },
   "engines": {
     "node": ">=20.18.1 <=22.12.0",
@@ -35,6 +35,7 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.0",
+    "@nestjs/jwt": "^11.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^8.1.0",
     "@nestjs/terminus": "^11.0.0",

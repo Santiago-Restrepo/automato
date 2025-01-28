@@ -4,7 +4,10 @@ import { UpdateStepService } from '../application/services/update-step.service';
 import { DeleteStepService } from '../application/services/delete-step.service';
 import { CreateStepDto } from '../application/dtos/create-step.dto';
 import { GetStepParameterService } from 'src/modules/step-parameter/application/get-step-parameter.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth('TOKEN')
+@ApiTags('Steps')
 @Controller('step')
 export class StepController {
   constructor(

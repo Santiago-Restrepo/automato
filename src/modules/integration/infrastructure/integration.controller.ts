@@ -11,7 +11,10 @@ import { GetIntegrationService } from '../application/services/get-integration.s
 import { CreateIntegrationService } from '../application/services/create-integration.service';
 import { DeleteIntegrationService } from '../application/services/delete-integration.service';
 import { CreateIntegrationDto } from '../application/dtos/create-integration.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth('TOKEN')
+@ApiTags('Integrations')
 @Controller('integration')
 export class IntegrationController {
   constructor(

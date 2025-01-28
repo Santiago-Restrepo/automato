@@ -12,7 +12,10 @@ import { CreateFlowIntegrationDto } from '../application/dtos/create-flow-integr
 import { UpdateFlowIntegrationDto } from '../application/dtos/update-flow-integration.dto';
 import { UpdateFlowIntegrationService } from '../application/services/update-flow-integration.service';
 import { DeleteFlowIntegrationService } from '../application/services/delete-flow-integration.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth('TOKEN')
+@ApiTags('Flow Integrations')
 @Controller('flow-integration')
 export class FlowIntegrationController {
   constructor(
