@@ -6,7 +6,7 @@ import setupSwagger from './config/swagger.config';
 import { ConfigService } from '@nestjs/config';
 import setupPipes from './config/global-pipes.config';
 import { SessionBuilder } from '@ngrok/ngrok';
-import { runMigrations } from './utils/runMigrations';
+import { runMigrations } from './utils/run-migrations';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
