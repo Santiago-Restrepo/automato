@@ -11,7 +11,9 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
+  async signIn(
+    signInDto: SignInDto,
+  ): Promise<{ username: string; access_token: string }> {
     const { username, password } = signInDto;
     const user = await this.userService.findOneBy({
       username,
@@ -21,11 +23,12 @@ export class AuthService {
     }
     const payload = { sub: user.id, username: user.username };
     return {
+      username: user.username,
       access_token: await this.jwtService.signAsync(payload),
     };
   }
 
-  async register(registerDto: RegisterDto): Promise<{ id: string }> {
+  async signup(registerDto: RegisterDto): Promise<{ id: string }> {
     return this.userService.create(registerDto);
   }
 }

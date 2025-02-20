@@ -19,8 +19,8 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('TOKEN')
-  @Post('register')
-  register(@Body() registerDto: RegisterDto) {
-    return this.authService.register(registerDto);
+  @Post('signup')
+  singup(@Body() registerDto: RegisterDto) {
+    return this.authService.signup(registerDto);
   }
 }
