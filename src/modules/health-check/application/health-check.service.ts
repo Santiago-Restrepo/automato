@@ -53,9 +53,6 @@ export class HealthCheckService {
   }
 
   async check() {
-    return this.health.check([
-      this.databaseHealthIndicator(),
-      this.getLastCommitDetails(),
-    ]);
+    return this.health.check([this.databaseHealthIndicator()]);
   }
 }
