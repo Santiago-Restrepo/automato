@@ -3,7 +3,7 @@ import { AuthService } from '../../application/services/auth.service';
 import { Public } from 'src/shared/decorators/is-public.decorator';
 import { SignInDto } from '../../application/dtos/sign-in.dto';
 import { RegisterDto } from '../../application/dtos/register.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -18,7 +18,7 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @ApiBearerAuth('TOKEN')
+  @Public()
   @Post('signup')
   singup(@Body() registerDto: RegisterDto) {
     return this.authService.signup(registerDto);
