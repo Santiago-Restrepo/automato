@@ -26,8 +26,8 @@
     "migration:down": "dotenv -- pnpm typeorm-ts-node-esm migration:revert -d dist/config/data-source.js"
   },
   "engines": {
-    "node": ">=20.18.1 <=22.12.0",
-    "pnpm": ">=9 <10"
+    "node": ">=20.18.1 <=22.14.0",
+    "pnpm": ">=9 <11"
   },
   "dependencies": {
     "@google-cloud/local-auth": "2.1.0",
