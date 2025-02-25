@@ -17,24 +17,26 @@ export class UserRepositoryImpl implements UserRepository {
     this.repository = this.datasource.getRepository(UserOrmEntity);
   }
 
-  async findOneBy(query: Partial<User>): Promise<User | null> {
+  async findOneByOrFail(query: Partial<User>): Promise<User> {
     const { username } = query;
     const ormEntity = await this.repository.findOneOrFail({
       where: {
         username,
       },
     });
-    const decryptedPassword = this.encryptionService.decrypt(
-      ormEntity.password,
-    );
-    return ormEntity ? UserMapper.toDomain(ormEntity, decryptedPassword) : null;
+
+    if (!ormEntity) {
+      throw new Error('User not found');
+    }
+    return UserMapper.toDomain(ormEntity);
   }
 
   async create(user: Pick<User, 'username' | 'password'>): Promise<User> {
     const { password, ...rest } = user;
-    const encryptedPassword = this.encryptionService.encrypt(password);
+    const encryptedPassword =
+      await this.encryptionService.hashPassword(password);
     const ormEntity = UserMapper.toOrm(rest, encryptedPassword);
     const savedEntity = await this.repository.save(ormEntity);
-    return UserMapper.toDomain(savedEntity, '******');
+    return UserMapper.toDomain(savedEntity);
   }
 }

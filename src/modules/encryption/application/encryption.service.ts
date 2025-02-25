@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import * as crypto from 'crypto';
 import configuration from 'src/config/configuration';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class EncryptionService {
   private readonly algorithm = 'aes-256-gcm';
   private readonly key: Buffer;
   private readonly ivLength = 16;
+  private readonly saltRounds = 10;
 
   constructor() {
     if (!configuration().encryption.key) {
@@ -51,5 +53,16 @@ export class EncryptionService {
       console.error('Decryption failed:', error.message);
       throw new Error('Decryption failed. Ensure the data is intact.');
     }
+  }
+
+  async hashPassword(password: string): Promise<string> {
+    return await bcrypt.hash(password, this.saltRounds);
+  }
+
+  async comparePassword(
+    password: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
+    return await bcrypt.compare(password, hashedPassword);
   }
 }

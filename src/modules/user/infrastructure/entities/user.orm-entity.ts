@@ -11,6 +11,6 @@ export class UserOrmEntity extends UUIDBaseEntity {
   })
   username: string;
 
-  @Column({ type: 'bytea' })
-  password: Buffer;
+  @Column({ type: 'varchar' })
+  password: string;
 }

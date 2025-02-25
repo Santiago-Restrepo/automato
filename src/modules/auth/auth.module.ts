@@ -6,6 +6,7 @@ import { AuthController } from './infrastructure/controllers/auth.controller';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './infrastructure/guards/auth.guard';
 import { setupAuth } from 'src/config/auth.config';
+import { EncryptionModule } from '../encryption/encryption.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { setupAuth } from 'src/config/auth.config';
       global: true,
       ...setupAuth(),
     }),
+    EncryptionModule,
   ],
   controllers: [AuthController],
   providers: [
