@@ -4,7 +4,8 @@ import * as crypto from 'crypto';
 export class Flow {
   constructor(
     public readonly id: string,
-    public name: string | null,
+    public name: string,
+    public description: string | null,
     public createdAt: Date | null,
     public updatedAt: Date | null,
     public steps?: Step[] | null,
@@ -14,6 +15,7 @@ export class Flow {
     return new Flow(
       props.id ?? crypto.randomUUID(),
       props.name ?? '',
+      props.description ?? null,
       new Date(),
       new Date(),
       props.steps ?? [],

@@ -8,6 +8,7 @@ export class FlowMapper {
     return new Flow(
       entity.id,
       entity.name,
+      entity.description,
       entity.createdAt,
       entity.updatedAt,
       steps,
