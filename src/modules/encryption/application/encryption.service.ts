@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as crypto from 'crypto';
 import configuration from 'src/config/configuration';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class EncryptionService {

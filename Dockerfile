@@ -12,5 +12,4 @@ COPY . .
 RUN pnpm install
 RUN pnpm build
 
-EXPOSE 80
 CMD ["pnpm", "run", "start:prod"]
