@@ -5,6 +5,7 @@ export class FunctionBlock {
     public readonly id: number,
     public readonly name: string,
     public readonly description: string,
+    public readonly version: string,
     public readonly parameters: FunctionParameter[] = [],
   ) {}
 }

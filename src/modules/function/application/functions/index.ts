@@ -1,36 +1,28 @@
-import { ParameterValue } from 'src/shared/types/parameter-value.type';
-import getPropertiesFromObject from './common/get-properties-from-object.function';
-import { ClientService } from 'src/modules/client/application/client.service';
-import validateShopifyInventoryUpdate from './shopify/validate-shopify-inventory-update.function';
-import arrayToGoogleSheetsValues from './google-sheets/array-to-google-sheets-values.function';
-import updateGoogleSheetsSpreadsheetData from './google-sheets/update-google-sheets-spreadsheet-data.function';
-import getGoogleSheetsSpreadsheetData from './google-sheets/get-google-sheets-spreadsheet-data.function';
-import transformSheetsResponse from './google-sheets/transform-sheets-response.function';
-import updateArrayElement from './common/update-array-element.function';
-import { Flow } from 'src/modules/flow/domain/entities/flow.entity';
-import { Step } from 'src/modules/step/domain/entities/step.entity';
-export type StepFunctionParams<T> = {
-  input: T;
-  context: {
-    flow: Flow;
-    step: Step;
-    clientService: ClientService;
-  };
-};
-export type StepFunction<T = any> = (
-  params: StepFunctionParams<T>,
-) => Promise<ParameterValue> | ParameterValue;
+import { readdirSync, statSync } from 'fs';
+import { join } from 'path';
+import { StepFunction } from '../../domain/entities/step-function.entity';
+import { Logger } from '@nestjs/common';
 
-export type StepFunctions = Record<string, StepFunction>;
+const functionsDir = join(__dirname, 'categories');
+type StepFunctions = { [key: string]: StepFunction };
+const stepFunctions: StepFunctions = {};
 
-const stepFunctions: StepFunctions = {
-  getPropertiesFromObject,
-  validateShopifyInventoryUpdate,
-  arrayToGoogleSheetsValues,
-  updateGoogleSheetsSpreadsheetData,
-  getGoogleSheetsSpreadsheetData,
-  transformSheetsResponse,
-  updateArrayElement,
-};
+readdirSync(functionsDir).forEach((category) => {
+  const categoryPath = join(functionsDir, category);
+
+  if (!statSync(categoryPath).isDirectory()) return;
+
+  readdirSync(categoryPath).forEach((functionName) => {
+    const functionPath = join(categoryPath, functionName);
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const fn = require(functionPath).default;
+      stepFunctions[functionName.replace(/\.(js|ts)$/, '')] = fn;
+      Logger.verbose(`✅ Loaded function ${functionName}`);
+    } catch (err) {
+      Logger.error(`❌ Error loading function from ${functionPath}:`, err);
+    }
+  });
+});
 
 export default stepFunctions;

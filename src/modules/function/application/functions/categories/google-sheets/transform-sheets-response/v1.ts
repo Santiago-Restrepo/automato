@@ -1,5 +1,6 @@
-import { StepFunction } from '..';
-interface TransformSheetsResponseParams {
+import { StepFunction } from 'src/modules/function/domain/entities/step-function.entity';
+
+export interface TransformSheetsResponseParams {
   sheetsResponse: any[][];
 }
 const transformSheetsResponse: StepFunction<

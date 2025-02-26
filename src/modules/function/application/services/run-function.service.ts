@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import functions, { StepFunctions } from '../functions';
+import functions from '../functions';
 import { ClientService } from 'src/modules/client/application/client.service';
 import { Execution } from 'src/modules/execution/domain/entities/execution.entity';
 import { Step } from 'src/modules/step/domain/entities/step.entity';
 import { GetFlowIntegrationService } from 'src/modules/flow-integration/application/services/get-flow-integrations.service';
+import { StepFunction } from '../../domain/entities/step-function.entity';
 
 @Injectable()
 export class RunFunctionService {
-  functions: StepFunctions;
+  functions: Record<string, StepFunction>;
   constructor(
     private readonly getFlowIntegrationService: GetFlowIntegrationService,
     private readonly clientService: ClientService,
@@ -37,8 +38,13 @@ export class RunFunctionService {
 
   #getStepFunction(step: Step) {
     const functionName = step.functionBlock?.name;
+    const functionVersion = step.functionBlock?.version || 'latest';
+
     if (!functionName) return null;
 
-    return this.functions[functionName];
+    const availableFunctions = this.functions[functionName];
+    if (!availableFunctions) return null;
+
+    return availableFunctions[functionVersion] || availableFunctions['latest'];
   }
 }

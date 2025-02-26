@@ -1,7 +1,7 @@
 import { ClientKeys } from 'src/modules/client/domain/enums/client-keys.enum';
-import { StepFunction } from '..';
+import { StepFunction } from 'src/modules/function/domain/entities/step-function.entity';
 
-interface GetGoogleSheetsSpreadsheetDataParams {
+export interface GetGoogleSheetsSpreadsheetDataParams {
   spreadsheetId: string;
   range: string;
 }

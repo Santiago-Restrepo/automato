@@ -1,6 +1,6 @@
-import { StepFunction } from '..';
+import { StepFunction } from 'src/modules/function/domain/entities/step-function.entity';
 
-interface UpdateArrayElementParams {
+export interface UpdateArrayElementParams {
   newElement: Record<string, any>;
   currentElements: Record<string, any>[];
   id_key: string;

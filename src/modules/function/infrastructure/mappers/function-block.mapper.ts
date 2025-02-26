@@ -8,6 +8,7 @@ export class FunctionBlockMapper {
       ormEntity.id,
       ormEntity.name,
       ormEntity.description,
+      ormEntity.version,
       ormEntity.parameters?.map(FunctionParameterMapper.toDomain),
     );
   }

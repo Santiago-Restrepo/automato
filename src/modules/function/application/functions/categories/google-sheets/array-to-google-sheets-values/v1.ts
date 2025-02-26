@@ -1,6 +1,6 @@
-import { StepFunction } from '..';
+import { StepFunction } from 'src/modules/function/domain/entities/step-function.entity';
 
-interface ArrayToGoogleSheetsValuesParams {
+export interface ArrayToGoogleSheetsValuesParams {
   data: any[];
 }
 

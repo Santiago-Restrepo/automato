@@ -1,11 +1,11 @@
-import { StepFunction } from '..';
+import { StepFunction } from 'src/modules/function/domain/entities/step-function.entity';
 
-interface GetPropertiesFromObjectParams {
+export interface GetPropertiesFromObjectParams {
   propertiesMap: Record<string, string>;
   object: Record<string, any>;
 }
 
-const getPropertiesFromObject: StepFunction<
+export const getPropertiesFromObjectV1: StepFunction<
   GetPropertiesFromObjectParams
 > = async ({ input: params }) => {
   const { propertiesMap, object } = params;
@@ -22,4 +22,4 @@ const getPropertiesFromObject: StepFunction<
   return result;
 };
 
-export default getPropertiesFromObject;
+export default getPropertiesFromObjectV1;
