@@ -14,7 +14,9 @@ export class FlowRepositoryImpl implements FlowRepository {
   }
 
   async findAll(): Promise<Flow[]> {
-    const ormEntities = await this.repository.find();
+    const ormEntities = await this.repository.find({
+      order: { createdAt: 'ASC' },
+    });
     return ormEntities.map((ormEntity) => FlowMapper.toDomain(ormEntity));
   }
 
@@ -49,7 +51,7 @@ export class FlowRepositoryImpl implements FlowRepository {
       ...flowToUpdate,
       ...flow,
     };
-
+    console.log(updatedFlow);
     return this.save(updatedFlow);
   }
 

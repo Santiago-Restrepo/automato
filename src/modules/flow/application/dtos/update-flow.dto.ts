@@ -6,4 +6,9 @@ export class UpdateFlowDto {
   @IsString()
   @IsOptional()
   name: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  description: string;
 }

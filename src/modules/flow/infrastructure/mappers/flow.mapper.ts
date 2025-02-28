@@ -19,6 +19,7 @@ export class FlowMapper {
     const flow = new FlowOrmEntity();
     flow.id = domain.id;
     flow.name = domain.name;
+    flow.description = domain.description;
     return flow;
   }
 }

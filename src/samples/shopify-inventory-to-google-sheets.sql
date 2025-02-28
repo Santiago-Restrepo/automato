@@ -1,18 +1,18 @@
 -- Adminer 4.8.1 PostgreSQL 16.2 dump
 
-INSERT INTO "flow" ("created_at", "updated_at", "deleted_at", "id", "name") VALUES
+INSERT INTO "flows" ("created_at", "updated_at", "deleted_at", "id", "name") VALUES
 ('2024-10-06 01:52:45.937027',	'2024-10-21 18:53:51.40861',	NULL,	1,	'Update Sheets Inventory');
 
-INSERT INTO "function" ("created_at", "updated_at", "deleted_at", "id", "name", "description") VALUES
-('2024-12-19 15:42:52.255914',	'2024-12-19 15:42:52.255914',	NULL,	1,	'getPropertiesFromObject',	'get specific properties of an object'),
-('2024-12-19 15:43:41.417669',	'2024-12-19 15:43:41.417669',	NULL,	2,	'validateShopifyInventoryUpdate',	'Validates properties of shopify invetory update webhook payload'),
-('2024-12-19 15:44:15.067467',	'2024-12-19 15:44:15.067467',	NULL,	3,	'arrayToGoogleSheetsValues',	'parses an array of object into an array of google sheets values (array of arrays)'),
-('2024-12-19 15:44:52.215173',	'2024-12-19 15:44:52.215173',	NULL,	4,	'updateGoogleSheetsSpreadsheetData',	'updates a specified Google sheets spreadsheet with data passed from parameters'),
-('2024-12-19 15:45:08.826487',	'2024-12-19 15:45:08.826487',	NULL,	5,	'getGoogleSheetsSpreadsheetData',	'get data from a specified Google Sheets spreadsheet'),
-('2024-12-19 15:45:30.543905',	'2024-12-19 15:45:30.543905',	NULL,	6,	'transformSheetsResponse',	'transform google sheets response into an array of objects'),
-('2024-12-19 15:45:46.645369',	'2024-12-19 15:45:46.645369',	NULL,	7,	'updateArrayElement',	'updates an array with a new element');
+INSERT INTO "functions" ("created_at", "updated_at", "deleted_at", "id", "name", "description", "version") VALUES
+('2024-12-19 15:42:52.255914',	'2024-12-19 15:42:52.255914',	NULL,	1,	'getPropertiesFromObject',	'get specific properties of an object', 'latest'),
+('2024-12-19 15:43:41.417669',	'2024-12-19 15:43:41.417669',	NULL,	2,	'validateShopifyInventoryUpdate',	'Validates properties of shopify invetory update webhook payload', 'latest'),
+('2024-12-19 15:44:15.067467',	'2024-12-19 15:44:15.067467',	NULL,	3,	'arrayToGoogleSheetsValues',	'parses an array of object into an array of google sheets values (array of arrays)', 'latest'),
+('2024-12-19 15:44:52.215173',	'2024-12-19 15:44:52.215173',	NULL,	4,	'updateGoogleSheetsSpreadsheetData',	'updates a specified Google sheets spreadsheet with data passed from parameters', 'latest'),
+('2024-12-19 15:45:08.826487',	'2024-12-19 15:45:08.826487',	NULL,	5,	'getGoogleSheetsSpreadsheetData',	'get data from a specified Google Sheets spreadsheet', 'latest'),
+('2024-12-19 15:45:30.543905',	'2024-12-19 15:45:30.543905',	NULL,	6,	'transformSheetsResponse',	'transform google sheets response into an array of objects', 'latest'),
+('2024-12-19 15:45:46.645369',	'2024-12-19 15:45:46.645369',	NULL,	7,	'updateArrayElement',	'updates an array with a new element', 'latest');
 
-INSERT INTO "function_parameter" ("created_at", "updated_at", "deleted_at", "id", "key", "function_id") VALUES
+INSERT INTO "function_parameters" ("created_at", "updated_at", "deleted_at", "id", "key", "function_id") VALUES
 ('2024-12-19 16:13:33.992759',	'2024-12-19 16:13:33.992759',	NULL,	1,	'propertiesMap',	1),
 ('2024-12-19 16:13:41.214341',	'2024-12-19 16:13:41.214341',	NULL,	2,	'object',	1),
 ('2024-12-19 16:13:58.670808',	'2024-12-19 16:13:58.670808',	NULL,	3,	'payload',	2),
