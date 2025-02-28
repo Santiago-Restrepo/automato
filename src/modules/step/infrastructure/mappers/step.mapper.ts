@@ -8,6 +8,7 @@ export class StepMapper {
   static toDomain(stepOrm: StepOrmEntity): Step {
     return new Step(
       stepOrm.id,
+      stepOrm.name,
       stepOrm.description,
       stepOrm.order,
       stepOrm.flowId,
@@ -24,6 +25,7 @@ export class StepMapper {
     const ormEntity = new StepOrmEntity();
     ormEntity.id = step.id;
     ormEntity.flowId = step.flowId;
+    ormEntity.name = step.name;
     ormEntity.description = step.description;
     ormEntity.order = step.order;
     ormEntity.functionId = step.functionId;

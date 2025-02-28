@@ -7,6 +7,9 @@ import UUIDBaseEntity from 'src/shared/uuid-base.entity';
 
 @Entity({ name: 'steps' })
 export default class StepOrmEntity extends UUIDBaseEntity {
+  @Column({ type: 'varchar', length: 255 })
+  name: string;
+
   @Column({ type: 'text', nullable: true })
   description: string | null;
 

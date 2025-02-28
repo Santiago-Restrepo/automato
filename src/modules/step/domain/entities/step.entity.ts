@@ -5,6 +5,7 @@ import * as crypto from 'crypto';
 export class Step {
   constructor(
     public readonly id: string,
+    public name: string,
     public description: string | null,
     public order: number,
     public flowId: string,
@@ -14,9 +15,12 @@ export class Step {
     public parameters?: StepParameter[] | null,
   ) {}
 
-  static create(props: Pick<Step, 'flowId' | 'order'> & Partial<Step>): Step {
+  static create(
+    props: Pick<Step, 'flowId' | 'order' | 'name'> & Partial<Step>,
+  ): Step {
     return new Step(
       crypto.randomUUID(),
+      props.name,
       props.description ?? null,
       props.order,
       props.flowId,

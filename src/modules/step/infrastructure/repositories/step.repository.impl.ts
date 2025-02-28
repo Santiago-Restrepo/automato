@@ -29,7 +29,9 @@ export class StepRepositoryImpl implements StepRepository {
     return ormEntities.map((ormEntity) => StepMapper.toDomain(ormEntity));
   }
 
-  create(step: Pick<Step, 'flowId' | 'order'> & Partial<Step>): Promise<Step> {
+  create(
+    step: Pick<Step, 'flowId' | 'order' | 'name'> & Partial<Step>,
+  ): Promise<Step> {
     const stepToSave = Step.create(step);
     return this.save(stepToSave);
   }
