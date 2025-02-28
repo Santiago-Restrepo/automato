@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { CreateFlowIntegrationSecretDto } from './create-flow-integration-secret.dto';
+import { Type } from 'class-transformer';
 
 export class CreateFlowIntegrationDto {
   @ApiProperty()
@@ -14,5 +22,8 @@ export class CreateFlowIntegrationDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  credentials: object;
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateFlowIntegrationSecretDto)
+  secrets: CreateFlowIntegrationSecretDto[];
 }

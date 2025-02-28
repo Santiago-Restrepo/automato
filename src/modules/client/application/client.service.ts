@@ -16,12 +16,15 @@ export class ClientService {
       if (!flowIntegration.integrationName)
         throw new Error('Missing integration name');
       if (!this.clients.has(flowIntegration.integrationName)) {
+        const credentials = Object.fromEntries(
+          flowIntegration.secrets?.map((secret) => [
+            secret.key,
+            secret.value,
+          ]) || [],
+        );
         this.clients.set(
           flowIntegration.integrationName,
-          this.createClient(
-            flowIntegration.integrationName,
-            flowIntegration.credentials,
-          ),
+          this.createClient(flowIntegration.integrationName, credentials),
         );
       }
     });

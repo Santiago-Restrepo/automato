@@ -1,18 +1,19 @@
 import { ClientKeys } from 'src/modules/client/domain/enums/client-keys.enum';
+import { FlowIntegrationSecret } from './flow-integration-secret.entity';
 
 export class FlowIntegration {
   constructor(
     public readonly id: number,
     public integrationId: number,
     public flowId: string,
-    public credentials: object,
+    public secrets?: FlowIntegrationSecret[],
     public integrationName?: ClientKeys,
   ) {}
 
   static create(
     props: Pick<
       FlowIntegration,
-      'integrationId' | 'flowId' | 'integrationName' | 'credentials'
+      'integrationId' | 'flowId' | 'integrationName'
     > &
       Partial<FlowIntegration>,
   ): FlowIntegration {
@@ -20,7 +21,7 @@ export class FlowIntegration {
       0,
       props.integrationId,
       props.flowId,
-      props.credentials,
+      props.secrets,
       props.integrationName,
     );
   }

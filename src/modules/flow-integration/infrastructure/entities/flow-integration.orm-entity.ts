@@ -1,7 +1,8 @@
 import BaseEntity from 'src/shared/base-entity.entity';
-import { Column, Entity, Index, ManyToOne } from 'typeorm';
+import { Column, Entity, Index, ManyToOne, OneToMany } from 'typeorm';
 import FlowOrmEntity from 'src/modules/flow/infrastructure/entities/flow.orm-entity';
 import IntegrationOrmEntity from 'src/modules/integration/infrastructure/entities/integration.orm-entity';
+import FlowIntegrationSecretOrmEntity from './flow-integration-secret.orm-entity';
 
 @Entity({
   name: 'flow_integrations',
@@ -14,9 +15,6 @@ export default class FlowIntegrationOrmEntity extends BaseEntity {
   @Column({ type: 'varchar' })
   flowId: string;
 
-  @Column({ type: 'bytea' })
-  encryptedSecret: Buffer;
-
   @ManyToOne(
     () => IntegrationOrmEntity,
     (integration) => integration.flowIntegrations,
@@ -25,4 +23,13 @@ export default class FlowIntegrationOrmEntity extends BaseEntity {
 
   @ManyToOne(() => FlowOrmEntity, (flow) => flow.flowIntegrations)
   flow: FlowOrmEntity;
+
+  @OneToMany(
+    () => FlowIntegrationSecretOrmEntity,
+    (flowIntegrationSecret) => flowIntegrationSecret.flowIntegration,
+    {
+      cascade: true,
+    },
+  )
+  secrets: FlowIntegrationSecretOrmEntity[];
 }
