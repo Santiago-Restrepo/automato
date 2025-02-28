@@ -1,9 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateFlowIntegrationSecretDto {
-  id: number;
+  @ApiProperty()
+  @IsOptional()
+  @IsInt()
+  id: string;
 
+  @ApiProperty()
+  @IsOptional()
+  @IsInt()
   flowIntegrationId: number;
 
   @ApiProperty()

@@ -8,7 +8,6 @@ export class FlowIntegrationSecretMapper {
     encryptionService: EncryptionService,
   ): FlowIntegrationSecret {
     const decryptedSecret = encryptionService.decrypt(entity.value);
-    console.log(decryptedSecret);
 
     return new FlowIntegrationSecret(
       entity.id,

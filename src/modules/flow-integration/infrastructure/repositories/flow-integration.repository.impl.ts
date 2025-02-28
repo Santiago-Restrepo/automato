@@ -55,7 +55,10 @@ export class FlowIntegrationRepositoryImpl
     id: number,
     flowIntegration: { integrationName: ClientKeys } & Partial<FlowIntegration>,
   ): Promise<FlowIntegration> {
-    const flowIntegrationFound = await this.repository.findOneBy({ id });
+    const flowIntegrationFound = await this.repository.findOne({
+      relations: ['secrets'],
+      where: { id },
+    });
     if (!flowIntegrationFound)
       throw new NotFoundException(`FlowIntegration with id ${id} not found`);
     const flowIntegrationToUpdate = FlowIntegrationMapper.toDomain(

@@ -1,10 +1,10 @@
-import BaseEntity from 'src/shared/base-entity.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import FlowIntegrationOrmEntity from './flow-integration.orm-entity';
+import UUIDBaseEntity from 'src/shared/uuid-base.entity';
 @Entity({
   name: 'flow_integration_secrets',
 })
-export default class FlowIntegrationSecretOrmEntity extends BaseEntity {
+export default class FlowIntegrationSecretOrmEntity extends UUIDBaseEntity {
   @Column({ type: 'int' })
   flowIntegrationId: number;
 

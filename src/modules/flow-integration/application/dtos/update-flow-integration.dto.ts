@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsOptional } from 'class-validator';
-import { FlowIntegrationSecret } from '../../domain/flow-integration-secret.entity';
+import { CreateFlowIntegrationSecretDto } from './create-flow-integration-secret.dto';
 
 export class UpdateFlowIntegrationDto {
   @ApiProperty()
   @IsArray()
   @IsOptional()
-  secrets: FlowIntegrationSecret[];
+  secrets: CreateFlowIntegrationSecretDto[];
 }

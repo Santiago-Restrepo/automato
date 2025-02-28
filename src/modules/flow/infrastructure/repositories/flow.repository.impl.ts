@@ -51,7 +51,6 @@ export class FlowRepositoryImpl implements FlowRepository {
       ...flowToUpdate,
       ...flow,
     };
-    console.log(updatedFlow);
     return this.save(updatedFlow);
   }
 
