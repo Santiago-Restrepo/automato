@@ -1,85 +1,106 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🤖 Automato Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 📝 Overview
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Automato is a backend automation platform built using NestJS with a hexagonal architecture. It separates concerns into modules based on responsibilities and uses PostgreSQL with TypeORM for data persistence.
 
-## Description
+## 📌 Prerequisites
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Ensure you have the following installed:
 
-## Project setup
+- ⚡ **Node.js** (>=20.18.1, <=22.14.0)
+- 📦 **pnpm** (>=9, <11)
+- 🐘 **PostgreSQL**
 
-```bash
-$ pnpm install
+## ⚙️ Environment Variables
+
+The following environment variables are required to run the project:
+
+```
+POSTGRES_DB=<database_name>
+POSTGRES_USER=<database_user>
+POSTGRES_PASSWORD=<database_password>
+POSTGRES_HOST=<database_host>
+PORT=<port_number>
+NGROK_AUTHTOKEN=<ngrok_auth_token>
+ENV=<development|staging|production>
+ENCRYPTION_KEY=<encryption_key>
+JWT_SECRET=<jwt_secret>
 ```
 
-## Compile and run the project
+## 🚀 Installation
 
-```bash
-# development
-$ pnpm run start
+Clone the repository and install dependencies:
 
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+```sh
+git clone https://github.com/Santiago-Restrepo/automato.git
+cd automato
+pnpm install
 ```
 
-## Run tests
+## 🏃 Running the Project
 
-```bash
-# unit tests
-$ pnpm run test
+### 🛠 Development Mode
 
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+```sh
+pnpm start:dev
 ```
 
-## Resources
+### 🚢 Production Mode
 
-Check out a few resources that may come in handy when working with NestJS:
+```sh
+pnpm build
+pnpm start:prod
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### 📜 Running Migrations
 
-## Support
+Generate a migration:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```sh
+pnpm migration:gen <migration-name>
+```
 
-## Stay in touch
+Run pending migrations:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```sh
+pnpm migration:up
+```
 
-## License
+Revert last migration:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```sh
+pnpm migration:down
+```
+
+## ✅ Testing
+
+Run unit tests:
+
+```sh
+pnpm test
+```
+
+Run tests with coverage:
+
+```sh
+pnpm test:cov
+```
+
+Run e2e tests:
+
+```sh
+pnpm test:e2e
+```
+
+## 📖 API Documentation
+
+The API is documented using Swagger. Once the server is running, access the docs at:
+
+```
+http://localhost:3010/api/docs
+```
+
+## 📜 License
+
+This project is licensed under the **UNLICENSED** license.
