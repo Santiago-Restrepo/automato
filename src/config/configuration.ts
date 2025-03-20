@@ -13,6 +13,13 @@ export interface DatabaseConfig {
     username: string;
     password: string;
   };
+  redis: {
+    db: number;
+    host: string;
+    port: number;
+    password?: string;
+    prefix?: string;
+  };
 }
 
 export interface Config {
@@ -39,6 +46,13 @@ export default (): Config => {
         port: (process.env.POSTGRES_PORT || 5432) as number,
         username: process.env.POSTGRES_USER as string,
         password: process.env.POSTGRES_PASSWORD as string,
+      },
+      redis: {
+        host: process.env.REDIS_HOST || 'localhost',
+        port: Number(process.env.REDIS_PORT) || 6379,
+        db: Number(process.env.REDIS_DB) || 0,
+        password: process.env.REDIS_PASSWORD || undefined,
+        prefix: process.env.REDIS_PREFIX,
       },
     },
     encryption: {

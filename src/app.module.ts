@@ -19,6 +19,9 @@ import { PersistenceModule } from './modules/persistence/persistence.module';
 import { HealthCheckModule } from './modules/health-check/health-check.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
+import { WebhookModule } from './modules/webhook/webhook.module';
+import { WorkerModule } from './modules/worker/worker.module';
+import { QueueModule } from './modules/queue/queue.module';
 import configurationModule from './modules/configuration/configuration.module';
 
 @Module({
@@ -42,6 +45,9 @@ import configurationModule from './modules/configuration/configuration.module';
     FunctionParameterModule,
     FlowIntegrationModule,
     EncryptionModule,
+    WebhookModule,
+    WorkerModule,
+    QueueModule,
   ],
   providers: [
     {

@@ -38,3 +38,11 @@ services:
     environment:
       ADMINER_DEFAULT_SERVER: postgres
       ADMINER_DESIGN: hever
+  redis:
+    image: redis:7.0-alpine
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+volumes:
+  redis_data:
